@@ -9,6 +9,8 @@ gocept.jsform.Form.prototype = {
     construct: function(id) {
         var self = this;
         self.id = id;
+        self.url = null;
+        self.data = null;
         self.options = {};
     },
 
@@ -61,21 +63,17 @@ gocept.jsform.Form.prototype = {
 
     retrieve: function (url) {
         var self = this;
+        self.url = url;
 
         var success = function(data) {
             self.data = data;
             self.init_fields();
         };
 
-        var error = function(a,b,c) {
-            alert('error in request');
-        };
-
         $.ajax({
             dataType: "json",
-            url: url,
-            success: success,
-            error: error
+            url: self.url,
+            success: success
         });
     },
 
