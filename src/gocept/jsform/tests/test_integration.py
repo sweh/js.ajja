@@ -17,7 +17,7 @@ def app(environ, start_response):
     gocept.jsform.resource.jsform.need()
     gocept.jsform.tests.resource.integration.need()
     with open(os.path.join(
-            os.path.dirname(__file__), 'files', 'integration.html')) as f:
+            os.path.dirname(__file__), 'test_integration.html')) as f:
         return [f.read()]
 
 
@@ -51,7 +51,6 @@ class SeleniumTestCase(unittest.TestCase,
     def test_integration(self):
         sel = self.selenium
         sel.open('/')
-        import pdb; pdb.set_trace() 
         sel.waitForElementPresent('css=.passingAlert, .failingAlert')
         summary = sel.getText('css=.bar')
         if 'Failing' in summary:
