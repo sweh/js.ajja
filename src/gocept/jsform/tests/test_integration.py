@@ -51,9 +51,11 @@ class SeleniumTestCase(unittest.TestCase,
     def test_integration(self):
         sel = self.selenium
         sel.open('/')
+        sel.waitForPageToLoad()
         sel.waitForElementPresent('css=.passingAlert, .failingAlert')
         summary = sel.getText('css=.bar')
         if 'Failing' in summary:
-            # XXX: Get all failing test messages (use webdriver)
-            message = sel.getText('css=.messages')
-            self.fail('{}\n{}'.format(summary, message))
+            message = '\n\n'.join(f.text for f in sel.selenium.
+                                  find_elements_by_class_name('messages'))
+            self.fail('{}\n##############################\n\n{}'.format(
+                summary, message))
