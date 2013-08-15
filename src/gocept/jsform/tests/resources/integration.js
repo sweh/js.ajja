@@ -11,6 +11,12 @@ describe("Form Plugin", function() {
     expect(form.node.get(0).tagName).toEqual('FORM');
   });
 
+  it("can get a cusomized action url", function() {
+    var options = {action: 'http://foo'};
+    form.init(null, options);
+    expect(form.node.attr('action')).toEqual('http://foo');
+  });
+
   it("should inject a input field for text data", function() {
     form.init({firstname: 'Sebastian'});
     expect($('#my_form input').attr('type')).toEqual('text');

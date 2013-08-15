@@ -16,12 +16,13 @@ gocept.jsform.Form.prototype = {
 
     init: function (data_or_url, options) {
         var self = this;
-        var form_code = $(gocept.jsform.widgets.form.expand(
-            {'form_id': self.id}));
-        $('#' + self.id).replaceWith(form_code);
-        self.node = $('#' + self.id);
         if (!gocept.jsform.isUndefinedOrNull(options))
             self.options = options;
+        var form_options = self.mangle_options(
+            {'form_id': self.id}, self.options);
+        var form_code = $(gocept.jsform.widgets.form.expand(form_options));
+        $('#' + self.id).replaceWith(form_code);
+        self.node = $('#' + self.id);
         self.prepare_data(data_or_url);
         self.init_fields();
     },
