@@ -25,6 +25,11 @@ setup(
 
     extras_require={
         'test': [
+            'gocept.httpserverlayer',
+            'gocept.selenium',
+            'gocept.testing',
+            'mock',
+            'plone.testing',
         ],
     },
 
