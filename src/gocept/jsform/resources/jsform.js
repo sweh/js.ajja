@@ -17,23 +17,27 @@ gocept.jsform.Form.prototype = {
             {'form_id': self.id}));
         $('#' + self.id).replaceWith(form_code);
         self.node = $('#' + self.id);
-        self.init_fields(data_or_url);
+        self.prepare_data(data_or_url);
+        self.init_fields();
     },
 
-    init_fields: function(data_or_url) {
+    prepare_data: function(data_or_url) {
         var self = this;
-        if (gocept.jsform.isUndefinedOrNull(data_or_url)) {
-          return
-        }
-        var data = data_or_url;
+        self.data = data_or_url;
         if (typeof(data_or_url) == 'string')
-            data = self.retrieve(data_or_url);
-        $.each(data, function (id, value) {
+            self.data = self.retrieve(data_or_url);
+    },
+
+    init_fields: function() {
+        var self = this;
+        if (gocept.jsform.isUndefinedOrNull(self.data))
+            return
+        $.each(self.data, function (id, value) {
              var widget = self.get_widget(value);
              var widget_code = widget.expand({name: id, value: value});
              self.node.append(widget_code);
         });
-        self.model = ko.mapping.fromJS(data);
+        self.model = ko.mapping.fromJS(self.data);
         ko.applyBindings(self.model); //, self.node.get(0));
     },
 

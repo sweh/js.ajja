@@ -29,10 +29,10 @@ describe("Form Plugin", function() {
   });
 
   it("should inject two radio boxes for bool data", function() {
-    form.init({needs_glasses: false});
+    var data = {needs_glasses: false};
+    form.init(data);
     expect($('#my_form input').attr('type')).toEqual('checkbox');
     expect($('#my_form input').get(0).name).toEqual('needs_glasses');
-    expect(form.model.needs_glasses()).toEqual(false);
   });
 
 });
