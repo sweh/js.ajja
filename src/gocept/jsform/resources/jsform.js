@@ -9,6 +9,7 @@ gocept.jsform.Form.prototype = {
     construct: function(id) {
         var self = this;
         self.id = id;
+        self.options = {};
     },
 
     init: function (data_or_url, options) {
@@ -17,27 +18,28 @@ gocept.jsform.Form.prototype = {
             {'form_id': self.id}));
         $('#' + self.id).replaceWith(form_code);
         self.node = $('#' + self.id);
+        if (!gocept.jsform.isUndefinedOrNull(options))
+            self.options = options;
         self.prepare_data(data_or_url);
-        self.init_fields(options);
+        self.init_fields();
     },
 
-    prepare_data: function(data_or_url, options) {
+    prepare_data: function(data_or_url) {
         var self = this;
-        self.data = data_or_url;
         if (typeof(data_or_url) == 'string')
-            self.data = self.retrieve(data_or_url);
+            self.retrieve(data_or_url);
+        else
+            self.data = data_or_url;
     },
 
-    init_fields: function(options) {
+    init_fields: function() {
         var self = this;
         if (gocept.jsform.isUndefinedOrNull(self.data))
             return
-        if (gocept.jsform.isUndefinedOrNull(options))
-            var options = {};
         $.each(self.data, function (id, value) {
              var widget = self.get_widget(value);
              var widget_options = self.mangle_options(
-                 {name: id, value: value}, options[id]);
+                 {name: id, value: value}, self.options[id]);
              var widget_code = widget.expand(widget_options);
              self.node.append(widget_code);
         });
@@ -59,7 +61,22 @@ gocept.jsform.Form.prototype = {
 
     retrieve: function (url) {
         var self = this;
-        return null;  // XXX coming soon
+
+        var success = function(data) {
+            self.data = data;
+            self.init_fields();
+        };
+
+        var error = function(a,b,c) {
+            alert('error in request');
+        };
+
+        $.ajax({
+            dataType: "json",
+            url: url,
+            success: success,
+            error: error
+        });
     },
 
 };

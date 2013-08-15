@@ -39,4 +39,14 @@ describe("Form Plugin", function() {
     expect($('#my_form').text()).toEqual(' Needs glasses');
   });
 
+  it("can get its data from a url", function() {
+    runs(function() {
+      form.init('/fanstatic/gocept.jsform.tests/testdata.json');
+    });
+    waits(100);
+    runs(function() {
+      expect($('#my_form select option').get(0).value).toEqual('Mr.');
+    });
+  });
+
 });
