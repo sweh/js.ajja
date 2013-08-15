@@ -7,17 +7,26 @@ gocept.jsform.widgets.form = new jsontemplate.Template('\
 </form>', {default_formatter: 'html',  undefined_str: ''});
 
 gocept.jsform.widgets.string = new jsontemplate.Template('\
-<input type="text" data-bind="value: {name}" name="{name}" value="" readonly="{readonly}" />\
-', {default_formatter: 'html',  undefined_str: ''});
+<div class="label">{label}</div>\
+<div class="field">\
+  <input type="text" data-bind="value: {name}" name="{name}" value=""\
+         readonly="{readonly}" />\
+</div>', {default_formatter: 'html',  undefined_str: ''});
 
 gocept.jsform.widgets.object = new jsontemplate.Template('\
-<select name="{name}" data-bind="options: {name},\
-                                 optionsText: \'value\',\
-                                 optionsValue: \'id\'" readonly="{readonly}">\
-</select>', {default_formatter: 'html',  undefined_str: ''});
+<div class="label">{label}</div>\
+<div class="field">\
+  <select name="{name}" data-bind="options: {name},\
+                                   optionsText: \'value\',\
+                                   optionsValue: \'id\'"\
+          readonly="{readonly}">\
+  </select>\
+</div>', {default_formatter: 'html',  undefined_str: ''});
 
 gocept.jsform.widgets.boolean = new jsontemplate.Template('\
-<input type="checkbox" name="{name}" data-bind="checked: {name}"> {label}</input>\
-', {default_formatter: 'html',  undefined_str: ''});
+<div class="label">{label}</div>\
+<div class="field">\
+  <input type="checkbox" name="{name}" data-bind="checked: {name}" />\
+</div>', {default_formatter: 'html',  undefined_str: ''});
 
 }(jQuery));
