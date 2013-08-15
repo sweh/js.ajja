@@ -15,7 +15,7 @@ gocept.jsform.widgets.object = new jsontemplate.Template('\
 </select>', {default_formatter: 'html',  undefined_str: ''});
 
 gocept.jsform.widgets.boolean = new jsontemplate.Template('\
-<input type="checkbox" name="{name}" data-bind="checked: {name}">{name}</input>\
+<input type="checkbox" name="{name}" data-bind="checked: {name}"> {label}</input>\
 ', {default_formatter: 'html',  undefined_str: ''});
 
 }(jQuery));
