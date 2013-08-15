@@ -26,12 +26,14 @@ describe("Form Plugin", function() {
   });
 
   it("should inject a select field for arrays", function() {
-    form.init({title: ['Mr.', 'Mrs.']});
+    form.init({title: [{id: 'mr', value: 'Mr.'},
+                       {id: 'mrs', value: 'Mrs.'}]});
     expect($('#my_form select').attr('name')).toEqual('title');
-    expect($('#my_form select option').get(0).value).toEqual('Mr.');
-    expect($('#my_form select option').get(1).value).toEqual('Mrs.');
+    expect($('#my_form select option').get(0).value).toEqual('mr');
+    expect($('#my_form select option').get(1).value).toEqual('mrs');
+    expect($('#my_form select option').get(0).innerHTML).toEqual('Mr.');
+    expect($('#my_form select option').get(1).innerHTML).toEqual('Mrs.');
     expect($('#my_form select option').length).toEqual(2);
-    expect(form.model.title()).toEqual([ 'Mr.', 'Mrs.' ]);
   });
 
   it("should inject two radio boxes for bool data", function() {
@@ -51,7 +53,7 @@ describe("Form Plugin", function() {
     });
     waits(100);
     runs(function() {
-      expect($('#my_form select option').get(0).value).toEqual('Mr.');
+      expect($('#my_form select option').get(0).value).toEqual('mr');
     });
   });
 

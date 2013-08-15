@@ -1,1 +1,4 @@
-{"firstname": "Sebastian", "title": ["Mr.", "Mrs."], "needs_glasses": false}
+{"firstname": "Sebastian",
+ "title": [{"id": "mr", "value": "Mr."},
+           {"id": "mrs", "value": "Mrs."}],
+ "needs_glasses": false}
