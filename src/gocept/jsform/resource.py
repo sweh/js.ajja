@@ -9,8 +9,11 @@ MINIFIERS = {'.js': 'jsmin'}
 library = fanstatic.Library(
     'gocept.jsform', 'resources', minifiers=MINIFIERS)
 
+ko_mapping = fanstatic.Resource(
+    library, 'ko.mapping.js', depends=[js.knockout.knockout])
+
 helpers = fanstatic.Resource(
-    library, 'helpers.js', depends=[js.jquery.jquery, js.knockout.knockout])
+    library, 'helpers.js', depends=[js.jquery.jquery, ko_mapping])
 
 json_template = fanstatic.Resource(library, 'json-template.js')
 
