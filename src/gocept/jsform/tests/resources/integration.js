@@ -8,6 +8,7 @@ describe("Form Plugin", function() {
   it("should inject a form tag into html", function() {
     form.init();
     expect(form.node).toEqual($('#my_form'));
+    expect(form.node.get(0).tagName).toEqual('FORM');
   });
 
 });

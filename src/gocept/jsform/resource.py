@@ -12,4 +12,9 @@ library = fanstatic.Library(
 helpers = fanstatic.Resource(
     library, 'helpers.js', depends=[js.jquery.jquery, js.knockout.knockout])
 
-jsform = fanstatic.Resource(library, 'jsform.js', depends=[helpers])
+json_template = fanstatic.Resource(library, 'json-template.js')
+
+widgets = fanstatic.Resource(library, 'widgets.js', depends=[
+    helpers, json_template])
+
+jsform = fanstatic.Resource(library, 'jsform.js', depends=[widgets])
