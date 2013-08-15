@@ -24,12 +24,15 @@ class SeleniumTestCase(gocept.selenium.static.TestCase):
 
     layer = STATIC_FILES_LAYER
 
-    def test_open_static_file_in_browser(self):
+    def _run(self, filename):
         sel = self.selenium
-        sel.open('SpecRunner.html')
+        sel.open(filename)
         sel.waitForElementPresent('css=.passingAlert, .failingAlert')
         summary = sel.getText('css=.bar')
         if 'Failing' in summary:
             # XXX: Get all failing test messages (use webdriver)
             message = sel.getText('css=.messages')
             self.fail('{}\n{}'.format(summary, message))
+
+    def test_integration(self):
+        self._run('integration.html')
