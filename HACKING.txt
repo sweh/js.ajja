@@ -1,21 +1,21 @@
 ========================
-Developing gocept.formng
+Developing gocept.jsform
 ========================
 
 :Author:
     `gocept <http://gocept.com/>`_ <mail@gocept.com>
 
 :Online documentation:
-    http://pythonhosted.org/gocept.formng/
+    http://pythonhosted.org/gocept.jsform/
 
 :PyPI page:
-    http://pypi.python.org/pypi/gocept.formng/
+    http://pypi.python.org/pypi/gocept.jsform/
 
 :Issues:
     `report by e-mail <mail@gocept.com>`_
 
 :Source code:
-    https://bitbucket.org/gocept/gocept.formng/
+    https://bitbucket.org/gocept/gocept.jsform/
 
 :Current change log:
-    https://bitbucket.org/gocept/gocept.formng/raw-file/tip/CHANGES.txt
+    https://bitbucket.org/gocept/gocept.jsform/raw-file/tip/CHANGES.txt

@@ -1,5 +1,5 @@
 ==============================
-The gocept.formng distribution
+The gocept.jsform distribution
 ==============================
 
 Next generation forms in javascript
