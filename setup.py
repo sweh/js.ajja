@@ -21,6 +21,9 @@ setup(
 
     install_requires=[
         'setuptools',
+        'fanstatic',
+        'js.jquery',
+        'js.knockout',
     ],
 
     extras_require={
@@ -37,6 +40,9 @@ setup(
     entry_points={
         'console_scripts': [
             # 'binary-name = gocept.jsform.module:function'
+        ],
+        'fanstatic.libraries': [
+            'gocept.jsform = gocept.jsform.resource:library',
         ],
     },
 
