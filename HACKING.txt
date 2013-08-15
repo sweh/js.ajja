@@ -1,0 +1,21 @@
+========================
+Developing gocept.formng
+========================
+
+:Author:
+    `gocept <http://gocept.com/>`_ <mail@gocept.com>
+
+:Online documentation:
+    http://pythonhosted.org/gocept.formng/
+
+:PyPI page:
+    http://pypi.python.org/pypi/gocept.formng/
+
+:Issues:
+    `report by e-mail <mail@gocept.com>`_
+
+:Source code:
+    https://bitbucket.org/gocept/gocept.formng/
+
+:Current change log:
+    https://bitbucket.org/gocept/gocept.formng/raw-file/tip/CHANGES.txt
