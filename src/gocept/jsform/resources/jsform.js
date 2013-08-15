@@ -44,7 +44,7 @@ gocept.jsform.Form.prototype = {
              self.node.append(widget_code);
         });
         self.model = ko.mapping.fromJS(self.data);
-        ko.applyBindings(self.model); //, self.node.get(0));
+        ko.applyBindings(self.model, self.node.get(0));
     },
 
     get_widget: function(value) {
