@@ -44,7 +44,7 @@ describe("Form Plugin", function() {
     expect(form.model.needs_glasses()).toEqual(false);
     // By default boolean fields have no label. Specify one:
     form.init(data, {needs_glasses: {label: 'Needs glasses'}});
-    expect($('#my_form').text()).toEqual(' Needs glasses');
+    expect($('#my_form').text()).toMatch('Needs glasses');
   });
 
   it("can get its data from a url", function() {
