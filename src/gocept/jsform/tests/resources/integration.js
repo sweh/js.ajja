@@ -33,6 +33,10 @@ describe("Form Plugin", function() {
     form.init(data);
     expect($('#my_form input').attr('type')).toEqual('checkbox');
     expect($('#my_form input').get(0).name).toEqual('needs_glasses');
+    expect(form.model.needs_glasses()).toEqual(false);
+    // By default boolean fields have no label. Specify one:
+    form.init(data, {needs_glasses: {label: 'Needs glasses'}});
+    expect($('#my_form').text()).toEqual(' Needs glasses');
   });
 
 });
