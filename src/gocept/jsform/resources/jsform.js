@@ -25,7 +25,7 @@ gocept.jsform.Form.prototype = {
         if (gocept.jsform.isUndefinedOrNull(data_or_url)) {
           return
         }
-        data = data_or_url;
+        var data = data_or_url;
         if (typeof(data_or_url) == 'string')
             data = self.retrieve(data_or_url);
         $.each(data, function (id, value) {
@@ -33,6 +33,8 @@ gocept.jsform.Form.prototype = {
              var widget_code = widget.expand({name: id, value: value});
              self.node.append(widget_code);
         });
+        self.model = ko.mapping.fromJS(data);
+        ko.applyBindings(self.model); //, self.node.get(0));
     },
 
     get_widget: function(value) {
