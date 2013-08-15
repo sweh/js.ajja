@@ -16,7 +16,7 @@ def project_path(*names):
 
 
 setup(
-    name='gocept.formng',
+    name='gocept.jsform',
     version='0.1.dev0',
 
     install_requires=[
@@ -30,19 +30,20 @@ setup(
             'gocept.testing',
             'mock',
             'plone.testing',
+            'jasmine-core',
         ],
     },
 
     entry_points={
         'console_scripts': [
-            # 'binary-name = gocept.formng.module:function'
+            # 'binary-name = gocept.jsform.module:function'
         ],
     },
 
     author='gocept <mail@gocept.com>',
     author_email='mail@gocept.com',
     license='ZPL 2.1',
-    url='https://bitbucket.org/gocept/gocept.formng/',
+    url='https://bitbucket.org/gocept/gocept.jsform/',
 
     keywords='form javascript jquery client',
     classifiers="""\

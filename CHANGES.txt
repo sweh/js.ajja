@@ -1,5 +1,5 @@
 ============================
-Change log for gocept.formng
+Change log for gocept.jsform
 ============================
 
 0.1 (unreleased)

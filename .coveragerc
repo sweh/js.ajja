@@ -1,6 +1,6 @@
 [run]
 branch = True
-source = gocept.formng
+source = gocept.jsform
 
 [report]
 precision = 2

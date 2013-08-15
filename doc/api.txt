@@ -5,4 +5,4 @@ API Reference
 .. autosummary::
     :toctree: ./_api/
 
-..  gocept.formng.foo
+..  gocept.jsform.foo

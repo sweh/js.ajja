@@ -26,5 +26,10 @@ class SeleniumTestCase(gocept.selenium.static.TestCase):
 
     def test_open_static_file_in_browser(self):
         sel = self.selenium
-        sel.open('testpage.html')
-        sel.waitForTextPresent('Testpage')
+        sel.open('SpecRunner.html')
+        sel.waitForElementPresent('css=.passingAlert, .failingAlert')
+        summary = sel.getText('css=.bar')
+        if 'Failing' in summary:
+            # XXX: Get all failing test messages (use webdriver)
+            message = sel.getText('css=.messages')
+            self.fail('{}\n{}'.format(summary, message))
