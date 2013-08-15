@@ -7,6 +7,7 @@ describe("Form Plugin", function() {
 
   it("should inject a form tag into html", function() {
     form.init();
+    expect(form.node).toBeDefined();
     expect(form.node).toEqual($('#my_form'));
     expect(form.node.get(0).tagName).toEqual('FORM');
   });
@@ -19,6 +20,7 @@ describe("Form Plugin", function() {
 
   it("should inject a input field for text data", function() {
     form.init({firstname: 'Sebastian'});
+    expect(form.model).toBeDefined();
     expect($('#my_form input').attr('type')).toEqual('text');
     expect($('#my_form input').attr('name')).toEqual('firstname');
     expect($('#my_form input').get(0).value).toEqual('Sebastian');
@@ -29,11 +31,12 @@ describe("Form Plugin", function() {
     form.init({title: [{id: 'mr', value: 'Mr.'},
                        {id: 'mrs', value: 'Mrs.'}]});
     expect($('#my_form select').attr('name')).toEqual('title');
-    expect($('#my_form select option').get(0).value).toEqual('mr');
-    expect($('#my_form select option').get(1).value).toEqual('mrs');
-    expect($('#my_form select option').get(0).innerHTML).toEqual('Mr.');
-    expect($('#my_form select option').get(1).innerHTML).toEqual('Mrs.');
-    expect($('#my_form select option').length).toEqual(2);
+    expect($('#my_form select option').get(0).value).toEqual('');
+    expect($('#my_form select option').get(1).value).toEqual('mr');
+    expect($('#my_form select option').get(1).innerHTML).toEqual('Mr.');
+    expect($('#my_form select option').get(2).value).toEqual('mrs');
+    expect($('#my_form select option').get(2).innerHTML).toEqual('Mrs.');
+    expect($('#my_form select option').length).toEqual(3);
   });
 
   it("should inject two radio boxes for bool data", function() {
@@ -53,7 +56,7 @@ describe("Form Plugin", function() {
     });
     waits(100);
     runs(function() {
-      expect($('#my_form select option').get(0).value).toEqual('mr');
+      expect($('#my_form select option').get(1).value).toEqual('mr');
     });
   });
 

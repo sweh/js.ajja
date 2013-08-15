@@ -17,6 +17,7 @@ gocept.jsform.widgets.object = new jsontemplate.Template('\
 <div class="label">{label}</div>\
 <div class="field">\
   <select name="{name}" data-bind="options: {name},\
+                                   optionsCaption: \' \',\
                                    optionsText: \'value\',\
                                    optionsValue: \'id\'"\
           readonly="{readonly}">\
