@@ -11,7 +11,9 @@ gocept.jsform.widgets.string = new jsontemplate.Template('\
 ', {default_formatter: 'html',  undefined_str: ''});
 
 gocept.jsform.widgets.object = new jsontemplate.Template('\
-<select name="{name}" data-bind="options: {name}" readonly="{readonly}">\
+<select name="{name}" data-bind="options: {name},\
+                                 optionsText: \'value\',\
+                                 optionsValue: \'id\'" readonly="{readonly}">\
 </select>', {default_formatter: 'html',  undefined_str: ''});
 
 gocept.jsform.widgets.boolean = new jsontemplate.Template('\
