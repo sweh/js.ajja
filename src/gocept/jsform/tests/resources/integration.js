@@ -103,6 +103,24 @@ describe("Form Plugin", function() {
       expect($('#my_form .firstname input').val()).toEqual('Max');
       expect($('#my_form .lastname input').val()).toEqual('Mustermann');
     });
+
+    it("for the fields", function () {
+
+      var template = new jsontemplate.Template('\
+<div class="title">Titel:\
+{.repeated section value}\
+<div><input type="radio" name="{name}" value="{id}" class="{id}" data-bind="checked: {name}" /> {value}</div>\
+{.end}\
+</div>', {default_formatter: 'html',  undefined_str: ''});
+
+      form.init({title: [{id: 'mr', value: 'Mr.'},
+                         {id: 'mrs', value: 'Mrs.'}]},
+                {title_template: template});
+      spyOn(form, "save");
+      $('#my_form .mrs').click().click();  // Not sure why one needs to 
+                                           // trigger click twice here
+      expect(form.save).toHaveBeenCalled();
+    });
   });
 
 });

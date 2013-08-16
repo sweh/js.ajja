@@ -82,7 +82,7 @@ gocept.jsform.Form.prototype = {
         if (gocept.jsform.isUndefinedOrNull(self.data))
             return
         $.each(self.data, function (id, value) {
-             var widget = self.get_widget(value);
+             var widget = self.get_widget(id, value);
              var widget_options = self.mangle_options(
                  {name: id, value: value}, self.options[id]);
              var widget_code = widget.expand(widget_options);
@@ -129,10 +129,13 @@ gocept.jsform.Form.prototype = {
         });
     },
 
-    get_widget: function(value) {
+    get_widget: function(id, value) {
         /* Retrieve the widget for a field. */
         var self = this;
-        return gocept.jsform.widgets[typeof(value)]
+        if (gocept.jsform.isUndefinedOrNull(self.options[id+'_template']))
+            return gocept.jsform.widgets[typeof(value)];
+        else
+            return self.options[id+'_template'];
     },
 
     mangle_options: function(options1, options2) {
