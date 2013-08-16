@@ -15,6 +15,26 @@ gocept.jsform.Form.prototype = {
     },
 
     init: function (data_or_url, options) {
+        /* Initialize the form.
+         *
+         * Expands the form_template into the DOM and invokes data retrieval
+         * and form field initialization.
+         *
+         * Takes the following parameters:
+         *
+         *   data_or_url: The url to a JSON View returning the data for the
+         *                form or the data itself.
+         *   mapping:     An optional mapping for the <ko.mapping> plugin.
+         *   options:     Options passed to the form:
+         *     save_url:     The url where data changes are propagated to.
+         *                   Should return a dict with either
+         *                   {"status": "success"} or {"status": "error",
+         *                   "msg": "Not an eMail address."}.
+         *     action:       The url the form will submit to. Will become the
+         *                   action attribute in form.
+         *     <field_name>: Foreach field in data you can add some options:
+         *       label: The label of the field.
+         */
         var self = this;
         if (!gocept.jsform.isUndefinedOrNull(options))
             self.options = options;
@@ -29,6 +49,10 @@ gocept.jsform.Form.prototype = {
     },
 
     prepare_data: function(data_or_url) {
+        /* Invokes data retrieval if needed.
+         *
+         * After calling this method, self.data is initialized.
+         */
         var self = this;
         if (typeof(data_or_url) == 'string')
             self.retrieve(data_or_url);
@@ -37,6 +61,14 @@ gocept.jsform.Form.prototype = {
     },
 
     init_fields: function() {
+        /* Initialize field from self.data.
+         *
+         * Guess the type of data for each field and render the correct field
+         * template into the DOM. Invoke the knockout databinding via
+         * auto-mapping data into a model (thanks to ko.mapping plugin) and
+         * invoke pbserving the model for changes to propagate these to the
+         * server.
+         */
         var self = this;
         if (gocept.jsform.isUndefinedOrNull(self.data))
             return
@@ -57,6 +89,9 @@ gocept.jsform.Form.prototype = {
     },
 
     subscribe: function(id, real_id) {
+        /* Subscribe to changes on one field of the model and propagate them to
+         * the server.
+         */
         var self = this;
         self.model[id].subscribe(function(newValue) {
             if (gocept.jsform.isUndefinedOrNull(real_id))
@@ -67,9 +102,14 @@ gocept.jsform.Form.prototype = {
     },
 
     observe_model_changes: function() {
+        /* Observe changes on all fields on model. */
         var self = this;
         $.each(self.data, function (id, value) {
             if (typeof(value) == "object") {
+                /* Observe select changes on selectfields. Knockout only
+                 * propagates adding and removing items from selects
+                 * out-of-the-box.
+                 */
                 self.model[id+'_selected'] = ko.observableArray();
                 self.subscribe(id+'_selected', id);
             }
@@ -78,11 +118,13 @@ gocept.jsform.Form.prototype = {
     },
 
     get_widget: function(value) {
+        /* Retrieve the widget for a field. */
         var self = this;
         return gocept.jsform.widgets[typeof(value)]
     },
 
     mangle_options: function(options1, options2) {
+        /* Combine two option dicts into one. */
         var self = this;
         if (gocept.jsform.isUndefinedOrNull(options2))
             var options2 = {};
@@ -91,12 +133,14 @@ gocept.jsform.Form.prototype = {
     },
 
     error: function() {
+        /* Error handler for ajax calls. */
         var self = this;
         self.node.append('<div class="error">There was an error during \
                           communication with the server.</div>');
     },
 
     retrieve: function (url) {
+        /* Retrieve data from given url via ajax. */
         var self = this;
         self.url = url;
 
@@ -114,6 +158,7 @@ gocept.jsform.Form.prototype = {
     },
 
     save: function (id, newValue) {
+        /* Save data to the server via ajax. */
         var self = this;
         save_url = self.options['save_url'];
         if (!save_url) {
