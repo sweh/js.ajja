@@ -28,12 +28,7 @@ setup(
 
     extras_require={
         'test': [
-            'gocept.httpserverlayer',
-            'gocept.selenium',
-            'gocept.testing',
-            'mock',
-            'plone.testing',
-            'jasmine-core',
+            'gocept.jasmine',
         ],
     },
 
@@ -43,7 +38,7 @@ setup(
         ],
         'fanstatic.libraries': [
             'gocept.jsform = gocept.jsform.resource:library',
-            'gocept.jsform.tests = gocept.jsform.tests.resource:library',
+            'gocept.jsform.tests = gocept.jsform.tests:library',
         ],
     },
 
