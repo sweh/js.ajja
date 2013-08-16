@@ -86,6 +86,7 @@ gocept.jsform.Form.prototype = {
              var widget_options = self.mangle_options(
                  {name: id, value: value}, self.options[id]);
              var widget_code = widget.expand(widget_options);
+             widget_code = '<div class="error '+ id + '"></div>' + widget_code;
              if (!$('#'+id, self.node).length)
                  self.node.append(widget_code);
              else
@@ -147,28 +148,16 @@ gocept.jsform.Form.prototype = {
         return options1
     },
 
-    error: function() {
-        /* Error handler for ajax calls. */
-        var self = this;
-        self.node.append('<div class="error">There was an error during \
-                          communication with the server.</div>');
-    },
-
     retrieve: function (url) {
         /* Retrieve data from given url via ajax. */
         var self = this;
         self.url = url;
 
-        var success = function(data) {
-            self.data = data;
-            self.init_fields();
-        };
-
         $.ajax({
             dataType: "json",
             url: self.url,
-            success: success,
-            error: function (e) { self.error(e); }
+            success: function (data) { self.handle_retrieve(data); },
+            error: function (e) { self.handle_error(e); }
         });
     },
 
@@ -180,18 +169,34 @@ gocept.jsform.Form.prototype = {
             save_url = self.url;
         }
 
-        var success = function(data) {
-            console.log('sucess');
-        };
-
         console.debug('Posting '+newValue+' for '+id+' to '+save_url);
         $.ajax({
-            type: 'POST',
             url: save_url,
             data: {id: id, value: newValue},
-            success: success,
-            error: function (e) { self.error(e); }
+            success: function(data) { self.handle_save(data, id); },
+            error: function (e) { self.handle_error(e); }
         });
+    },
+
+    handle_error: function() {
+        /* Error handler for ajax calls. */
+        var self = this;
+        self.node.append('<div class="error">There was an error during \
+                          communication with the server.</div>');
+    },
+
+    handle_retrieve: function(data) {
+        var self = this;
+        self.data = data;
+        self.init_fields();
+    },
+
+    handle_save: function(data, id) {
+        var self = this;
+        console.log('success');
+        if (data['status'] == 'error') {
+          self.node.find('.error.'+id).text(data['msg']);
+        }
     }
 
 };
