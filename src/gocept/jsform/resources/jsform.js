@@ -21,19 +21,18 @@ gocept.jsform.Form.prototype = {
          * and form field initialization.
          *
          * Takes the following parameters:
-         *
-         *   data_or_url: The url to a JSON View returning the data for the
-         *                form or the data itself.
-         *   mapping:     An optional mapping for the <ko.mapping> plugin.
-         *   options:     Options passed to the form:
-         *     save_url:     The url where data changes are propagated to.
-         *                   Should return a dict with either
-         *                   {"status": "success"} or {"status": "error",
-         *                   "msg": "Not an eMail address."}.
-         *     action:       The url the form will submit to. Will become the
-         *                   action attribute in form.
-         *     <field_name>: Foreach field in data you can add some options:
-         *       label: The label of the field.
+         * |
+         * |- data_or_url: The url to a JSON View returning the data for the
+         * |               form or the data itself.
+         * |- mapping:  An optional mapping for the <ko.mapping> plugin.
+         * |- options:  Options passed to the form:
+         *   |- save_url: The url where data changes are propagated to. Should
+         *   |            return a dict with either {"status": "success"} or
+         *   |            {"status": "error", "msg": "Not an eMail address."}.
+         *   |- action: The url the form will submit to. Will become the
+         *   |          action attribute in form.
+         *   |- <field_name>: Foreach field in data you can add some options:
+         *     |- label: The label of the field.
          */
         var self = this;
         if (!gocept.jsform.isUndefinedOrNull(options))
@@ -66,7 +65,7 @@ gocept.jsform.Form.prototype = {
          * Guess the type of data for each field and render the correct field
          * template into the DOM. Invoke the knockout databinding via
          * auto-mapping data into a model (thanks to ko.mapping plugin) and
-         * invoke pbserving the model for changes to propagate these to the
+         * invoke observing the model for changes to propagate these to the
          * server.
          */
         var self = this;
