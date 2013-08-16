@@ -88,4 +88,21 @@ describe("Form Plugin", function() {
 
   });
 
+  describe("customized templates", function() {
+
+    it("for the form", function () {
+
+      var template = new jsontemplate.Template('\
+<form method="POST" action="{action}" id="{form_id}">\
+<table><tr><td class="firstname"><span id="firstname" /></td>\
+<td class="lastname"><span id="lastname" /></td></tr></table></form>',
+      {default_formatter: 'html',  undefined_str: ''});
+
+      form.init({firstname: 'Max', lastname: 'Mustermann'},
+                {form_template: template});
+      expect($('#my_form .firstname input').val()).toEqual('Max');
+      expect($('#my_form .lastname input').val()).toEqual('Mustermann');
+    });
+  });
+
 });

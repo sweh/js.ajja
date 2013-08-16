@@ -24,6 +24,9 @@ gocept.jsform.Form.prototype = {
          * |
          * |- data_or_url: The url to a JSON View returning the data for the
          * |               form or the data itself.
+         * |- form_template: An alternate template for the form. It may
+         * |                 contain ids for the fields to render them on
+         * |                 custom places.
          * |- mapping:  An optional mapping for the <ko.mapping> plugin.
          * |- options:  Options passed to the form:
          *   |- save_url: The url where data changes are propagated to. Should
@@ -39,7 +42,11 @@ gocept.jsform.Form.prototype = {
             self.options = options;
         var form_options = self.mangle_options(
             {'form_id': self.id}, self.options);
-        var form_code = $(gocept.jsform.widgets.form.expand(form_options));
+        if (gocept.jsform.isUndefinedOrNull(self.options.form_template))
+            form_template = gocept.jsform.widgets.form;
+        else
+            form_template = self.options.form_template;
+        var form_code = $(form_template.expand(form_options));
         $('#' + self.id).replaceWith(form_code);
         self.node = $('#' + self.id);
         self.node.data('form', self);
@@ -67,6 +74,9 @@ gocept.jsform.Form.prototype = {
          * auto-mapping data into a model (thanks to ko.mapping plugin) and
          * invoke observing the model for changes to propagate these to the
          * server.
+         *
+         * Appends fields into the form if no DOM element with id name like
+         * field is found.
          */
         var self = this;
         if (gocept.jsform.isUndefinedOrNull(self.data))
@@ -76,7 +86,10 @@ gocept.jsform.Form.prototype = {
              var widget_options = self.mangle_options(
                  {name: id, value: value}, self.options[id]);
              var widget_code = widget.expand(widget_options);
-             self.node.append(widget_code);
+             if (!$('#'+id, self.node).length)
+                 self.node.append(widget_code);
+             else
+                 $('#'+id, self.node).replaceWith(widget_code);
         });
         mapping = self.options['mapping'];
         if (gocept.jsform.isUndefinedOrNull(mapping))
