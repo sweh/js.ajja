@@ -47,17 +47,33 @@ gocept.jsform.Form.prototype = {
              var widget_code = widget.expand(widget_options);
              self.node.append(widget_code);
         });
-        self.model = ko.mapping.fromJS(self.data);
+        mapping = self.options['mapping'];
+        if (gocept.jsform.isUndefinedOrNull(mapping))
+            self.model = ko.mapping.fromJS(self.data);
+        else
+            self.model = ko.mapping.fromJS(self.data, mapping);
         self.observe_model_changes();
         ko.applyBindings(self.model, self.node.get(0));
+    },
+
+    subscribe: function(id, real_id) {
+        var self = this;
+        self.model[id].subscribe(function(newValue) {
+            if (gocept.jsform.isUndefinedOrNull(real_id))
+                self.save(id, newValue);
+            else
+                self.save(real_id, newValue);
+        });
     },
 
     observe_model_changes: function() {
         var self = this;
         $.each(self.data, function (id, value) {
-            self.model[id].subscribe(function(newValue) {
-              self.save(id, newValue);
-            });
+            if (typeof(value) == "object") {
+                self.model[id+'_selected'] = ko.observableArray();
+                self.subscribe(id+'_selected', id);
+            }
+            self.subscribe(id);
         });
     },
 
@@ -108,6 +124,7 @@ gocept.jsform.Form.prototype = {
             console.log('sucess');
         };
 
+        console.debug('Posting '+newValue+' for '+id+' to '+save_url);
         $.ajax({
             type: 'POST',
             url: save_url,

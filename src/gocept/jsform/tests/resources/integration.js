@@ -60,20 +60,32 @@ describe("Form Plugin", function() {
     });
   });
 
-  it("propagates changes to the server", function() {
-    runs(function() {
-      form.init('/fanstatic/gocept.jsform.tests/testdata.json');
-    });
-    waits(100);
-    runs(function() {
-      form.model.firstname('Bob');
-    });
-    waits(100);
-    runs(function() {
-      expect($('#my_form input').get(0).value).toEqual('Bob');
-      expect($('#my_form .error').text()).toMatch('error');
-    });
-  });
+  describe("Propagation to server", function() {
 
+    beforeEach(function() {
+      spyOn(form, "save");
+    });
+
+    afterEach(function() {
+      expect(form.save).toHaveBeenCalled();
+    });
+
+    it("input fields", function() {
+      form.init({firstname: 'Sebastian'});
+      $('#my_form input').val('Bob').change();
+    });
+
+    it("select fields", function () {
+      form.init({title: [{id: 'mr', value: 'Mr.'},
+                         {id: 'mrs', value: 'Mrs.'}]});
+      $('#my_form select').val('mrs').change();
+    });
+
+    it("checkboxes", function () {
+      form.init({needs_glasses: false});
+      $('#my_form input').click();
+    });
+
+  });
 
 });
