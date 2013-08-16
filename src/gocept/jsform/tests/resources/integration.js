@@ -60,4 +60,20 @@ describe("Form Plugin", function() {
     });
   });
 
+  it("propagates changes to the server", function() {
+    runs(function() {
+      form.init('/fanstatic/gocept.jsform.tests/testdata.json');
+    });
+    waits(100);
+    runs(function() {
+      form.model.firstname('Bob');
+    });
+    waits(100);
+    runs(function() {
+      expect($('#my_form input').get(0).value).toEqual('Bob');
+      expect($('#my_form .error').text()).toMatch('error');
+    });
+  });
+
+
 });

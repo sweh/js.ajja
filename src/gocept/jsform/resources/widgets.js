@@ -9,8 +9,7 @@ gocept.jsform.widgets.form = new jsontemplate.Template('\
 gocept.jsform.widgets.string = new jsontemplate.Template('\
 <div class="label">{label}</div>\
 <div class="field">\
-  <input type="text" data-bind="value: {name}" name="{name}" value=""\
-         readonly="{readonly}" />\
+  <input type="text" data-bind="value: {name}" name="{name}" value="" />\
 </div>', {default_formatter: 'html',  undefined_str: ''});
 
 gocept.jsform.widgets.object = new jsontemplate.Template('\
@@ -19,8 +18,7 @@ gocept.jsform.widgets.object = new jsontemplate.Template('\
   <select name="{name}" data-bind="options: {name},\
                                    optionsCaption: \' \',\
                                    optionsText: \'value\',\
-                                   optionsValue: \'id\'"\
-          readonly="{readonly}">\
+                                   optionsValue: \'id\'">\
   </select>\
 </div>', {default_formatter: 'html',  undefined_str: ''});
 

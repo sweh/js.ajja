@@ -48,7 +48,17 @@ gocept.jsform.Form.prototype = {
              self.node.append(widget_code);
         });
         self.model = ko.mapping.fromJS(self.data);
+        self.observe_model_changes();
         ko.applyBindings(self.model, self.node.get(0));
+    },
+
+    observe_model_changes: function() {
+        var self = this;
+        $.each(self.data, function (id, value) {
+            self.model[id].subscribe(function(newValue) {
+              self.save(id, newValue);
+            });
+        });
     },
 
     get_widget: function(value) {
@@ -57,10 +67,17 @@ gocept.jsform.Form.prototype = {
     },
 
     mangle_options: function(options1, options2) {
+        var self = this;
         if (gocept.jsform.isUndefinedOrNull(options2))
             var options2 = {};
         $.each(options2, function (id, value) { options1[id] = value; });
         return options1
+    },
+
+    error: function() {
+        var self = this;
+        self.node.append('<div class="error">There was an error during \
+                          communication with the server.</div>');
     },
 
     retrieve: function (url) {
@@ -75,9 +92,30 @@ gocept.jsform.Form.prototype = {
         $.ajax({
             dataType: "json",
             url: self.url,
-            success: success
+            success: success,
+            error: function (e) { self.error(e); }
         });
     },
+
+    save: function (id, newValue) {
+        var self = this;
+        save_url = self.options['save_url'];
+        if (!save_url) {
+            save_url = self.url;
+        }
+
+        var success = function(data) {
+            console.log('sucess');
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: save_url,
+            data: {id: id, value: newValue},
+            success: success,
+            error: function (e) { self.error(e); }
+        });
+    }
 
 };
 
