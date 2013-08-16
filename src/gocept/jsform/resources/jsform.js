@@ -23,6 +23,7 @@ gocept.jsform.Form.prototype = {
         var form_code = $(gocept.jsform.widgets.form.expand(form_options));
         $('#' + self.id).replaceWith(form_code);
         self.node = $('#' + self.id);
+        self.node.data('form', self);
         self.prepare_data(data_or_url);
         self.init_fields();
     },
