@@ -123,4 +123,17 @@ describe("Form Plugin", function() {
     });
   });
 
+  it("validation errors are displayed at the widget", function () {
+    runs(function() {
+      form.init({email: ''},
+                {save_url: '/fanstatic/gocept.jsform.tests/error.json'});
+      $('#my_form input').val('max@mustermann').change();
+    });
+    waits(100);
+    runs(function() {
+      expect($('#my_form .error.email').text()).toEqual(
+         'Not a valid eMail address.');
+    });
+  });
+
 });
