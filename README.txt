@@ -6,28 +6,28 @@ JavaScript library for simple creation of forms in your clients browser. It
 just needs a JSON datastructure and creates a form with auto saving fields
 from it.
 
-Uses `knockout` for data-binding, `json-template` for templating and `jquery`
+Uses *knockout* for data-binding, *json-template* for templating and *jquery*
 for DOM manipulation and ajax calls.
 
 
 Requirements
 ============
 
-If you have a server using `fanstatic` to include resources, just do::
+If you have a server using *fanstatic* to include resources, just do::
 
     from gocept.jsform.resource import jsform
     jsform.need()
 
-This will require all needed resources like `jquery`, `knockout`,
-`json-template`, widgets and the code to setup and run `gocept.jsform` itself.
+This will require all needed resources like *jquery*, *knockout*,
+*json-template*, widgets and the code to setup and run *gocept.jsform* itself.
 
 Without fanstatic, you should include the following resources by hand:
 
-* `helpers.js`
-* `widgets.js`
-* `jsform.js`
+* *helpers.js*
+* *widgets.js*
+* *jsform.js*
 
-You can find them in the `resources` directory in this package.
+You can find them in the ``resources`` directory in this package.
 
 
 Usage
@@ -43,13 +43,13 @@ All you need to start creating forms is::
     </script>
 
 This will inject the form in the container with the id
-`replace_this_with_my_form`, load the form data via `ajax` from the url
-`form_data.json` and create input fields according to the content of
-`form_data.json`.
+``replace_this_with_my_form``, load the form data via *ajax* from the url
+``form_data.json`` and create input fields according to the content of
+``form_data.json``.
 
-`form.load()` accepts javascript objects as data or a url (like in the example
-above). It then guesses, which field widget to load by means of the datatype of
-your field::
+``form.load()`` accepts javascript objects as data or a url (like in the
+example above). It then guesses, which field widget to load by means of the
+datatype of your field::
 
     my_form.load(
         {firstName: '', // will result in a input field with type="text"
@@ -57,7 +57,7 @@ your field::
                  {id: 'mrs', value: 'Miss'}], // will result in a select box
          needs_glasses: false}); // will result in a checkbox
 
-`gocept.jsform` comes with basic templates for these three use cases. Of cource
+*gocept.jsform* comes with basic templates for these three use cases. Of cource
 you can provide your own templates for either the form or the fields itself.
 Please refer to the customization section for further information.
 
@@ -65,33 +65,33 @@ Please refer to the customization section for further information.
 Tests
 =====
 
-The tests are written in `jasmine` and run using selenium webdriver.
+The tests are written in *jasmine* and run using selenium webdriver.
 
 
 Customization
 =============
 
 There are various options which can be passed to customize the HTML output and
-the behaviour of `gocept.jsform`.
+the behaviour of *gocept.jsform*.
 
 
 Providing a save url for the server
 -----------------------------------
 
-The great thing about `gocept.jsform` is, that it automatically pushes changes
+The great thing about *gocept.jsform* is, that it automatically pushes changes
 in your form fields to the server. For that to work you need to specify a url
-where `gocept.jsform` should propagate changes to::
+where *gocept.jsform* should propagate changes to::
 
     var form = new gocept.jsform.Form('my_form', {save_url: '/save.json'});
 
 On every change, the following information is pushed to that url:
 
-* `id`: the name of the field (e.g. `firstname`)
-* `value`: the new value for that field (e.g. `Bob`)
+* ``id``: the name of the field (e.g. *firstname*)
+* ``value``: the new value for that field (e.g. *Bob*)
 
 The server should now validate the given data. If saving went fine, it must
-return `{status: 'success'}`, if there was a (validation-) error, it must
-return e.g. `{status: 'error', msg: 'Not a valid email address'}`. The error
+return ``{status: 'success'}``, if there was a (validation-) error, it must
+return e.g. ``{status: 'error', msg: 'Not a valid email address'}``. The error
 will then be displayed next to the widget.
 
 
@@ -113,8 +113,8 @@ for all or just some of the fields::
     var form = new gocept.jsform.Form('my_form', {form_template: template});
     form.load({firstname: 'Max', lastname: 'Mustermann'});
 
-This will replace the `span` containers with id `firstname` and `lastname` with
-the appropriate `input` fields.
+This will replace the ``span`` containers with id ``firstname`` and
+``lastname`` with the appropriate ``input`` fields.
 
 
 Customizing field widgets
@@ -137,7 +137,7 @@ Imagine you want checkboxes instead of a select field::
                        {id: 'mrs', value: 'Mrs.'}]},
               {title: {template: template}});
 
-You can pass the `load` method a JS object containing customizations for each
+You can pass the *load* method a JS object containing customizations for each
 field. One of these customization options is template, which results in
 rendering two checkboxes instead of the default select box in the above
 example.
