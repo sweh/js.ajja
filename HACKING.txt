@@ -3,7 +3,8 @@ Developing gocept.jsform
 ========================
 
 :Author:
-    `gocept <http://gocept.com/>`_ <mail@gocept.com>
+    `Sebastian Wehrmann <http://gocept.com/>`_ <sw@gocept.com>
+    `Maik Derstappen <http://derico.de/>`_ <md@derico.de>
 
 :Online documentation:
     http://pythonhosted.org/gocept.jsform/
@@ -12,7 +13,7 @@ Developing gocept.jsform
     http://pypi.python.org/pypi/gocept.jsform/
 
 :Issues:
-    `report by e-mail <mail@gocept.com>`_
+    https://bitbucket.org/gocept/gocept.jsform/issues
 
 :Source code:
     https://bitbucket.org/gocept/gocept.jsform/

@@ -42,8 +42,9 @@ setup(
         ],
     },
 
-    author='gocept <mail@gocept.com>',
-    author_email='mail@gocept.com',
+    author=('Sebastian Wehrmann <sw@gocept.com>, '
+            'Maik Derstappen <md@derico.de>'),
+    author_email='sw@gocept.com',
     license='ZPL 2.1',
     url='https://bitbucket.org/gocept/gocept.jsform/',
 

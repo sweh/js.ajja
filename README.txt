@@ -2,6 +2,153 @@
 The gocept.jsform distribution
 ==============================
 
-Next generation forms in javascript
+JavaScript library for simple creation of forms in your clients browser. It
+just needs a JSON datastructure and creates a form with auto saving fields
+from it.
 
-This package is compatible with Python version 2.7.
+Uses `knockout` for data-binding, `json-template` for templating and `jquery`
+for DOM manipulation and ajax calls.
+
+
+Requirements
+============
+
+If you have a server using `fanstatic` to include resources, just do::
+
+    from gocept.jsform.resource import jsform
+    jsform.need()
+
+This will require all needed resources like `jquery`, `knockout`,
+`json-template`, widgets and the code to setup and run `formjs` itself.
+
+Without fanstatic, you should include the following resources by hand:
+
+* `helpers.js`
+* `json-template.js`
+* `widgets.js`
+* `jsform.js`
+
+You can find them in the `resources` directory in this package.
+
+
+Usage
+=====
+
+All you need to start creating forms is::
+
+    <div id="#replace_this_with_my_form"></div>
+
+    <script type="text/javascript">
+      var my_form = new gocept.jsform.Form('replace_this_with_my_form');
+      my_form.load('/form_data.json');
+    </script>
+
+This will inject the form in the container with the id
+`replace_this_with_my_form`, load the form data via `ajax` from the url
+`form_data.json` and create input fields according to the content of
+`form_data.json`.
+
+`form.load()` accepts javascript objects as data or a url (like in the example
+above). It then guesses, which field widget to load by means of the datatype of
+your field::
+
+    my_form.load(
+        {firstName: '', // will result in a input field with type="text"
+         title: [{id: 'mr', value: 'Mister'},
+                 {id: 'mrs', value: 'Miss'}], // will result in a select box
+         needs_glasses: false}); // will result in a checkbox
+
+`gocept.jsform` comes with basic templates for these three use cases. Of cource
+you can provide your own templates for either the form or the fields itself.
+Please refer to the customization section for further information.
+
+
+Tests
+=====
+
+The tests are written in `jasmine` and run using selenium webdriver.
+
+
+Customization
+=============
+
+There are various options which can be passed to customize the HTML output and
+the behaviour of `gocept.jsform`.
+
+
+Providing a save url for the server
+-----------------------------------
+
+The great thing about `gocept.jsform` is, that it automatically pushes changes
+in your form fields to the server. For that to work you need to specify a url
+where `gocept.jsform` should propagate changes to::
+
+    var form = new gocept.jsform.Form('my_form', {save_url: '/save.json'});
+
+On every change, the following information is pushed to that url:
+
+* `id`: the name of the field (e.g. `firstname`)
+* `value`: the new value for that field (e.g. `Bob`)
+
+The server should now validate the given data. If saving went fine, it must
+return `{status: 'success'}`, if there was a (validation-) error, it must
+return e.g. `{status: 'error', msg: 'Not a valid email address'}`. The error
+will then be displayed next to the widget.
+
+
+Customizing the form template
+-----------------------------
+
+The default behaviour is to simply append every new field in the form tag. If
+you would like to customize the order of your fields or just need another
+boilerplate for you form, you can use a custom form template with containers
+for all or just some of the fields::
+
+    var template = new jsontemplate.Template('\
+    <form method="POST" action="{action}" id="{form_id}">\
+    <table><tr><td class="firstname"><span id="firstname" /></td>\
+    <td class="lastname"><span id="lastname" /></td></tr></table>\
+    </form>', {default_formatter: 'html'});
+
+    var form = new gocept.jsform.Form('my_form', {form_template: template});
+    form.load({firstname: 'Max', lastname: 'Mustermann'});
+
+This will replace the `span` containers with id `firstname` and `lastname` with
+the appropriate `input` fields.
+
+
+Customizing field widgets
+-------------------------
+
+Imagine you want checkboxes instead of a select field::
+
+    var template = new jsontemplate.Template('\
+    <div class="title">Titel:\
+    {.repeated section value}\
+    <div><input type="radio" name="{name}" value="{id}" class="{id}" \
+                data-bind="checked: {name}" /> {value}</div>\
+    {.end}\
+    </div>', {default_formatter: 'html'});
+
+    var form = new gocept.jsform.Form('my_form');
+    form.load({title: [{id: 'mr', value: 'Mr.'},
+                       {id: 'mrs', value: 'Mrs.'}]},
+              {title: {template: template}});
+
+You can pass the `load` method a JS object containing customizations for each
+field. One of these customization options is template, which results in
+rendering two checkboxes instead of the default select box in the above
+example.
+
+You can also specify a label or other options for the fields::
+
+    var template = new jsontemplate.Template('\
+    {label}: <input type="text" name="{name}" value="{default}"\
+                    data-bind="value: {name}" {readonly} />',
+    {default_formatter: 'html', undefined_str: ''});
+
+    var form = new gocept.jsform.Form('my_form');
+    form.load({firstname: 'Sebastian'},
+              {firstname: {template: template,
+                           label: 'First name',
+                           default: 'Max'}});
