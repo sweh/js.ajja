@@ -93,11 +93,14 @@ describe("Form Plugin", function() {
 
     it("for the form", function () {
 
-      var template = new jsontemplate.Template('\
-<form method="POST" action="{action}" id="{form_id}">\
-<table><tr><td class="firstname"><span id="firstname" /></td>\
-<td class="lastname"><span id="lastname" /></td></tr></table></form>',
-      {default_formatter: 'html',  undefined_str: ''});
+      var template = new jsontemplate.Template(
+        ['<form method="POST" action="{action}" id="{form_id}">',
+         '  <table><tr><td class="firstname">',
+         '    <span id="firstname" />',
+         '  </td><td class="lastname">',
+         '    <span id="lastname" />',
+         '</td></tr></table></form>'].join(''),
+        {default_formatter: 'html',  undefined_str: ''});
 
       var form = new gocept.jsform.Form('my_form', {form_template: template});
       form.load({firstname: 'Max', lastname: 'Mustermann'});
@@ -107,12 +110,16 @@ describe("Form Plugin", function() {
 
     it("for the fields", function () {
 
-      var template = new jsontemplate.Template('\
-<div class="title">Titel:\
-{.repeated section value}\
-<div><input type="radio" name="{name}" value="{id}" class="{id}" data-bind="checked: {name}" /> {value}</div>\
-{.end}\
-</div>', {default_formatter: 'html',  undefined_str: ''});
+      var template = new jsontemplate.Template(
+        ['<div class="title">Titel: ',
+         '{.repeated section value}',
+         '  <div>',
+         '    <input type="radio" name="{name}" value="{id}" class="{id}"',
+         '           data-bind="checked: {name}" /> {value}',
+         '  </div>',
+         '{.end}',
+         '</div>'].join(''),
+        {default_formatter: 'html',  undefined_str: ''});
 
       form.load({title: [{id: 'mr', value: 'Mr.'},
                          {id: 'mrs', value: 'Mrs.'}]},
