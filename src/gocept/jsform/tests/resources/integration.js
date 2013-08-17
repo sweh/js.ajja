@@ -116,7 +116,7 @@ describe("Form Plugin", function() {
 
       form.load({title: [{id: 'mr', value: 'Mr.'},
                          {id: 'mrs', value: 'Mrs.'}]},
-                     {title: {template: template}});
+                {title: {template: template}});
       spyOn(form, "save");
       $('#my_form .mrs').click().click();  // Not sure why one needs to 
                                            // trigger click twice here
