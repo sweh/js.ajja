@@ -1,5 +1,6 @@
 import fanstatic
 import js.jquery
+import js.json_template
 import js.knockout
 
 
@@ -15,9 +16,7 @@ ko_mapping = fanstatic.Resource(
 helpers = fanstatic.Resource(
     library, 'helpers.js', depends=[js.jquery.jquery, ko_mapping])
 
-json_template = fanstatic.Resource(library, 'json-template.js')
-
 widgets = fanstatic.Resource(library, 'widgets.js', depends=[
-    helpers, json_template])
+    helpers, js.json_template.json_template])
 
 jsform = fanstatic.Resource(library, 'jsform.js', depends=[widgets])

@@ -24,7 +24,6 @@ This will require all needed resources like `jquery`, `knockout`,
 Without fanstatic, you should include the following resources by hand:
 
 * `helpers.js`
-* `json-template.js`
 * `widgets.js`
 * `jsform.js`
 
