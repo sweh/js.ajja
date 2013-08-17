@@ -104,11 +104,12 @@ you would like to customize the order of your fields or just need another
 boilerplate for you form, you can use a custom form template with containers
 for all or just some of the fields::
 
-    var template = new jsontemplate.Template('\
-    <form method="POST" action="{action}" id="{form_id}">\
-    <table><tr><td class="firstname"><span id="firstname" /></td>\
-    <td class="lastname"><span id="lastname" /></td></tr></table>\
-    </form>', {default_formatter: 'html'});
+    var template = new jsontemplate.Template(
+      ['<form method="POST" action="{action}" id="{form_id}">',
+       '<table><tr><td class="firstname"><span id="firstname" /></td>',
+       '<td class="lastname"><span id="lastname" /></td></tr></table>',
+       '</form>'].join(''),
+      {default_formatter: 'html'});
 
     var form = new gocept.jsform.Form('my_form', {form_template: template});
     form.load({firstname: 'Max', lastname: 'Mustermann'});
@@ -122,13 +123,15 @@ Customizing field widgets
 
 Imagine you want checkboxes instead of a select field::
 
-    var template = new jsontemplate.Template('\
-    <div class="title">Titel:\
-    {.repeated section value}\
-    <div><input type="radio" name="{name}" value="{id}" class="{id}" \
-                data-bind="checked: {name}" /> {value}</div>\
-    {.end}\
-    </div>', {default_formatter: 'html'});
+    var template = new jsontemplate.Template(
+      ['<div class="title">Titel:',
+       '{.repeated section value}',
+       '  <div>',
+       '    <input type="radio" name="{name}" value="{id}" class="{id}"',
+       '           data-bind="checked: {name}" /> {value}',
+       '  </div>',
+       '{.end}',
+       '</div>'].join(''), {default_formatter: 'html'});
 
     var form = new gocept.jsform.Form('my_form');
     form.load({title: [{id: 'mr', value: 'Mr.'},
@@ -142,10 +145,10 @@ example.
 
 You can also specify a label or other options for the fields::
 
-    var template = new jsontemplate.Template('\
-    {label}: <input type="text" name="{name}" value="{default}"\
-                    data-bind="value: {name}" {readonly} />',
-    {default_formatter: 'html', undefined_str: ''});
+    var template = new jsontemplate.Template(
+      ['{label}: <input type="text" name="{name}" value="{default}"',
+       '                data-bind="value: {name}" {readonly} />'].join(''),
+      {default_formatter: 'html', undefined_str: ''});
 
     var form = new gocept.jsform.Form('my_form');
     form.load({firstname: 'Sebastian'},
