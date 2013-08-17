@@ -2,17 +2,24 @@
 # Copyright (c) 2013 gocept gmbh & co. kg
 # See also LICENSE.txt
 
+import fanstatic
 import gocept.httpserverlayer.wsgi
+import gocept.jasmine.jasmine
+import gocept.jasmine.resource
 import gocept.jsform.resource
 import gocept.selenium.static
-import gocept.jasmine.jasmine
+
+
+library = fanstatic.Library('gocept.jsform.tests', 'resources')
+integration_test = fanstatic.Resource(
+    library, 'integration.js', depends=[gocept.jasmine.resource.jasmine])
 
 
 class JSFormApp(gocept.jasmine.jasmine.TestApp):
 
     def need_resources(self):
         gocept.jsform.resource.jsform.need()
-        gocept.jsform.tests.integration_test.need()
+        integration_test.need()
 
     @property
     def body(self):
