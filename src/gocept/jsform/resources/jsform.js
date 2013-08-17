@@ -12,15 +12,18 @@
        *
        * Options can be:
        *
-       * - form_template: An alternate template for the form. It may
-       *                  contain ids for the fields to render them on
-       *                  custom places.
-       * - save_url:      The url where data changes are propagated to.
-       *                  Should return a dict with either {"status":
-       *                  "success"} or {"status": "error", "msg":
-       *                  "Not an eMail address."}.
-       * - action:        The url the form will submit to (if intended).
-       *                  Will become the action attribute in form.
+       * - form_template:    An alternate template for the form. It may
+       *                     contain ids for the fields to render them on
+       *                     custom places.
+       * - string_template:  An alternate template for text based fields.
+       * - object_template:  An alternate template for input based fields.
+       * - boolean_template: An alternate template for boolean based fields.
+       * - save_url:         The url where data changes are propagated to.
+       *                     Should return a dict with either {"status":
+       *                     "success"} or {"status": "error", "msg":
+       *                     "Not an eMail address."}.
+       * - action:           The url the form will submit to (if intended).
+       *                     Will become the action attribute in form.
        */
       var self = this;
       self.id = id;
@@ -150,10 +153,15 @@
       /* Retrieve the widget for a field. */
       var self = this;
       if ((gocept.jsform.isUndefinedOrNull(self.options[id])) ||
-          (gocept.jsform.isUndefinedOrNull(self.options[id]['template'])))
-        return gocept.jsform.widgets[typeof(value)];
-      else
+          (gocept.jsform.isUndefinedOrNull(self.options[id]['template']))) {
+        var type = typeof(value);
+        if (gocept.jsform.isUndefinedOrNull(self.options[type+'_template']))
+          return gocept.jsform.widgets[type];
+        else
+          return self.options[type+'_template'];
+      } else {
         return self.options[id]['template'];
+      }
     },
 
     mangle_options: function(options1, options2) {
