@@ -154,3 +154,6 @@ You can also specify a label or other options for the fields::
               {firstname: {template: template,
                            label: 'First name',
                            default: 'Max'}});
+
+.. image:: https://builds.gocept.com/job/gocept.jsform/badge/icon
+  :target: https://builds.gocept.com/job/gocept.jsform/
