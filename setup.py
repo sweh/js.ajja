@@ -28,7 +28,7 @@ setup(
 
     extras_require={
         'test': [
-            'gocept.jasmine',
+            'gocept.jasmine>=0.2',
         ],
     },
 
