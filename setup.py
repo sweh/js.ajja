@@ -20,10 +20,11 @@ setup(
     version='0.1.dev0',
 
     install_requires=[
-        'setuptools',
-        'fanstatic',
+        'fanstatic>=1.0a2',
         'js.jquery',
+        'js.json_template',
         'js.knockout',
+        'setuptools',
     ],
 
     extras_require={
