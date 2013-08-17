@@ -19,7 +19,7 @@ If you have a server using `fanstatic` to include resources, just do::
     jsform.need()
 
 This will require all needed resources like `jquery`, `knockout`,
-`json-template`, widgets and the code to setup and run `formjs` itself.
+`json-template`, widgets and the code to setup and run `gocept.jsform` itself.
 
 Without fanstatic, you should include the following resources by hand:
 
