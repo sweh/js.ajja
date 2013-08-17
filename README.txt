@@ -36,7 +36,7 @@ Usage
 
 All you need to start creating forms is::
 
-    <div id="#replace_this_with_my_form"></div>
+    <div id="replace_this_with_my_form"></div>
 
     <script type="text/javascript">
       var my_form = new gocept.jsform.Form('replace_this_with_my_form');
