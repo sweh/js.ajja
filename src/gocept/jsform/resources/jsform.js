@@ -6,50 +6,66 @@ gocept.jsform.Form = function () {
 
 gocept.jsform.Form.prototype = {
 
-    construct: function(id) {
+    construct: function(id, options) {
+        /* Exand the form under #id.
+         *
+         * Options can be:
+         *
+         * - form_template: An alternate template for the form. It may
+         *                  contain ids for the fields to render them on
+         *                  custom places.
+         * - save_url:      The url where data changes are propagated to.
+         *                  Should return a dict with either {"status":
+         *                  "success"} or {"status": "error", "msg":
+         *                  "Not an eMail address."}.
+         * - action:        The url the form will submit to (if intended).
+         *                  Will become the action attribute in form.
+         */
         var self = this;
         self.id = id;
         self.url = null;
         self.data = null;
         self.options = {};
+        self.mapping = {};
+        if (!gocept.jsform.isUndefinedOrNull(options))
+            self.options = options;
+        self.create_form();
     },
 
-    init: function (data_or_url, options) {
-        /* Initialize the form.
-         *
-         * Expands the form_template into the DOM and invokes data retrieval
-         * and form field initialization.
+    create_form: function() {
+        /* Expands the form_template into the DOM */
+        var self = this;
+        if (gocept.jsform.isUndefinedOrNull(self.options.form_template))
+            form_template = gocept.jsform.widgets.form;
+        else
+            form_template = self.options.form_template;
+        var form_options = self.mangle_options({'form_id': self.id},
+                                               self.options);
+        var form_code = $(form_template.expand(form_options));
+        $('#' + self.id).replaceWith(form_code);
+        self.node = $('#' + self.id);
+        self.node.data('form', self);
+    },
+
+    load: function (data_or_url, options, mapping) {
+        /* Invokes data retrieval and form field initialization.
          *
          * Takes the following parameters:
          * |
          * |- data_or_url: The url to a JSON View returning the data for the
          * |               form or the data itself.
-         * |- form_template: An alternate template for the form. It may
-         * |                 contain ids for the fields to render them on
-         * |                 custom places.
-         * |- mapping:  An optional mapping for the <ko.mapping> plugin.
-         * |- options:  Options passed to the form:
-         *   |- save_url: The url where data changes are propagated to. Should
-         *   |            return a dict with either {"status": "success"} or
-         *   |            {"status": "error", "msg": "Not an eMail address."}.
-         *   |- action: The url the form will submit to. Will become the
-         *   |          action attribute in form.
+         * |- options: Options for each data field:
          *   |- <field_name>: Foreach field in data you can add some options:
          *     |- label: The label of the field.
+         *     |- template: A custom template for this field.
+         * |- mapping:  An optional mapping for the <ko.mapping> plugin.
          */
         var self = this;
+        if (gocept.jsform.isUndefinedOrNull(options))
+            options = {};
+        self.mangle_options(self.options, options)
         if (!gocept.jsform.isUndefinedOrNull(options))
-            self.options = options;
-        var form_options = self.mangle_options(
-            {'form_id': self.id}, self.options);
-        if (gocept.jsform.isUndefinedOrNull(self.options.form_template))
-            form_template = gocept.jsform.widgets.form;
-        else
-            form_template = self.options.form_template;
-        var form_code = $(form_template.expand(form_options));
-        $('#' + self.id).replaceWith(form_code);
-        self.node = $('#' + self.id);
-        self.node.data('form', self);
+            self.mapping = mapping
         self.prepare_data(data_or_url);
         self.init_fields();
     },
@@ -92,11 +108,10 @@ gocept.jsform.Form.prototype = {
              else
                  $('#'+id, self.node).replaceWith(widget_code);
         });
-        mapping = self.options['mapping'];
-        if (gocept.jsform.isUndefinedOrNull(mapping))
+        if (gocept.jsform.isUndefinedOrNull(self.mapping))
             self.model = ko.mapping.fromJS(self.data);
         else
-            self.model = ko.mapping.fromJS(self.data, mapping);
+            self.model = ko.mapping.fromJS(self.data, self.mapping);
         self.observe_model_changes();
         ko.applyBindings(self.model, self.node.get(0));
     },
@@ -133,10 +148,11 @@ gocept.jsform.Form.prototype = {
     get_widget: function(id, value) {
         /* Retrieve the widget for a field. */
         var self = this;
-        if (gocept.jsform.isUndefinedOrNull(self.options[id+'_template']))
+        if ((gocept.jsform.isUndefinedOrNull(self.options[id])) ||
+            (gocept.jsform.isUndefinedOrNull(self.options[id]['template'])))
             return gocept.jsform.widgets[typeof(value)];
         else
-            return self.options[id+'_template'];
+            return self.options[id]['template'];
     },
 
     mangle_options: function(options1, options2) {
