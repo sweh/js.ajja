@@ -6,7 +6,7 @@ describe("Form Plugin", function() {
   });
 
   it("should inject a form tag into html", function() {
-    form.init();
+    form.load();
     expect(form.node).toBeDefined();
     expect(form.node).toEqual($('#my_form'));
     expect(form.node.get(0).tagName).toEqual('FORM');
@@ -14,12 +14,13 @@ describe("Form Plugin", function() {
 
   it("can get a cusomized action url", function() {
     var options = {action: 'http://foo'};
-    form.init(null, options);
+    form = new gocept.jsform.Form('my_form', options);
+    form.load();
     expect(form.node.attr('action')).toEqual('http://foo');
   });
 
   it("should inject a input field for text data", function() {
-    form.init({firstname: 'Sebastian'});
+    form.load({firstname: 'Sebastian'});
     expect(form.model).toBeDefined();
     expect($('#my_form input').attr('type')).toEqual('text');
     expect($('#my_form input').attr('name')).toEqual('firstname');
@@ -28,7 +29,7 @@ describe("Form Plugin", function() {
   });
 
   it("should inject a select field for arrays", function() {
-    form.init({title: [{id: 'mr', value: 'Mr.'},
+    form.load({title: [{id: 'mr', value: 'Mr.'},
                        {id: 'mrs', value: 'Mrs.'}]});
     expect($('#my_form select').attr('name')).toEqual('title');
     expect($('#my_form select option').get(0).value).toEqual('');
@@ -41,18 +42,18 @@ describe("Form Plugin", function() {
 
   it("should inject two radio boxes for bool data", function() {
     var data = {needs_glasses: false};
-    form.init(data);
+    form.load(data);
     expect($('#my_form input').attr('type')).toEqual('checkbox');
     expect($('#my_form input').get(0).name).toEqual('needs_glasses');
     expect(form.model.needs_glasses()).toEqual(false);
     // By default boolean fields have no label. Specify one:
-    form.init(data, {needs_glasses: {label: 'Needs glasses'}});
+    form.load(data, {needs_glasses: {label: 'Needs glasses'}});
     expect($('#my_form').text()).toMatch('Needs glasses');
   });
 
   it("can get its data from a url", function() {
     runs(function() {
-      form.init('/fanstatic/gocept.jsform.tests/testdata.json');
+      form.load('/fanstatic/gocept.jsform.tests/testdata.json');
     });
     waits(100);
     runs(function() {
@@ -71,18 +72,18 @@ describe("Form Plugin", function() {
     });
 
     it("input fields", function() {
-      form.init({firstname: 'Sebastian'});
+      form.load({firstname: 'Sebastian'});
       $('#my_form input').val('Bob').change();
     });
 
     it("select fields", function () {
-      form.init({title: [{id: 'mr', value: 'Mr.'},
+      form.load({title: [{id: 'mr', value: 'Mr.'},
                          {id: 'mrs', value: 'Mrs.'}]});
       $('#my_form select').val('mrs').change();
     });
 
     it("checkboxes", function () {
-      form.init({needs_glasses: false});
+      form.load({needs_glasses: false});
       $('#my_form input').click();
     });
 
@@ -98,8 +99,8 @@ describe("Form Plugin", function() {
 <td class="lastname"><span id="lastname" /></td></tr></table></form>',
       {default_formatter: 'html',  undefined_str: ''});
 
-      form.init({firstname: 'Max', lastname: 'Mustermann'},
-                {form_template: template});
+      var form = new gocept.jsform.Form('my_form', {form_template: template});
+      form.load({firstname: 'Max', lastname: 'Mustermann'});
       expect($('#my_form .firstname input').val()).toEqual('Max');
       expect($('#my_form .lastname input').val()).toEqual('Mustermann');
     });
@@ -113,9 +114,9 @@ describe("Form Plugin", function() {
 {.end}\
 </div>', {default_formatter: 'html',  undefined_str: ''});
 
-      form.init({title: [{id: 'mr', value: 'Mr.'},
+      form.load({title: [{id: 'mr', value: 'Mr.'},
                          {id: 'mrs', value: 'Mrs.'}]},
-                {title_template: template});
+                     {title: {template: template}});
       spyOn(form, "save");
       $('#my_form .mrs').click().click();  // Not sure why one needs to 
                                            // trigger click twice here
@@ -125,8 +126,9 @@ describe("Form Plugin", function() {
 
   it("validation errors are displayed at the widget", function () {
     runs(function() {
-      form.init({email: ''},
-                {save_url: '/fanstatic/gocept.jsform.tests/error.json'});
+      var form = new gocept.jsform.Form(
+          'my_form', {save_url: '/fanstatic/gocept.jsform.tests/error.json'});
+      form.load({email: ''});
       $('#my_form input').val('max@mustermann').change();
     });
     waits(100);
