@@ -108,7 +108,23 @@ describe("Form Plugin", function() {
       expect($('#my_form .lastname input').val()).toEqual('Mustermann');
     });
 
-    it("for the fields", function () {
+    it("for a field type", function () {
+
+      var template = new jsontemplate.Template(
+        ['<div class="label">{label}</div>',
+         '<div class="field">',
+         '  <input type="radio" name="{name}" data-bind="checked: {name}" />',
+         '</div>'].join(''),
+        {default_formatter: 'html',  undefined_str: ''});
+
+      var form = new gocept.jsform.Form(
+        'my_form', {boolean_template: template});
+      form.load({needs_glasses: false});
+      expect($('#my_form input[type=checkbox]').length).toEqual(0);
+      expect($('#my_form input[type=radio]').length).toEqual(1);
+    });
+
+    it("for a field explicitely", function () {
 
       var template = new jsontemplate.Template(
         ['<div class="title">Titel: ',

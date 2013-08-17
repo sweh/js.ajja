@@ -120,6 +120,26 @@ This will replace the ``span`` containers with id ``firstname`` and
 Customizing field widgets
 -------------------------
 
+You can either customize widgets by their type (e.g. all fields rendered for
+strings) or customize single widgets by their name.
+
+Customization by field type
++++++++++++++++++++++++++++
+
+You can overwrite the default templates by providing your own templates in the
+options dict passed during form initialization::
+
+    var form = new gocept.jsform.Form(
+      'my_form', {string_template: my_input_template,
+                  object_template: my_select_template,
+                  boolean_template: my_checkbox_template});
+
+For every string data, your input template would be rendered instead of the
+default input text field. Same for lists and boolean values.
+
+Customization by field name
++++++++++++++++++++++++++++
+
 Imagine you want checkboxes instead of a select field::
 
     var template = new jsontemplate.Template(
