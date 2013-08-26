@@ -210,7 +210,7 @@
       $.ajax({
         url: save_url,
         type: save_type,
-        data: JSON.stringify(data),
+        data: ko.toJSON(data),
         contentType: 'application/json',
         success: function(data) { self.handle_save(data, id); },
         error: function (e) { self.handle_error(e); }
