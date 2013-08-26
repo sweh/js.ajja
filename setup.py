@@ -17,7 +17,7 @@ def project_path(*names):
 
 setup(
     name='gocept.jsform',
-    version='0.2.dev0',
+    version='0.2',
 
     install_requires=[
         'fanstatic>=1.0a2',
