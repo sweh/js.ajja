@@ -7,7 +7,7 @@ Change log for gocept.jsform
 
 - Made it possible to initially select values in arrays.
 
-- Save with a `POST` instead of a `GET` request to the server.
+- Changed POST request to server.
 
 
 0.1 (2013-08-17)
