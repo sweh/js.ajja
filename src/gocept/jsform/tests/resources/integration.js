@@ -161,4 +161,11 @@ describe("Form Plugin", function() {
     });
   });
 
+  it("can display the select status of a list", function () {
+    form.load({title: [{id: 'mr', value: 'Mr.'},
+                       {id: 'mrs', value: 'Mrs.', selected: true}]});
+    expect($('#my_form select option').get(2).selected).toEqual(true);
+  });
+
+
 });
