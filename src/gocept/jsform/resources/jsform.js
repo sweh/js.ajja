@@ -200,10 +200,13 @@
       }
 
       console.debug('Posting '+newValue+' for '+id+' to '+save_url);
+      var data = {};
+      data[id] = newValue;
       $.ajax({
         url: save_url,
         type: 'POST',
-        data: {id: id, value: newValue},
+        data_type: 'json',
+        data: data,
         success: function(data) { self.handle_save(data, id); },
         error: function (e) { self.handle_error(e); }
       });
