@@ -5,9 +5,14 @@ Change log for gocept.jsform
 0.2 (unreleased)
 ================
 
-- Made it possible to initially select values in arrays.
+- Made it possible to preselect values in arrays when the form is rendered.
 
-- Changed POST request to server.
+- Changed form submit behaviour:
+
+  - Default submit type is not `POST` instead of `GET`. (Change it with the
+    `save_type` option)
+
+  - Data is now submitted as `JSON` type.
 
 
 0.1 (2013-08-17)
