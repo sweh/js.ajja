@@ -5,6 +5,8 @@ Change log for gocept.jsform
 0.3 (unreleased)
 ================
 
+- Add events ``after-load`` and ``after-save``.
+
 - Fix `JSON` serialization to be able to handle Knockout observables.
 
 

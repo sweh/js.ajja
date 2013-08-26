@@ -118,6 +118,7 @@
         self.model = ko.mapping.fromJS(self.data, self.mapping);
       self.observe_model_changes();
       ko.applyBindings(self.model, self.node.get(0));
+      $(self).trigger('after-load');
     },
 
     subscribe: function(id, real_id) {
@@ -236,6 +237,7 @@
       if (data['status'] == 'error') {
         self.node.find('.error.'+id).text(data['msg']);
       }
+      $(self).trigger('after-save');
     }
 
   };
