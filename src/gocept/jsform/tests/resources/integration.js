@@ -150,7 +150,9 @@ describe("Form Plugin", function() {
   it("validation errors are displayed at the widget", function () {
     runs(function() {
       var form = new gocept.jsform.Form(
-          'my_form', {save_url: '/fanstatic/gocept.jsform.tests/error.json'});
+          'my_form', {
+           save_url: '/fanstatic/gocept.jsform.tests/error.json',
+           save_type: "GET"});
       form.load({email: ''});
       $('#my_form input').val('max@mustermann').change();
     });

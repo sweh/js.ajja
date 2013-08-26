@@ -198,13 +198,18 @@
       if (!save_url) {
         save_url = self.url;
       }
+      var save_type = self.options['save_type'];
+      if (!save_type) {
+        save_type = "POST";
+      }
+
 
       console.debug('Posting '+newValue+' for '+id+' to '+save_url);
       var data = {};
       data[id] = newValue;
       $.ajax({
         url: save_url,
-        type: 'POST',
+        type: save_type,
         data: JSON.stringify(data),
         contentType: 'application/json',
         success: function(data) { self.handle_save(data, id); },
