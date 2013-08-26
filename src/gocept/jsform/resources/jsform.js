@@ -205,8 +205,8 @@
       $.ajax({
         url: save_url,
         type: 'POST',
-        dataType: 'json',
-        data: data,
+        data: JSON.stringify(data),
+        contentType: 'application/json',
         success: function(data) { self.handle_save(data, id); },
         error: function (e) { self.handle_error(e); }
       });
