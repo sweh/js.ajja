@@ -202,6 +202,7 @@
       console.debug('Posting '+newValue+' for '+id+' to '+save_url);
       $.ajax({
         url: save_url,
+        type: 'POST',
         data: {id: id, value: newValue},
         success: function(data) { self.handle_save(data, id); },
         error: function (e) { self.handle_error(e); }
