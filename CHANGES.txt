@@ -7,7 +7,7 @@ Change log for gocept.jsform
 
 - Add events ``after-load`` and ``after-save``.
 
-- Fix `JSON` serialization to be able to handle Knockout observables.
+- Fix ``JSON`` serialization to be able to handle Knockout observables.
 
 
 0.2 (2013-08-26)
@@ -17,10 +17,10 @@ Change log for gocept.jsform
 
 - Changed form submit behaviour:
 
-  - Default submit type is not `POST` instead of `GET`. (Change it with the
-    `save_type` option)
+  - Default submit type is not ``POST`` instead of ``GET``. (Change it with the
+    ``save_type`` option)
 
-  - Data is now submitted as `JSON` type.
+  - Data is now submitted as ``JSON`` type.
 
 
 0.1 (2013-08-17)
