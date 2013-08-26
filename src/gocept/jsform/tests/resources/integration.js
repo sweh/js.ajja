@@ -61,6 +61,26 @@ describe("Form Plugin", function() {
     });
   });
 
+  it("should send an event after loading", function() {
+    var event_called = false;
+    $(form).on('after-load', function() { event_called = true; });
+    form.load({});
+    expect(event_called).toEqual(true);
+  });
+
+  it("should send an event after saving", function() {
+    var event_called = false;
+    $(form).on('after-save', function() { event_called = true; });
+    form.load({});
+    runs(function() {
+        form.save('foo', null);
+    });
+    waits(100);
+    runs(function() {
+        expect(event_called).toEqual(true);
+    });
+  });
+
   describe("Propagation to server", function() {
 
     beforeEach(function() {
