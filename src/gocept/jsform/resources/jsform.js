@@ -142,7 +142,12 @@
            * propagates adding and removing items from selects
            * out-of-the-box.
            */
-          self.model[id+'_selected'] = ko.observableArray();
+          var initial_values = [];
+          $.each(self.data[id], function (index, obj) {
+              if (obj['selected'])
+                  initial_values.push(obj['id']);
+          });
+          self.model[id+'_selected'] = ko.observableArray(initial_values);
           self.subscribe(id+'_selected', id);
         }
         self.subscribe(id);

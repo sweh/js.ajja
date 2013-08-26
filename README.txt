@@ -54,7 +54,7 @@ datatype of your field::
     my_form.load(
         {firstName: '', // will result in a input field with type="text"
          title: [{id: 'mr', value: 'Mister'},
-                 {id: 'mrs', value: 'Miss'}], // will result in a select box
+                 {id: 'mrs', value: 'Miss', selected: true}], // will result in a select box
          needs_glasses: false}); // will result in a checkbox
 
 *gocept.jsform* comes with basic templates for these three use cases. Of cource
