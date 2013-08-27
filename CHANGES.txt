@@ -9,6 +9,8 @@ Change log for gocept.jsform
 
 - Fix ``JSON`` serialization to be able to handle Knockout observables.
 
+- Added ``reload`` functionality to the form class.
+
 
 0.2 (2013-08-26)
 ================
