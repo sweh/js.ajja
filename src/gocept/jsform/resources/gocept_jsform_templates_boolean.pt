@@ -1,4 +1,4 @@
-<div class="label">{label}</div>
+<div class="label" for="{name}">{label}</div>
 <div class="field">
   <input type="checkbox" name="{name}" data-bind="checked: {name}" />
 </div>
