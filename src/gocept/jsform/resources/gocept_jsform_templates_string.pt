@@ -1,0 +1,4 @@
+<div class="label">{label}</div>
+<div class="field">
+  <input type="text" data-bind="value: {name}" name="{name}" value="" />
+</div>

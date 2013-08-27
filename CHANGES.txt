@@ -5,7 +5,7 @@ Change log for gocept.jsform
 0.4 (unreleased)
 ================
 
-- Nothing changed yet.
+- Made it possible to define templates as template files on file system.
 
 
 0.3 (2013-08-27)

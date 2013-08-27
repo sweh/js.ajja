@@ -29,7 +29,7 @@
       self.id = id;
       self.url = null;
       self.data = null;
-      self.options = {};
+      self.options = {action: ''};
       self.mapping = {};
       if (!gocept.jsform.isUndefinedOrNull(options))
         self.options = options;
@@ -40,9 +40,9 @@
       /* Expands the form_template into the DOM */
       var self = this;
       if (gocept.jsform.isUndefinedOrNull(self.options.form_template))
-        var form_template = gocept.jsform.widgets.form;
+        var form_template = self.get_template('gocept_jsform_templates_form');
       else
-        var form_template = self.options.form_template;
+        var form_template = self.get_template(self.options.form_template);
       var form_options = self.mangle_options({'form_id': self.id},
                                              self.options);
       var form_code = $(form_template.expand(form_options));
@@ -94,6 +94,21 @@
       }
     },
 
+    get_template: function(template) {
+      var self = this;
+      if (template.render)
+        return template;
+      if (template.indexOf('>') != -1) {
+        var html = template;
+      } else if (template.startsWith('#')) {
+        var html = $(template).html();
+      } else {
+        var html = $('#' + template).html();
+      }
+      return new jsontemplate.Template(
+        html, {default_formatter: 'html',  undefined_str: ''});
+    },
+
     init_fields: function() {
       /* Initialize field from self.data.
        *
@@ -110,9 +125,9 @@
       if (gocept.jsform.isUndefinedOrNull(self.data))
         return
       $.each(self.data, function (id, value) {
-         var widget = self.get_widget(id, value);
+         var widget = self.get_template(self.get_widget(id, value));
          var widget_options = self.mangle_options(
-           {name: id, value: value}, self.options[id]);
+           {name: id, value: value, label: ''}, self.options[id]);
          var widget_code = widget.expand(widget_options);
          widget_code = '<div class="error '+ id + '"></div>' + widget_code;
          if (!$('#'+id, self.node).length)
@@ -170,7 +185,7 @@
           (gocept.jsform.isUndefinedOrNull(self.options[id]['template']))) {
         var type = typeof(value);
         if (gocept.jsform.isUndefinedOrNull(self.options[type+'_template']))
-          return gocept.jsform.widgets[type];
+          return 'gocept_jsform_templates_' + type;
         else
           return self.options[type+'_template'];
       } else {
