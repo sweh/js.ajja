@@ -51,6 +51,12 @@
       self.node.data('form', self);
     },
 
+    reload: function() {
+        var self = this;
+        self.create_form();
+        self.prepare_data();
+    },
+
     load: function (data_or_url, options, mapping) {
       /* Invokes data retrieval and form field initialization.
        *
@@ -65,25 +71,27 @@
        * |- mapping:  An optional mapping for the <ko.mapping> plugin.
        */
       var self = this;
+      self.data_or_url = data_or_url;
       if (gocept.jsform.isUndefinedOrNull(options))
         options = {};
       self.mangle_options(self.options, options)
-      if (!gocept.jsform.isUndefinedOrNull(options))
+      if (!gocept.jsform.isUndefinedOrNull(mapping))
         self.mapping = mapping
-      self.prepare_data(data_or_url);
-      self.init_fields();
+      self.prepare_data();
     },
 
-    prepare_data: function(data_or_url) {
+    prepare_data: function() {
       /* Invokes data retrieval if needed.
        *
        * After calling this method, self.data is initialized.
        */
       var self = this;
-      if (typeof(data_or_url) == 'string')
-        self.retrieve(data_or_url);
-      else
-        self.data = data_or_url;
+      if (typeof(self.data_or_url) == 'string') {
+        self.retrieve(self.data_or_url);
+      } else {
+        self.data = self.data_or_url;
+        self.init_fields();
+      }
     },
 
     init_fields: function() {

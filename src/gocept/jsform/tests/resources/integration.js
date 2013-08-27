@@ -189,5 +189,31 @@ describe("Form Plugin", function() {
     expect($('#my_form select option').get(2).selected).toEqual(true);
   });
 
+  it("can reload the form", function () {
+    form.load({firstname: 'Sebastian'});
+    $('#my_form input').val('Bob').change();
+    expect($('#my_form input').val()).toEqual('Bob');
+    form.reload();
+    expect($('#my_form input').val()).toEqual('Sebastian');
+  });
+
+  it("can reload the form from a url", function () {
+    runs(function() {
+      form.load('/fanstatic/gocept.jsform.tests/testdata.json');
+    });
+    waits(100);
+    runs(function() {
+      $('#my_form input').val('Bob').change();
+      expect($('#my_form input').get(0).value).toEqual('Bob');
+    });
+    runs(function() {
+      form.reload();
+    });
+    waits(100);
+    runs(function() {
+      expect($('#my_form input').get(0).value).toEqual('Sebastian');
+    });
+  });
+
 
 });
