@@ -7,6 +7,8 @@ Change log for gocept.jsform
 
 - Declare ``for`` attribute on form labels.
 
+- Store "save on change" subscriptions so they can be cancelled.
+
 
 0.4 (2013-08-27)
 ================
