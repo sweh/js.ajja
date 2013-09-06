@@ -2,7 +2,7 @@
 Change log for gocept.jsform
 ============================
 
-0.5 (unreleased)
+0.5 (2013-09-06)
 ================
 
 - Declare ``for`` attribute on form labels.
