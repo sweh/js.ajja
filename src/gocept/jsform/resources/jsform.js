@@ -28,7 +28,7 @@
       var self = this;
       self.id = id;
       self.url = null;
-      self.data = null;
+      self.data = {};
       self.options = {action: ''};
       self.mapping = {};
       if (!gocept.jsform.isUndefinedOrNull(options))
@@ -89,9 +89,23 @@
       if (typeof(self.data_or_url) == 'string') {
         self.retrieve(self.data_or_url);
       } else {
-        self.data = self.data_or_url;
+        self.set_data(self.data_or_url);
         self.init_fields();
       }
+    },
+
+    set_data: function(data) {
+      var self = this;
+      if (gocept.jsform.isUndefinedOrNull(data)) {
+        return
+      }
+      $.each(data, function (id, value) {
+        if (gocept.jsform.isUndefinedOrNull(value)) {
+          console.warn("Got `null` as value for `" + id + "`. Ignoring.");
+        } else {
+          self.data[id] = value;
+        }
+      });
     },
 
     get_template: function(template) {
@@ -251,7 +265,7 @@
 
     handle_retrieve: function(data) {
       var self = this;
-      self.data = data;
+      self.set_data(data);
       self.init_fields();
     },
 

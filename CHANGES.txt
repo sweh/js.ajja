@@ -9,6 +9,8 @@ Change log for gocept.jsform
 
 - Store "save on change" subscriptions so they can be cancelled.
 
+- Ignore ``null`` values for data fields. (#1)
+
 
 0.4 (2013-08-27)
 ================
