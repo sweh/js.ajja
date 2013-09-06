@@ -51,6 +51,12 @@ describe("Form Plugin", function() {
     expect($('#my_form').text()).toMatch('Needs glasses');
   });
 
+  it('does not break if null is specified as data', function() {
+    var data = {foo: null, needs_glasses: false};
+    form.load(data);
+    expect($('#my_form input').get(0).name).toEqual('needs_glasses');
+  });
+
   it("can get its data from a url", function() {
     runs(function() {
       form.load('/fanstatic/gocept.jsform.tests/testdata.json');
