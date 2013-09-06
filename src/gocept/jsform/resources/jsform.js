@@ -114,7 +114,7 @@
         return template;
       if (template.indexOf('>') != -1) {
         var html = template;
-      } else if (template.startsWith('#')) {
+      } else if (template.indexOf('#') == 0) {
         var html = $(template).html();
       } else {
         var html = $('#' + template).html();
