@@ -5,7 +5,8 @@ Change log for gocept.jsform
 0.6 (unreleased)
 ================
 
-- Nothing changed yet.
+- Bugfix: Use ``indexOf`` instead of ``startsWith``, which is not available on
+  all browsers.
 
 
 0.5 (2013-09-06)
