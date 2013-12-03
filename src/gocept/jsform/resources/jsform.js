@@ -30,6 +30,7 @@
       self.url = null;
       self.data = {};
       self.options = {action: ''};
+      self.csrf_token_id = 'csrf_token';
       self.mapping = {};
       if (!gocept.jsform.isUndefinedOrNull(options))
         self.options = options;
@@ -242,14 +243,23 @@
         save_type = "POST";
       }
 
-
-      console.debug('Posting '+newValue+' for '+id+' to '+save_url);
       var data = {};
       data[id] = newValue;
+      if ($('#'+self.csrf_token_id).length) {
+        data[self.csrf_token_id] = $('#'+self.csrf_token_id).val();
+      }
+      self._save(id, save_url, save_type, ko.toJSON(data));
+    },
+
+    _save: function (id, save_url, save_type, data) {
+      var self = this;
+
+      console.debug('Posting ' + data + ' to ' + save_url);
+
       $.ajax({
         url: save_url,
         type: save_type,
-        data: ko.toJSON(data),
+        data: data,
         contentType: 'application/json',
         success: function(data) { self.handle_save(data, id); },
         error: function (e) { self.handle_error(e); }

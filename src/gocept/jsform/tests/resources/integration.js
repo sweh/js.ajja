@@ -90,11 +90,11 @@ describe("Form Plugin", function() {
   describe("Propagation to server", function() {
 
     beforeEach(function() {
-      spyOn(form, "save");
+      spyOn(form, "_save");
     });
 
     afterEach(function() {
-      expect(form.save).toHaveBeenCalled();
+      expect(form._save).toHaveBeenCalled();
     });
 
     it("input fields", function() {
@@ -111,6 +111,17 @@ describe("Form Plugin", function() {
     it("checkboxes", function () {
       form.load({needs_glasses: false});
       $('#my_form input').click();
+    });
+
+    it("sends csrf token if available", function () {
+      form.load({needs_glasses: false});
+      $('#my_form').append(
+        $('<input type="hidden" id="csrf_token" value="token" />'));
+      $('#my_form input').click();
+      waits(100);
+      expect(form._save).toHaveBeenCalledWith(
+        'needs_glasses', null, 'POST',
+        '{"needs_glasses":true,"csrf_token":"token"}')
     });
 
   });
