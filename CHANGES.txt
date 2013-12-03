@@ -8,6 +8,8 @@ Change log for gocept.jsform
 - Add ability to send a CSRF token with every request. This token must be
   available via the id `csrf_token` (can be customized) in the DOM.
 
+- Added minified versions of javascript resources.
+
 
 0.6 (2013-09-06)
 ================
