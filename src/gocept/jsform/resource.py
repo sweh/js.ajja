@@ -5,9 +5,6 @@ import js.knockout
 import os.path
 
 
-MINIFIERS = {'.js': 'jsmin'}
-
-
 def render_template(library, inner):
     filename = os.path.basename(inner)
     path = os.path.join(library.path, filename)
@@ -17,8 +14,7 @@ def render_template(library, inner):
         os.path.splitext(filename)[0], inner)
 
 
-library = fanstatic.Library(
-    'gocept.jsform', 'resources', minifiers=MINIFIERS)
+library = fanstatic.Library('gocept.jsform', 'resources')
 
 
 def template_renderer(inner):
@@ -26,10 +22,12 @@ def template_renderer(inner):
 
 
 ko_mapping = fanstatic.Resource(
-    library, 'ko.mapping.js', depends=[js.knockout.knockout])
+    library, 'ko.mapping.js', minified='ko.mapping.min.js',
+    depends=[js.knockout.knockout])
 
 helpers = fanstatic.Resource(
-    library, 'helpers.js', depends=[js.jquery.jquery, ko_mapping])
+    library, 'helpers.js', minified='helpers.min.js',
+    depends=[js.jquery.jquery, ko_mapping])
 
 
 form_template = fanstatic.Resource(
@@ -48,5 +46,5 @@ templates = fanstatic.Group([
     form_template, string_template, object_template, boolean_template])
 
 jsform = fanstatic.Resource(
-    library, 'jsform.js',
+    library, 'jsform.js', minified='jsform.min.js',
     depends=[helpers, js.json_template.json_template, templates])
