@@ -24,6 +24,7 @@ setup(
         'js.jquery',
         'js.json_template',
         'js.knockout',
+        'cssmin',
         'setuptools',
     ],
 
