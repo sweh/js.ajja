@@ -46,7 +46,8 @@
         var form_template = self.get_template(self.options.form_template);
       var form_options = self.mangle_options({'form_id': self.id},
                                              self.options);
-      var form_code = $(form_template.expand(form_options));
+      var form_code = $(
+        form_template.expand(form_options).replace(/^\s+|\s+$/g, ''));
       $('#' + self.id).replaceWith(form_code);
       self.node = $('#' + self.id);
       self.node.data('form', self);
