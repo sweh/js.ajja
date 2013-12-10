@@ -5,7 +5,7 @@ Change log for gocept.jsform
 0.8 (unreleased)
 ================
 
-- Nothing changed yet.
+- Fixed: jsform did not render in IE8 if form template started with line break.
 
 
 0.7 (2013-12-03)
