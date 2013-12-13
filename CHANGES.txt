@@ -5,7 +5,7 @@ Change log for gocept.jsform
 0.9 (unreleased)
 ================
 
-- Nothing changed yet.
+- Remove console calls as they are not understood by all browsers.
 
 
 0.8 (2013-12-10)

@@ -103,7 +103,8 @@
       }
       $.each(data, function (id, value) {
         if (gocept.jsform.isUndefinedOrNull(value)) {
-          console.warn("Got `null` as value for `" + id + "`. Ignoring.");
+          //console.warn("Got `null` as value for `" + id + "`. Ignoring.");
+          return
         } else {
           self.data[id] = value;
         }
@@ -255,8 +256,6 @@
     _save: function (id, save_url, save_type, data) {
       var self = this;
 
-      console.debug('Posting ' + data + ' to ' + save_url);
-
       $.ajax({
         url: save_url,
         type: save_type,
@@ -282,7 +281,6 @@
 
     handle_save: function(data, id) {
       var self = this;
-      console.log('success');
       if (data['status'] == 'error') {
         self.node.find('.error.'+id).text(data['msg']);
       }
