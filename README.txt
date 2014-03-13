@@ -23,11 +23,22 @@ This will require all needed resources like *jquery*, *knockout*,
 
 Without fanstatic, you should include the following resources by hand:
 
+* *ko.mapping.js*
 * *helpers.js*
-* *widgets.js*
 * *jsform.js*
 
-You can find them in the ``resources`` directory in this package.
+You can find them in the ``resources`` directory in this package. Also, there
+are some widget templates there, named ``gocept_jsform_templates_*.pt``.
+You'll have to include those you need as scripts of type ``text/html`` with an
+appropriate id, for example::
+
+    <script type="text/html" id="gocept_jsform_templates_form">
+      <form method="POST" action="{action}" id="{form_id}">
+      </form>
+    </script>
+
+where the lines between the ``script`` tags are the content of the respective
+template file.
 
 
 Usage
