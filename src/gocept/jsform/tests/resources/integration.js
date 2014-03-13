@@ -194,7 +194,7 @@ describe("Form Plugin", function() {
                          {id: 'mrs', value: 'Mrs.'}]},
                 {title: {template: template}});
       spyOn(form, "save");
-      $('#my_form .mrs').click().click();  // Not sure why one needs to 
+      $('#my_form .mrs').click().click();  // Not sure why one needs to
                                            // trigger click twice here
       expect(form.save).toHaveBeenCalled();
     });
