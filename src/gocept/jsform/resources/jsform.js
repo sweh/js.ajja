@@ -284,7 +284,7 @@
       if (data['status'] == 'error') {
         self.node.find('.error.'+id).text(data['msg']);
       }
-      $(self).trigger('after-save');
+      $(self).trigger('after-save', [data]);
     }
 
   };
