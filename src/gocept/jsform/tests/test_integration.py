@@ -8,6 +8,7 @@ import gocept.jasmine.jasmine
 import gocept.jasmine.resource
 import gocept.jsform.resource
 import gocept.selenium.static
+import os
 
 
 library = fanstatic.Library('gocept.jsform.tests', 'resources')
@@ -29,6 +30,7 @@ class JSFormApp(gocept.jasmine.jasmine.TestApp):
 class JSFormTestCase(gocept.jasmine.jasmine.TestCase):
 
     layer = gocept.jasmine.jasmine.get_layer(JSFormApp())
+    debug = os.environ.get('JASMINE_DEBUG', False)
 
     def test_integration(self):
         self.run_jasmine()
