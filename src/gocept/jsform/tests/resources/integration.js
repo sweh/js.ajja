@@ -87,6 +87,22 @@ describe("Form Plugin", function() {
     });
   });
 
+  it("should propagate the save message from server using a trigger", function() {
+    var event_options = null;
+    $(form).on('after-save', function(event, data) {
+      event_options = data;
+    });
+    form.load({});
+    runs(function() {
+      form.handle_save({ status: 'success', validation: 'success' }, null);
+    });
+    waits(100);
+    runs(function() {
+    expect(event_options).toEqual(
+      {status: 'success', validation: 'success'});
+    });
+  });
+
   describe("Propagation to server", function() {
 
     beforeEach(function() {
