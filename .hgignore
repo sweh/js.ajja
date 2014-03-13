@@ -1,15 +1,18 @@
 syntax: glob
 
+*.egg-info
+*.pyc
 .installed.cfg
 .mr.developer.cfg
-selenimum-note.txt
 bin
 build
 develop-eggs
 dist
 doc/_api
 eggs
-local.cfg
-parts
 include
 lib
+local.cfg
+my-buildout.cfg
+parts
+selenimum-note.txt
