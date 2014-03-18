@@ -216,6 +216,22 @@ describe("Form Plugin", function() {
     });
   });
 
+  it("status messages appear in the status area, with css class", function() {
+    form.status_message('foo', 'success');
+      expect($('#my_form .statusarea .success').text()).toEqual('foo');
+  });
+
+  it("status messages disappear after a given duration", function() {
+    runs(function() {
+      form.status_message('foo', 'success', 100);
+      expect($('#my_form .statusarea .success').text()).toEqual('foo');
+    });
+    waits(1200);  /* fadeOut(1000) */
+    runs(function() {
+      expect($('#my_form .statusarea .success').length).toEqual(0);
+    });
+  });
+
   it("can display the select status of a list", function () {
     form.load({title: [{id: 'mr', value: 'Mr.'},
                        {id: 'mrs', value: 'Mrs.', selected: true}]});
