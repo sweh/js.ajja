@@ -52,6 +52,7 @@
       $('#' + self.id).replaceWith(form_code);
       self.node = $('#' + self.id);
       self.node.data('form', self);
+      self.statusarea = self.node.find('.statusarea');
     },
 
     reload: function() {
@@ -162,7 +163,10 @@
          var widget_options = self.mangle_options(
            {name: id, value: value, label: ''}, self.options[id]);
          var widget_code = widget.expand(widget_options);
-         widget_code = '<div class="error '+ id + '"></div>' + widget_code;
+         widget_code = ['<div id="field-' + id + '">',
+                        '<div class="error ' + id + '"></div>',
+                        widget_code,
+                        '</div>'].join('');
          if (!$('#'+id, self.node).length)
            self.node.append(widget_code);
          else
@@ -271,18 +275,41 @@
     handle_error: function() {
       /* Error handler for ajax calls. */
       var self = this;
-      self.node.append(['<div class="error">There was an error during ',
-                        'communication with the server.</div>'].join(''));
+      self.status_message(
+          'There was an error during communication with the server.',
+          'error');
     },
 
     handle_save: function(data, id) {
       var self = this;
       if (data['status'] == 'error') {
         self.node.find('.error.'+id).text(data['msg']);
+      } else {
+        self.highlight_field(id, 'success');
+        self.status_message('Successfully saved value.', 'success', 1000);
       }
       $(self).trigger('after-save', [data]);
-    }
+    },
 
+    highlight_field: function(id, status) {
+      var self = this;
+      var field = self.node.find('#field-' + id + ' .field');
+      field.addClass(status);
+      field.delay(300);
+      field.queue(function() {
+        $(this).removeClass(status).dequeue();
+      });
+    },
+
+    status_message: function(message, status, duration) {
+      var self = this;
+      var msg_node = $('<div></div>').text(message).addClass(status);
+      if (!gocept.jsform.isUndefinedOrNull(duration)) {
+          msg_node.delay(duration).fadeOut(
+              1000, function(){msg_node.remove();});
+      }
+      self.statusarea.append(msg_node);
+    }
   };
 
 }(jQuery));
