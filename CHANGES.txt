@@ -7,6 +7,8 @@ Change log for gocept.jsform
 
 - Propagate save message of server using ``after-save`` trigger.
 
+- Some refactoring to improve code readability.
+
 
 1.0 (2013-12-13)
 ================

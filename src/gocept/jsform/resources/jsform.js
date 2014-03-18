@@ -28,6 +28,7 @@
       var self = this;
       self.id = id;
       self.url = null;
+      self.initial_data = null;
       self.data = {};
       self.options = {action: ''};
       self.csrf_token_id = 'csrf_token';
@@ -56,7 +57,7 @@
     reload: function() {
         var self = this;
         self.create_form();
-        self.prepare_data();
+        self.start_load();
     },
 
     load: function (data_or_url, options, mapping) {
@@ -73,27 +74,42 @@
        * |- mapping:  An optional mapping for the <ko.mapping> plugin.
        */
       var self = this;
-      self.data_or_url = data_or_url;
+      if (typeof(data_or_url) == 'string') {
+        self.url = data_or_url;
+      } else {
+        self.initial_data = data_or_url;
+      }
       if (gocept.jsform.isUndefinedOrNull(options))
         options = {};
       self.mangle_options(self.options, options)
       if (!gocept.jsform.isUndefinedOrNull(mapping))
         self.mapping = mapping
-      self.prepare_data();
+      self.start_load();
     },
 
-    prepare_data: function() {
+    start_load: function() {
       /* Invokes data retrieval if needed.
        *
-       * After calling this method, self.data is initialized.
+       * After retrieval (which may be asynchronous), self.data is initialized.
        */
       var self = this;
-      if (typeof(self.data_or_url) == 'string') {
-        self.retrieve(self.data_or_url);
+      if (self.url !== null) {
+        $.ajax({
+          dataType: "json",
+          url: self.url,
+          success: function (data) { self.finish_load(data); },
+          error: function (e) { self.handle_error(e); }
+        });
       } else {
-        self.set_data(self.data_or_url);
-        self.init_fields();
+        self.finish_load(self.initial_data);
       }
+    },
+
+    finish_load: function(data) {
+      var self = this;
+      self.set_data(data);
+      self.init_fields();
+      $(self).trigger('after-load');
     },
 
     set_data: function(data) {
@@ -159,7 +175,6 @@
       self.subscriptions = {};
       self.observe_model_changes();
       ko.applyBindings(self.model, self.node.get(0));
-      $(self).trigger('after-load');
     },
 
     subscribe: function(id, real_id) {
@@ -220,19 +235,6 @@
       return options1
     },
 
-    retrieve: function (url) {
-      /* Retrieve data from given url via ajax. */
-      var self = this;
-      self.url = url;
-
-      $.ajax({
-        dataType: "json",
-        url: self.url,
-        success: function (data) { self.handle_retrieve(data); },
-        error: function (e) { self.handle_error(e); }
-      });
-    },
-
     save: function (id, newValue) {
       /* Save data to the server via ajax. */
       var self = this;
@@ -271,12 +273,6 @@
       var self = this;
       self.node.append(['<div class="error">There was an error during ',
                         'communication with the server.</div>'].join(''));
-    },
-
-    handle_retrieve: function(data) {
-      var self = this;
-      self.set_data(data);
-      self.init_fields();
     },
 
     handle_save: function(data, id) {
