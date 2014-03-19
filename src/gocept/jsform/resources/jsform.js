@@ -99,7 +99,7 @@
           dataType: "json",
           url: self.url,
           success: function (data) { self.finish_load(data); },
-          error: function (e) { self.handle_error(e); }
+          error: function (e) { self.notify_server_error(e); }
         });
       } else {
         self.finish_load(self.initial_data);
@@ -268,20 +268,13 @@
         data: data,
         contentType: 'application/json',
         success: function(data) { self.handle_save(data, id); },
-        error: function (e) { self.handle_error(e); }
+        error: function (e) { self.notify_server_error(e); }
       });
-    },
-
-    handle_error: function() {
-      /* Error handler for ajax calls. */
-      var self = this;
-      self.status_message(
-          'There was an error during communication with the server.',
-          'error');
     },
 
     handle_save: function(data, id) {
       var self = this;
+      self.clear_server_error();
       if (data['status'] == 'error') {
         self.node.find('.error.'+id).text(data['msg']);
       } else {
@@ -289,6 +282,21 @@
         self.status_message('Successfully saved value.', 'success', 1000);
       }
       $(self).trigger('after-save', [data]);
+    },
+
+    notify_server_error: function() {
+      /* Announce HTTP faults during ajax calls. */
+      var self = this;
+      self.clear_server_error();
+      self.server_error_status_message = self.status_message(
+          'There was an error communicating with the server.', 'error');
+    },
+
+    clear_server_error: function() {
+      /* Clear any announcement of an HTTP fault during an ajax call. */
+      var self = this;
+      self.clear_status_message(self.server_error_status_message)
+      self.server_error_status_message = null;
     },
 
     highlight_field: function(id, status) {
@@ -309,6 +317,13 @@
               1000, function(){msg_node.remove();});
       }
       self.statusarea.append(msg_node);
+      return msg_node;
+    },
+
+    clear_status_message: function(msg_node) {
+      if (!gocept.jsform.isUndefinedOrNull(msg_node)) {
+        msg_node.remove();
+      }
     }
   };
 
