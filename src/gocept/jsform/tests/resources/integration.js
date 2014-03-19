@@ -262,6 +262,21 @@ describe("Form Plugin", function() {
     });
   });
 
+  it("saving notification disappears after saving", function() {
+    runs(function() {
+      var form = new gocept.jsform.Form(
+          'my_form', {
+           save_url: '/fanstatic/gocept.jsform.tests/success.json',
+           save_type: "GET"});
+      form.load({email: ''});
+      $('#my_form input').val('max@mustermann').change();
+    });
+    waits(100);
+    runs(function() {
+      expect($('#my_form .saving').length).toEqual(0);
+    });
+  });
+
   it("status messages appear in the status area, with css class", function() {
     form.status_message('foo', 'success');
       expect($('#my_form .statusarea .success').text()).toEqual('foo');
