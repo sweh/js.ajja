@@ -10,6 +10,9 @@ Change log for gocept.jsform
 - Added infrastructure for displaying and clearing status messages, use it for
   announcing HTTP faults during AJAX calls.
 
+- Display and clear field-related errors both at the widget and via status
+  messages.
+
 - Some refactoring to improve code readability.
 
 

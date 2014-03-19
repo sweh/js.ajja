@@ -276,12 +276,31 @@
       var self = this;
       self.clear_server_error();
       if (data['status'] == 'error') {
-        self.node.find('.error.'+id).text(data['msg']);
+        self.notify_field_error(id, data.msg);
       } else {
+        self.clear_field_error(id);
         self.highlight_field(id, 'success');
         self.status_message('Successfully saved value.', 'success', 1000);
       }
       $(self).trigger('after-save', [data]);
+    },
+
+    notify_field_error: function(id, msg) {
+      var self = this;
+      self.clear_field_error(id);
+      var error_node = self.node.find('.error.' + id);
+      error_node.text(msg);
+      self.highlight_field(id, 'error');
+      error_node.data(
+          'status_message', self.status_message(id + ': ' + msg, 'error'));
+    },
+
+    clear_field_error: function(id) {
+      var self = this;
+      var error_node = self.node.find('.error.' + id);
+      error_node.text('');
+      self.clear_status_message(error_node.data('status_message'));
+      error_node.data('status_message', null);
     },
 
     notify_server_error: function() {

@@ -200,7 +200,7 @@ describe("Form Plugin", function() {
     });
   });
 
-  it("validation errors are displayed at the widget", function () {
+  it("validation errors are displayed and cleared at the widget", function () {
     runs(function() {
       var form = new gocept.jsform.Form(
           'my_form', {
@@ -213,6 +213,14 @@ describe("Form Plugin", function() {
     runs(function() {
       expect($('#my_form .error.email').text()).toEqual(
          'Not a valid eMail address.');
+    });
+    runs(function() {
+      form.options.save_url = '/fanstatic/gocept.jsform.tests/success.json';
+      $('#my_form input').val('max@mustermann.example').change();
+    });
+    waits(100);
+    runs(function() {
+      expect($('#my_form .error.email').text()).toEqual('');
     });
   });
 
