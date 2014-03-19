@@ -13,6 +13,9 @@ Change log for gocept.jsform
 - Display and clear field-related errors both at the widget and via status
   messages.
 
+- When saving data, count anything but a JSON response with a status value of
+  "success" as an error.
+
 - Some refactoring to improve code readability.
 
 

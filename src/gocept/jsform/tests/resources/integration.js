@@ -224,6 +224,44 @@ describe("Form Plugin", function() {
     });
   });
 
+  it("error saving on JSON response with unknown status", function() {
+    runs(function() {
+      var form = new gocept.jsform.Form(
+          'my_form', {
+           save_url: '/fanstatic/gocept.jsform.tests/testdata.json',
+           save_type: "GET"});
+      form.load({email: ''});
+      $('#my_form input').val('max@mustermann').change();
+    });
+    waits(100);
+    runs(function() {
+      expect($('#my_form .error.email').text()).toEqual(
+         'This field contains unsaved changes.');
+      expect($('#my_form .statusarea .error').text()).toEqual(
+          'There was an error communicating with the server.' +
+          'email: This field contains unsaved changes.');
+    });
+  });
+
+  it("error saving on non-JSON response", function() {
+    runs(function() {
+      var form = new gocept.jsform.Form(
+          'my_form', {
+           save_url: '/fanstatic/gocept.jsform.tests/any.html',
+           save_type: "GET"});
+      form.load({email: ''});
+      $('#my_form input').val('max@mustermann').change();
+    });
+    waits(100);
+    runs(function() {
+      expect($('#my_form .error.email').text()).toEqual(
+         'This field contains unsaved changes.');
+      expect($('#my_form .statusarea .error').text()).toEqual(
+          'There was an error communicating with the server.' +
+          'email: This field contains unsaved changes.');
+    });
+  });
+
   it("status messages appear in the status area, with css class", function() {
     form.status_message('foo', 'success');
       expect($('#my_form .statusarea .success').text()).toEqual('foo');

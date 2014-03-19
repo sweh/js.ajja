@@ -268,21 +268,29 @@
         data: data,
         contentType: 'application/json',
         success: function(data) { self.handle_save(data, id); },
-        error: function (e) { self.notify_server_error(e); }
+        error: function (e) { self.notify_save_error(id); }
       });
     },
 
     handle_save: function(data, id) {
       var self = this;
       self.clear_server_error();
-      if (data['status'] == 'error') {
+      if (data.status == 'error') {
         self.notify_field_error(id, data.msg);
-      } else {
+      } else if (data.status == 'success') {
         self.clear_field_error(id);
         self.highlight_field(id, 'success');
         self.status_message('Successfully saved value.', 'success', 1000);
+      } else {
+        self.notify_save_error(id);
       }
       $(self).trigger('after-save', [data]);
+    },
+
+    notify_save_error: function(id) {
+      var self = this;
+      self.notify_server_error();
+      self.notify_field_error(id, 'This field contains unsaved changes.');
     },
 
     notify_field_error: function(id, msg) {
