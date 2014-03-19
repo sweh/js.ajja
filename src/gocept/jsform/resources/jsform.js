@@ -181,6 +181,11 @@
       ko.applyBindings(self.model, self.node.get(0));
     },
 
+    field: function(id) {
+      var self = this;
+      return self.node.find('#field-' + id + ' .field');
+    },
+
     subscribe: function(id, real_id) {
       /* Subscribe to changes on one field of the model and propagate them to
        * the server.
@@ -261,14 +266,15 @@
 
     _save: function (id, save_url, save_type, data) {
       var self = this;
-
+      self.notify_saving(id);
       $.ajax({
         url: save_url,
         type: save_type,
         data: data,
         contentType: 'application/json',
         success: function(data) { self.handle_save(data, id); },
-        error: function (e) { self.notify_save_error(id); }
+        error: function (e) { self.notify_save_error(id); },
+        complete: function() { self.clear_saving(id); }
       });
     },
 
@@ -326,9 +332,25 @@
       self.server_error_status_message = null;
     },
 
+    notify_saving: function(id) {
+      var self = this;
+      var field = self.field(id);
+      field.addClass('saving');
+      field.data('saving_status_message',
+                 self.status_message('Saving ' + id, 'saving'));
+    },
+
+    clear_saving: function(id) {
+      var self = this;
+      var field = self.field(id);
+      field.removeClass('saving');
+      self.clear_status_message(field.data('saving_status_message'));
+      field.data('saving_status_message', null);
+    },
+
     highlight_field: function(id, status) {
       var self = this;
-      var field = self.node.find('#field-' + id + ' .field');
+      var field = self.field(id);
       field.addClass(status);
       field.delay(300);
       field.queue(function() {

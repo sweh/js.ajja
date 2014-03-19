@@ -16,6 +16,8 @@ Change log for gocept.jsform
 - When saving data, count anything but a JSON response with a status value of
   "success" as an error.
 
+- Provide a visual clue and status message while saving a field.
+
 - Some refactoring to improve code readability.
 
 
