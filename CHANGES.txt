@@ -7,6 +7,9 @@ Change log for gocept.jsform
 
 - Propagate save message of server using ``after-save`` trigger.
 
+- Added infrastructure for displaying and clearing status messages, use it for
+  announcing HTTP faults during AJAX calls.
+
 - Some refactoring to improve code readability.
 
 

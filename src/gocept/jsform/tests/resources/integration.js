@@ -232,6 +232,13 @@ describe("Form Plugin", function() {
     });
   });
 
+  it("status messages can be cleared by handle", function() {
+    var handle = form.status_message('foo', 'success');
+    expect($('#my_form .statusarea *').length).toEqual(1);
+    form.clear_status_message(handle);
+    expect($('#my_form .statusarea *').length).toEqual(0);
+  });
+
   it("can display the select status of a list", function () {
     form.load({title: [{id: 'mr', value: 'Mr.'},
                        {id: 'mrs', value: 'Mrs.', selected: true}]});
