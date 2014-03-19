@@ -201,12 +201,12 @@ describe("Form Plugin", function() {
   });
 
   it("validation errors are displayed and cleared at the widget", function () {
+    var form = new gocept.jsform.Form(
+        'my_form', {
+         save_url: '/fanstatic/gocept.jsform.tests/error.json',
+         save_type: "GET"});
+    form.load({email: ''});
     runs(function() {
-      var form = new gocept.jsform.Form(
-          'my_form', {
-           save_url: '/fanstatic/gocept.jsform.tests/error.json',
-           save_type: "GET"});
-      form.load({email: ''});
       $('#my_form input').val('max@mustermann').change();
     });
     waits(100);
