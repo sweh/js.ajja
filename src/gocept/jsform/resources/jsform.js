@@ -360,12 +360,14 @@
 
     status_message: function(message, status, duration) {
       var self = this;
-      var msg_node = $('<div></div>').text(message).addClass(status);
+      var msg_node = $('<div></div>').text(message);
+      msg_node.addClass('statusmessage ' + status);
       if (!gocept.jsform.isUndefinedOrNull(duration)) {
           msg_node.delay(duration).fadeOut(
               1000, function(){msg_node.remove();});
       }
       self.statusarea.append(msg_node);
+      self.statusarea.scrollTop(self.statusarea.height());
       return msg_node;
     },
 
