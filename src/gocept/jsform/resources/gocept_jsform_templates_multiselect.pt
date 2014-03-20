@@ -1,0 +1,9 @@
+<div class="label" for="{name}">{label}</div>
+<div class="field">
+  <select name="{name}" multiple data-bind="options: {name},
+                                   optionsCaption: ' ',
+                                   optionsText: 'value',
+                                   optionsValue: 'id',
+                                   selectedOptions: {name}_selected">
+  </select>
+</div>
