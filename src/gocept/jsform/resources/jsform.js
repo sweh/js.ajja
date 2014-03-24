@@ -171,8 +171,6 @@
            self.node.append(widget_code);
          else
            $('#'+id, self.node).replaceWith(widget_code);
-         /* Initialise chain of serialised ajax save requests. */
-         self.field(id).data('save', $.Deferred().resolve());
       });
       if (gocept.jsform.isUndefinedOrNull(self.mapping))
         self.model = ko.mapping.fromJS(self.data);
@@ -249,7 +247,7 @@
     save: function (id, newValue) {
       /* Schedule saving one field's value to the server via ajax. */
       var self = this;
-      var deferred_save = self.field(id).data('save').then(
+      var deferred_save = $.when(self.field(id).data('save')).then(
         /* For the time being, simply chain the new save after the last, no
            error handling yet. */
         function () {return self.start_save(id, newValue);},
