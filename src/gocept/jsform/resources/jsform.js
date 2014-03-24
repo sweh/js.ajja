@@ -266,7 +266,7 @@
 
     _save: function (id, save_url, save_type, data) {
       var self = this;
-      self.notify_saving(id);
+      var saving_msg_node = self.notify_saving(id);
       $.ajax({
         url: save_url,
         type: save_type,
@@ -274,7 +274,7 @@
         contentType: 'application/json',
         success: function(data) { self.handle_save(data, id); },
         error: function (e) { self.notify_save_error(id); },
-        complete: function() { self.clear_saving(id); }
+        complete: function() { self.clear_saving(id, saving_msg_node); }
       });
     },
 
@@ -334,18 +334,14 @@
 
     notify_saving: function(id) {
       var self = this;
-      var field = self.field(id);
-      field.addClass('saving');
-      field.data('saving_status_message',
-                 self.status_message('Saving ' + id, 'saving'));
+      self.field(id).addClass('saving');
+      return self.status_message('Saving ' + id, 'saving');
     },
 
-    clear_saving: function(id) {
+    clear_saving: function(id, msg_node) {
       var self = this;
-      var field = self.field(id);
-      field.removeClass('saving');
-      self.clear_status_message(field.data('saving_status_message'));
-      field.data('saving_status_message', null);
+      self.field(id).removeClass('saving');
+      self.clear_status_message(msg_node);
     },
 
     highlight_field: function(id, status) {
