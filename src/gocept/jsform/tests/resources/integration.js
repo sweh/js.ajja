@@ -77,7 +77,7 @@ describe("Form Plugin", function() {
   it("should send an event after saving", function() {
     var event_called = false;
     $(form).on('after-save', function() { event_called = true; });
-    form.load({});
+    form.load({'foo': 'bar'});
     runs(function() {
         form.save('foo', null);
     });

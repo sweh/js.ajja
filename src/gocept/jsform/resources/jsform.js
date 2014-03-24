@@ -171,6 +171,8 @@
            self.node.append(widget_code);
          else
            $('#'+id, self.node).replaceWith(widget_code);
+         /* Initialise chain of serialised ajax save requests. */
+         self.field(id).data('save', $.Deferred().resolve());
       });
       if (gocept.jsform.isUndefinedOrNull(self.mapping))
         self.model = ko.mapping.fromJS(self.data);
@@ -245,7 +247,20 @@
     },
 
     save: function (id, newValue) {
-      /* Save data to the server via ajax. */
+      /* Schedule saving one field's value to the server via ajax. */
+      var self = this;
+      var deferred_save = self.field(id).data('save').then(
+        /* For the time being, simply chain the new save after the last, no
+           error handling yet. */
+        function () {return self.start_save(id, newValue);},
+        function () {return self.start_save(id, newValue);}
+      );
+      self.field(id).data('save', deferred_save);
+    },
+
+    start_save: function(id, newValue) {
+      /* Actual work of preparing and making the ajax call. May be deferred in
+         order to serialise saving subsequent values of each field. */
       var self = this;
       var save_url = self.options['save_url'];
       if (!save_url) {
@@ -261,13 +276,14 @@
       if ($('#'+self.csrf_token_id).length) {
         data[self.csrf_token_id] = $('#'+self.csrf_token_id).val();
       }
-      self._save(id, save_url, save_type, ko.toJSON(data));
+      return self._save(id, save_url, save_type, ko.toJSON(data));
     },
 
     _save: function (id, save_url, save_type, data) {
+      /* Method that takes ajax parameters, factored out for testability. */
       var self = this;
       var saving_msg_node = self.notify_saving(id);
-      $.ajax({
+      return $.ajax({
         url: save_url,
         type: save_type,
         data: data,
