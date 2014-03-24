@@ -94,7 +94,7 @@ describe("Form Plugin", function() {
     });
     form.load({});
     runs(function() {
-      form.handle_save({ status: 'success', validation: 'success' }, null);
+      form.finish_save({ status: 'success', validation: 'success' }, null);
     });
     waits(100);
     runs(function() {

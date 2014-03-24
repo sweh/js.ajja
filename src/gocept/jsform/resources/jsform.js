@@ -288,13 +288,13 @@
         type: save_type,
         data: data,
         contentType: 'application/json',
-        success: function(data) { self.handle_save(data, id); },
+        success: function(data) { self.finish_save(data, id); },
         error: function (e) { self.notify_save_error(id); },
         complete: function() { self.clear_saving(id, saving_msg_node); }
       });
     },
 
-    handle_save: function(data, id) {
+    finish_save: function(data, id) {
       var self = this;
       self.clear_server_error();
       if (data.status == 'error') {
