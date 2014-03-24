@@ -45,14 +45,34 @@
         var form_template = self.get_template('gocept_jsform_templates_form');
       else
         var form_template = self.get_template(self.options.form_template);
-      var form_options = self.mangle_options({'form_id': self.id},
-                                             self.options);
-      var form_code = $(
-        form_template.expand(form_options).replace(/^\s+|\s+$/g, ''));
-      $('#' + self.id).replaceWith(form_code);
+      var node = $(
+        form_template.expand(self.options).replace(/^\s+|\s+$/g, ''));
+      $('#' + self.id).replaceWith(node);
+      node.attr('id', self.id);
       self.node = $('#' + self.id);
+      self.sync_option_with_form_attr('save_type', 'method', 'POST');
+      self.sync_option_with_form_attr('action', 'action');
+      self.node.addClass('jsform');
       self.node.data('form', self);
       self.statusarea = self.node.find('.statusarea');
+      if (self.statusarea.length == 0) {
+          self.statusarea = $('<div></div>');
+          self.statusarea.addClass('statusarea');
+          self.node.prepend(self.statusarea);
+      }
+    },
+
+    sync_option_with_form_attr: function (option, attr, fallback) {
+      var self = this;
+      if (!self.options[option]) {
+          self.options[option] = self.node.attr(attr);
+      }
+      if (!self.options[option]) {
+          self.options[option] = fallback;
+      }
+      if (!self.node.attr(attr)) {
+          self.node.attr(attr, self.options[option]);
+      }
     },
 
     reload: function() {
@@ -251,17 +271,13 @@
       if (!save_url) {
         save_url = self.url;
       }
-      var save_type = self.options['save_type'];
-      if (!save_type) {
-        save_type = "POST";
-      }
 
       var data = {};
       data[id] = newValue;
       if ($('#'+self.csrf_token_id).length) {
         data[self.csrf_token_id] = $('#'+self.csrf_token_id).val();
       }
-      self._save(id, save_url, save_type, ko.toJSON(data));
+      self._save(id, save_url, self.options.save_type, ko.toJSON(data));
     },
 
     _save: function (id, save_url, save_type, data) {
