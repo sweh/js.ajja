@@ -1,3 +1,5 @@
+/*global gocept, jsontemplate, ko */
+
 (function($) {
   "use strict";
 
@@ -80,9 +82,9 @@
       }
       if (gocept.jsform.isUndefinedOrNull(options))
         options = {};
-      self.mangle_options(self.options, options)
+      self.mangle_options(self.options, options);
       if (!gocept.jsform.isUndefinedOrNull(mapping))
-        self.mapping = mapping
+        self.mapping = mapping;
       self.start_load();
     },
 
@@ -122,12 +124,12 @@
     set_data: function(data) {
       var self = this;
       if (gocept.jsform.isUndefinedOrNull(data)) {
-        return
+        return;
       }
       $.each(data, function (id, value) {
         if (gocept.jsform.isUndefinedOrNull(value)) {
           //console.warn("Got `null` as value for `" + id + "`. Ignoring.");
-          return
+          return;
         } else {
           self.data[id] = value;
         }
@@ -138,12 +140,14 @@
       var self = this;
       if (template.render)
         return template;
-      if (template.indexOf('>') != -1) {
-        var html = template;
-      } else if (template.indexOf('#') == 0) {
-        var html = $(template).html();
+
+      var html;
+      if (template.indexOf('>') !== -1) {
+        html = template;
+      } else if (template.indexOf('#') === 0) {
+        html = $(template).html();
       } else {
-        var html = $('#' + template).html();
+        html = $('#' + template).html();
       }
       return new jsontemplate.Template(
         html, {default_formatter: 'html',  undefined_str: ''});
@@ -179,7 +183,7 @@
        */
       var self = this;
       if (gocept.jsform.isUndefinedOrNull(self.data))
-        return
+        return;
       $.each(self.data, function (id, value) {
           self.render_widget(id, value);
       });
@@ -223,8 +227,8 @@
            */
           var initial_values = [];
           $.each(self.data[id], function (index, obj) {
-              if (obj['selected'])
-                  initial_values.push(obj['id']);
+              if (obj.selected)
+                  initial_values.push(obj.id);
           });
           self.model[id+'_selected'] = ko.observableArray(initial_values);
           self.subscribe(id+'_selected', id);
@@ -236,23 +240,23 @@
     get_widget: function(id, value) {
       /* Retrieve the widget for a field. */
       var self = this;
-      if ((gocept.jsform.isUndefinedOrNull(self.options[id])) ||
-          (gocept.jsform.isUndefinedOrNull(self.options[id]['template']))) {
+      if (gocept.jsform.isUndefinedOrNull(self.options[id]) ||
+          gocept.jsform.isUndefinedOrNull(self.options[id].template)) {
         var type = typeof(value);
         return gocept.jsform.or(self.options[type + '_template'],
                                 'gocept_jsform_templates_' + type);
       } else {
-        return self.options[id]['template'];
+        return self.options[id].template;
       }
     },
 
     mangle_options: function(options1, options2) {
       /* Combine two option dicts into one. */
       var self = this;
-      if (gocept.jsform.isUndefinedOrNull(options2))
-        var options2 = {};
-      $.each(options2, function (id, value) { options1[id] = value; });
-      return options1
+      if (!gocept.jsform.isUndefinedOrNull(options2)) {
+        $.each(options2, function (id, value) { options1[id] = value; });
+      }
+      return options1;
     },
 
     save: function (id, newValue) {
@@ -294,11 +298,11 @@
 
     save_and_validate: function(id, newValue) {
       var self = this;
-      var save_url = self.options['save_url'];
+      var save_url = self.options.save_url;
       if (!save_url) {
         save_url = self.url;
       }
-      var save_type = self.options['save_type'];
+      var save_type = self.options.save_type;
       if (!save_type) {
         save_type = "POST";
       }
@@ -381,7 +385,7 @@
     clear_server_error: function() {
       /* Clear any announcement of an HTTP fault during an ajax call. */
       var self = this;
-      self.clear_status_message(self.server_error_status_message)
+      self.clear_status_message(self.server_error_status_message);
       self.server_error_status_message = null;
     },
 
