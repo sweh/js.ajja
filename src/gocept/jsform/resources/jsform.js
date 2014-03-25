@@ -95,22 +95,30 @@
        */
       var self = this;
       if (self.url !== null) {
-        $.ajax({
-          dataType: "json",
-          url: self.url,
-          success: function (data) { self.finish_load(data); },
-          error: function (e) { self.notify_server_error(e); }
-        });
+          self.reload_data(function(data) { self.finish_load(data); });
       } else {
         self.finish_load(self.initial_data);
       }
     },
 
+    reload_data: function(cb) {
+        //Only reload data and call cb with it.
+        var self = this;
+        $.ajax({
+          dataType: "json",
+          url: self.url,
+          success: function (data) { 
+              cb(data); 
+          },
+          error: function (e) { self.notify_server_error(e); }
+        });
+    },
+
     finish_load: function(data) {
-      var self = this;
-      self.set_data(data);
-      self.init_fields();
-      $(self).trigger('after-load');
+        var self = this;
+        self.set_data(data);
+        self.init_fields();
+        $(self).trigger('after-load');
     },
 
     set_data: function(data) {
@@ -143,6 +151,22 @@
         html, {default_formatter: 'html',  undefined_str: ''});
     },
 
+    render_widget: function(id, value) {
+      var self = this;
+      var widget = self.get_template(self.get_widget(id, value));
+      var widget_options = self.mangle_options(
+        {name: id, value: value, label: ''}, self.options[id]);
+      var widget_code = widget.expand(widget_options);
+      widget_code = ['<div id="field-' + id + '">',
+                     '<div class="error ' + id + '"></div>',
+                     widget_code,
+                     '</div>'].join('');
+      if (!$('#field-'+id, self.node).length)
+        self.node.append(widget_code);
+      else
+        $('#field-'+id, self.node).replaceWith(widget_code);
+    },
+
     init_fields: function() {
       /* Initialize field from self.data.
        *
@@ -159,19 +183,14 @@
       if (gocept.jsform.isUndefinedOrNull(self.data))
         return
       $.each(self.data, function (id, value) {
-         var widget = self.get_template(self.get_widget(id, value));
-         var widget_options = self.mangle_options(
-           {name: id, value: value, label: ''}, self.options[id]);
-         var widget_code = widget.expand(widget_options);
-         widget_code = ['<div id="field-' + id + '">',
-                        '<div class="error ' + id + '"></div>',
-                        widget_code,
-                        '</div>'].join('');
-         if (!$('#'+id, self.node).length)
-           self.node.append(widget_code);
-         else
-           $('#'+id, self.node).replaceWith(widget_code);
+          debugger;
+          self.render_widget(id, value);
       });
+      self.update_bindings();
+    },
+
+    update_bindings: function() {
+      var self = this;
       if (gocept.jsform.isUndefinedOrNull(self.mapping))
         self.model = ko.mapping.fromJS(self.data);
       else
