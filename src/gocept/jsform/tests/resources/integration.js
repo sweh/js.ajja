@@ -153,9 +153,9 @@ describe("Form Plugin", function() {
       var template = new jsontemplate.Template(
         ['<form method="POST" action="{action}" id="{form_id}">',
          '  <table><tr><td class="firstname">',
-         '    <span id="firstname" />',
+         '    <span id="field-firstname" />',
          '  </td><td class="lastname">',
-         '    <span id="lastname" />',
+         '    <span id="field-lastname" />',
          '</td></tr></table></form>'].join(''),
         {default_formatter: 'html',  undefined_str: ''});
 
