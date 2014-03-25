@@ -266,6 +266,102 @@ describe("Form Plugin", function() {
     });
   });
 
+  describe("when_saved behaviour", function() {
+
+    it("when_saved resolves if all fields are fine", function() {
+      var promise;
+      form._save = function() {
+        return $.Deferred().resolve({status: 'success'});
+      };
+      form.load({email: '', name: ''});
+      runs(function() {
+        $('#field-email input').val('max@mustermann.example').change();
+      });
+      waitsFor(function() {
+        return form.field('email').data('save').state() != 'pending';
+      }, 'Saving field "email" timed out.', 100);
+      runs(function() {
+        expect(form.field('email').data('save').state()).toEqual('resolved');
+        promise = form.when_saved();
+      });
+      waitsFor(function() {
+        return promise.state() != 'pending';
+      }, 'Promise returned by when_saved() timed out.', 100);
+      runs(function() {
+        expect(promise.state()).toEqual('resolved');
+      });
+    });
+
+    it("when_saved resolves after pending saves succeeded", function() {
+      var trigger = $.Deferred();
+      var promise;
+      var _save = function() {
+        return $.Deferred().resolve({status: 'success'});
+      };
+      form._save = function() { return trigger.then(_save); }
+      form.load({email: '', name: ''});
+      runs(function() {
+        $('#field-email input').val('max@mustermann.example').change();
+        expect(form.field('email').data('save').state()).toEqual('pending');
+        promise = form.when_saved();
+        expect(promise.state()).toEqual('pending');
+        trigger.resolve();
+      });
+      waitsFor(function() {
+        return promise.state() != 'pending';
+      }, 'Promise returned by when_saved() timed out.', 100);
+      runs(function() {
+        expect(form.field('email').data('save').state()).toEqual('resolved');
+        expect(promise.state()).toEqual('resolved');
+      });
+    });
+
+    it("when_saved rejects if any field is not fine", function() {
+      var promise;
+      form._save = function() { return $.Deferred().reject(); };
+      form.load({email: '', name: ''});
+      runs(function() {
+        $('#field-email input').val('max@mustermann.example').change();
+      });
+      waitsFor(function() {
+        return form.field('email').data('save').state() != 'pending';
+      }, 'Saving field "email" timed out.', 100);
+      runs(function() {
+        expect(form.field('email').data('save').state()).toEqual('rejected');
+        promise = form.when_saved();
+      });
+      waitsFor(function() {
+        return promise.state() != 'pending';
+      }, 'Promise returned by when_saved() timed out.', 100);
+      runs(function() {
+        expect(promise.state()).toEqual('rejected');
+      });
+    });
+
+    it("when_saved rejects after any pending save failed", function() {
+      var trigger = $.Deferred();
+      var promise;
+      var _save = function() { return $.Deferred().reject(); };
+      form._save = function() { return trigger.then(_save); }
+      form.load({email: '', name: ''});
+      runs(function() {
+        $('#field-email input').val('max@mustermann.example').change();
+        expect(form.field('email').data('save').state()).toEqual('pending');
+        promise = form.when_saved();
+        expect(promise.state()).toEqual('pending');
+        trigger.resolve();
+      });
+      waitsFor(function() {
+        return promise.state() != 'pending';
+      }, 'Promise returned by when_saved() timed out.', 100);
+      runs(function() {
+        expect(form.field('email').data('save').state()).toEqual('rejected');
+        expect(promise.state()).toEqual('rejected');
+      });
+    });
+
+  });
+
   it("saving notification disappears after saving", function() {
     runs(function() {
       var form = new gocept.jsform.Form(
