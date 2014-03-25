@@ -1,10 +1,7 @@
 (function($) {
 
   var isUndefinedOrNull = function(o) {
-    if (!(typeof(o) == 'undefined' || o === null)) {
-      return false;
-    }
-    return true;
+    return typeof(o) == 'undefined' || o === null;
   };
 
   var declare_namespace = function(namespace) {
