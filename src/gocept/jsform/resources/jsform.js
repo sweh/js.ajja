@@ -183,7 +183,6 @@
       if (gocept.jsform.isUndefinedOrNull(self.data))
         return
       $.each(self.data, function (id, value) {
-          debugger;
           self.render_widget(id, value);
       });
       self.update_bindings();
