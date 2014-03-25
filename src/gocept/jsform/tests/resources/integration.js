@@ -287,7 +287,7 @@ describe("Form Plugin", function() {
       form.status_message('foo', 'success', 100);
       expect($('#my_form .statusarea .success').text()).toEqual('foo');
     });
-    waits(1200);  /* fadeOut(1000) */
+    waits(1500);  /* fadeOut(1000) */
     runs(function() {
       expect($('#my_form .statusarea .success').length).toEqual(0);
     });
