@@ -45,8 +45,7 @@
       var self = this;
       var form_template = self.get_template(gocept.jsform.or(
         self.options.form_template, 'gocept_jsform_templates_form'));
-      var form_options = self.mangle_options({'form_id': self.id},
-                                             self.options);
+      var form_options = $.extend({'form_id': self.id}, self.options);
       var form_code = $(
         form_template.expand(form_options).replace(/^\s+|\s+$/g, ''));
       $('#' + self.id).replaceWith(form_code);
@@ -82,7 +81,7 @@
       }
       if (gocept.jsform.isUndefinedOrNull(options))
         options = {};
-      self.mangle_options(self.options, options);
+      $.extend(self.options, options);
       if (!gocept.jsform.isUndefinedOrNull(mapping))
         self.mapping = mapping;
       self.start_load();
@@ -156,7 +155,7 @@
     render_widget: function(id, value) {
       var self = this;
       var widget = self.get_template(self.get_widget(id, value));
-      var widget_options = self.mangle_options(
+      var widget_options = $.extend(
         {name: id, value: value, label: ''}, self.options[id]);
       var widget_code = widget.expand(widget_options);
       widget_code = ['<div id="field-' + id + '">',
@@ -248,15 +247,6 @@
       } else {
         return self.options[id].template;
       }
-    },
-
-    mangle_options: function(options1, options2) {
-      /* Combine two option dicts into one. */
-      var self = this;
-      if (!gocept.jsform.isUndefinedOrNull(options2)) {
-        $.each(options2, function (id, value) { options1[id] = value; });
-      }
-      return options1;
     },
 
     save: function (id, newValue) {
