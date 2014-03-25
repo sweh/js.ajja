@@ -25,6 +25,8 @@ Change log for gocept.jsform
 
 - Some refactoring to improve code readability.
 
+- Made code pass jshint check.
+
 
 1.0 (2013-12-13)
 ================
