@@ -350,6 +350,15 @@
       });
     },
 
+    when_saved: function () {
+      var self = this;
+      var deferred_saves = [];
+      self.node.find('.field').each(function (index, field) {
+        deferred_saves.push($(field).data('save'));
+      });
+      return $.when.apply(null, deferred_saves);
+    },
+
     notify_field_error: function(id, msg) {
       var self = this;
       self.clear_field_error(id);

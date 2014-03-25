@@ -16,6 +16,11 @@ Change log for gocept.jsform
 - When saving data, count anything but a JSON response with a status value of
   "success" as an error.
 
+- Added an API method ``when_saved()`` that returns a promise that is either
+  resolved when all fields have been saved successfully after any pending save
+  calls have finished, or rejected if at least one field could not be saved or
+  is invalid.
+
 - Provide a visual clue and status message while saving a field.
 
 - Some refactoring to improve code readability.
