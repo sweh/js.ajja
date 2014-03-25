@@ -41,10 +41,8 @@
     create_form: function() {
       /* Expands the form_template into the DOM */
       var self = this;
-      if (gocept.jsform.isUndefinedOrNull(self.options.form_template))
-        var form_template = self.get_template('gocept_jsform_templates_form');
-      else
-        var form_template = self.get_template(self.options.form_template);
+      var form_template = self.get_template(gocept.jsform.or(
+        self.options.form_template, 'gocept_jsform_templates_form'));
       var form_options = self.mangle_options({'form_id': self.id},
                                              self.options);
       var form_code = $(
@@ -210,10 +208,7 @@
        */
       var self = this;
       self.subscriptions[id] = self.model[id].subscribe(function(newValue) {
-        if (gocept.jsform.isUndefinedOrNull(real_id))
-          self.save(id, newValue);
-        else
-          self.save(real_id, newValue);
+        self.save(gocept.jsform.or(real_id, id), newValue);
       });
     },
 
@@ -244,10 +239,8 @@
       if ((gocept.jsform.isUndefinedOrNull(self.options[id])) ||
           (gocept.jsform.isUndefinedOrNull(self.options[id]['template']))) {
         var type = typeof(value);
-        if (gocept.jsform.isUndefinedOrNull(self.options[type+'_template']))
-          return 'gocept_jsform_templates_' + type;
-        else
-          return self.options[type+'_template'];
+        return gocept.jsform.or(self.options[type + '_template'],
+                                'gocept_jsform_templates_' + type);
       } else {
         return self.options[id]['template'];
       }

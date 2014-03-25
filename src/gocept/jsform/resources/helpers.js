@@ -18,5 +18,13 @@
   gocept.jsform.declare_namespace = declare_namespace;
   gocept.jsform.isUndefinedOrNull = isUndefinedOrNull;
 
+  gocept.jsform.or = function(value1, value2) {
+    if (!isUndefinedOrNull(value1)) {
+      return value1;
+    } else {
+      return value2;
+    }
+  };
+
 }(jQuery));
 
