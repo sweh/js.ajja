@@ -89,12 +89,16 @@ describe("Form Plugin", function() {
 
   it("should propagate the save message from server using a trigger", function() {
     var event_options = null;
+    form._save = function() {
+      return $.Deferred().resolve({status: 'success', validation: 'success'})
+        .promise();
+    };
     $(form).on('after-save', function(event, data) {
       event_options = data;
     });
     form.load({});
     runs(function() {
-      form.finish_save({ status: 'success', validation: 'success' }, null);
+      form.start_save('foo', 'bar');
     });
     waits(100);
     runs(function() {
@@ -106,7 +110,7 @@ describe("Form Plugin", function() {
   describe("Propagation to server", function() {
 
     beforeEach(function() {
-      spyOn(form, "_save");
+      spyOn(form, "_save").andCallThrough();
     });
 
     afterEach(function() {

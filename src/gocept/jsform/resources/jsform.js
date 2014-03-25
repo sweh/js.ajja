@@ -260,6 +260,29 @@
       /* Actual work of preparing and making the ajax call. May be deferred in
          order to serialise saving subsequent values of each field. */
       var self = this;
+      var saving_msg_node = self.notify_saving(id);
+      return self.save_and_validate(id, newValue)
+      .always(function() {
+        self.clear_saving(id, saving_msg_node);
+        self.clear_field_error(id);
+      })
+      .done(function() {
+        self.highlight_field(id, 'success');
+        self.status_message('Successfully saved value.', 'success', 1000);
+      })
+      .fail(function(msg) {
+        if (gocept.jsform.isUndefinedOrNull(msg)) {
+          msg = 'This field contains unsaved changes.';
+        }
+        self.notify_field_error(id, msg);
+      })
+      .always(function(data_or_msg) {
+        $(self).trigger('after-save', [data_or_msg]);
+      });
+    },
+
+    save_and_validate: function(id, newValue) {
+      var self = this;
       var save_url = self.options['save_url'];
       if (!save_url) {
         save_url = self.url;
@@ -274,43 +297,39 @@
       if ($('#'+self.csrf_token_id).length) {
         data[self.csrf_token_id] = $('#'+self.csrf_token_id).val();
       }
-      return self._save(id, save_url, save_type, ko.toJSON(data));
+
+      var validated = $.Deferred();
+      var server_error = function() {
+        self.notify_server_error();
+        validated.reject();
+      };
+
+      self._save(id, save_url, save_type, ko.toJSON(data))
+      .always(function() {
+        self.clear_server_error();
+      })
+      .done(function(data) {
+        if (data.status == 'error') {
+          validated.reject(data.msg);
+        } else if (data.status == 'success') {
+          validated.resolve(data);
+        } else {
+          server_error();
+        }
+      })
+      .fail(server_error);
+
+      return validated.promise();
     },
 
     _save: function (id, save_url, save_type, data) {
       /* Method that takes ajax parameters, factored out for testability. */
-      var self = this;
-      var saving_msg_node = self.notify_saving(id);
       return $.ajax({
         url: save_url,
         type: save_type,
         data: data,
-        contentType: 'application/json',
-        success: function(data) { self.finish_save(data, id); },
-        error: function (e) { self.notify_save_error(id); },
-        complete: function() { self.clear_saving(id, saving_msg_node); }
+        contentType: 'application/json'
       });
-    },
-
-    finish_save: function(data, id) {
-      var self = this;
-      self.clear_server_error();
-      if (data.status == 'error') {
-        self.notify_field_error(id, data.msg);
-      } else if (data.status == 'success') {
-        self.clear_field_error(id);
-        self.highlight_field(id, 'success');
-        self.status_message('Successfully saved value.', 'success', 1000);
-      } else {
-        self.notify_save_error(id);
-      }
-      $(self).trigger('after-save', [data]);
-    },
-
-    notify_save_error: function(id) {
-      var self = this;
-      self.notify_server_error();
-      self.notify_field_error(id, 'This field contains unsaved changes.');
     },
 
     notify_field_error: function(id, msg) {
