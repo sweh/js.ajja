@@ -266,7 +266,7 @@ describe("Form Plugin", function() {
       $('#my_form input').val('max@mustermann').change();
     });
     waitsFor(function() { return unrecoverable_error_triggered; },
-             'unrecoverable-error not triggered before time-out', 100);
+             'unrecoverable-error to be triggered', 100);
     runs(function() {
       expect(form.start_save('foo', 'bar')).not.toBeDefined();
       expect(alert).toHaveBeenCalledWith(
@@ -287,14 +287,14 @@ describe("Form Plugin", function() {
       });
       waitsFor(function() {
         return form.field('email').data('save').state() != 'pending';
-      }, 'Saving field "email" timed out.', 100);
+      }, 'saving field "email"', 100);
       runs(function() {
         expect(form.field('email').data('save').state()).toEqual('resolved');
         promise = form.when_saved();
       });
       waitsFor(function() {
         return promise.state() != 'pending';
-      }, 'Promise returned by when_saved() timed out.', 100);
+      }, 'promise returned by when_saved()', 100);
       runs(function() {
         expect(promise.state()).toEqual('resolved');
       });
@@ -317,7 +317,7 @@ describe("Form Plugin", function() {
       });
       waitsFor(function() {
         return promise.state() != 'pending';
-      }, 'Promise returned by when_saved() timed out.', 100);
+      }, 'promise returned by when_saved()', 100);
       runs(function() {
         expect(form.field('email').data('save').state()).toEqual('resolved');
         expect(promise.state()).toEqual('resolved');
@@ -333,14 +333,14 @@ describe("Form Plugin", function() {
       });
       waitsFor(function() {
         return form.field('email').data('save').state() != 'pending';
-      }, 'Saving field "email" timed out.', 100);
+      }, 'saving field "email"', 100);
       runs(function() {
         expect(form.field('email').data('save').state()).toEqual('rejected');
         promise = form.when_saved();
       });
       waitsFor(function() {
         return promise.state() != 'pending';
-      }, 'Promise returned by when_saved() timed out.', 100);
+      }, 'promise returned by when_saved()', 100);
       runs(function() {
         expect(promise.state()).toEqual('rejected');
       });
@@ -361,7 +361,7 @@ describe("Form Plugin", function() {
       });
       waitsFor(function() {
         return promise.state() != 'pending';
-      }, 'Promise returned by when_saved() timed out.', 100);
+      }, 'promise returned by when_saved()', 100);
       runs(function() {
         expect(form.field('email').data('save').state()).toEqual('rejected');
         expect(promise.state()).toEqual('rejected');
