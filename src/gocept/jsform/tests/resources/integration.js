@@ -1,6 +1,25 @@
 describe("Form Plugin", function() {
   var form;
 
+  var set_save_response = function(response, trigger) {
+    /*
+    Patch the AJAX call for saving a field. The substitute returns a Deferred
+    that can be resolved or rejected by the given function to simulate an AJAX
+    response or fault. The function is called either after a tiny delay to get
+    asynchronicity or, if a trigger is given, when the trigger is resolved.
+    */
+    form._save = function(id, value) {
+      var deferred_save = $.Deferred();
+      var apply_response = function() { response(deferred_save, id, value); };
+      if (gocept.jsform.isUndefinedOrNull(trigger)) {
+        setTimeout(apply_response, 1);
+      } else {
+        trigger.always(apply_response);
+      }
+      return deferred_save.promise();
+    };
+  };
+
   alert = jasmine.createSpy();
 
   beforeEach(function() {
@@ -78,9 +97,7 @@ describe("Form Plugin", function() {
 
   it("should send an event after saving", function() {
     var event_called = false;
-    form._save = function() {
-        return $.Deferred().resolve({status: 'success'});
-    };
+    set_save_response(function(save) { save.resolve({status: 'success'}); });
     $(form).on('after-save', function() { event_called = true; });
     form.load({'foo': 'bar'});
     runs(function() {
@@ -94,10 +111,9 @@ describe("Form Plugin", function() {
 
   it("should propagate the save message from server using a trigger", function() {
     var event_options = null;
-    form._save = function() {
-      return $.Deferred().resolve({status: 'success', validation: 'success'})
-        .promise();
-    };
+    set_save_response(function(save) {
+        save.resolve({status: 'success', validation: 'success'});
+    });
     $(form).on('after-save', function(event, data) {
       event_options = data;
     });
@@ -210,10 +226,9 @@ describe("Form Plugin", function() {
   });
 
   it("validation errors are displayed and cleared at the widget", function () {
-    var form = new gocept.jsform.Form(
-        'my_form', {
-         save_url: '/fanstatic/gocept.jsform.tests/error.json',
-         save_type: "GET"});
+    set_save_response(function(save) {
+      save.resolve({status: 'error', msg: 'Not a valid eMail address.'});
+    });
     form.load({email: ''});
     runs(function() {
       $('#my_form input').val('max@mustermann').change();
@@ -224,7 +239,7 @@ describe("Form Plugin", function() {
          'Not a valid eMail address.');
     });
     runs(function() {
-      form.options.save_url = '/fanstatic/gocept.jsform.tests/success.json';
+      set_save_response(function(save) { save.resolve({status: 'success'}) });
       $('#my_form input').val('max@mustermann.example').change();
     });
     waits(100);
@@ -234,9 +249,7 @@ describe("Form Plugin", function() {
   });
 
   it("error saving on JSON response with unknown status", function() {
-    form._save = function() {
-        return $.Deferred().reject();
-    };
+    set_save_response(function(save) { save.reject(); });
     form.load({email: ''});
     runs(function() {
       $('#my_form input').val('max@mustermann').change();
@@ -252,9 +265,7 @@ describe("Form Plugin", function() {
   });
 
   it("unrecoverable error on non-JSON response while saving", function() {
-    form._save = function() {
-        return $.Deferred().resolve('');
-    };
+    set_save_response(function(save) { save.resolve(''); });
     form.load({email: ''});
 
     var unrecoverable_error_triggered = false;
@@ -278,9 +289,7 @@ describe("Form Plugin", function() {
 
     it("when_saved resolves if all fields are fine", function() {
       var promise;
-      form._save = function() {
-        return $.Deferred().resolve({status: 'success'});
-      };
+      set_save_response(function(save) { save.resolve({status: 'success'}); });
       form.load({email: '', name: ''});
       runs(function() {
         $('#field-email input').val('max@mustermann.example').change();
@@ -303,10 +312,8 @@ describe("Form Plugin", function() {
     it("when_saved resolves after pending saves succeeded", function() {
       var trigger = $.Deferred();
       var promise;
-      var _save = function() {
-        return $.Deferred().resolve({status: 'success'});
-      };
-      form._save = function() { return trigger.then(_save); }
+      set_save_response(
+        function(save) { save.resolve({status: 'success'}); }, trigger);
       form.load({email: '', name: ''});
       runs(function() {
         $('#field-email input').val('max@mustermann.example').change();
@@ -326,10 +333,10 @@ describe("Form Plugin", function() {
 
     it("when_saved rejects if any field is not fine", function() {
       var promise;
-      form._save = function() { return $.Deferred().reject(); };
+      set_save_response(function(save) { save.reject(); });
       form.load({email: '', name: ''});
       runs(function() {
-        $('#field-email input').val('max@mustermann.example').change();
+        $('#field-email input').val('max@mustermann').change();
       });
       waitsFor(function() {
         return form.field('email').data('save').state() != 'pending';
@@ -349,11 +356,10 @@ describe("Form Plugin", function() {
     it("when_saved rejects after any pending save failed", function() {
       var trigger = $.Deferred();
       var promise;
-      var _save = function() { return $.Deferred().reject(); };
-      form._save = function() { return trigger.then(_save); }
+      set_save_response(function(save) { save.reject(); }, trigger);
       form.load({email: '', name: ''});
       runs(function() {
-        $('#field-email input').val('max@mustermann.example').change();
+        $('#field-email input').val('max@mustermann').change();
         expect(form.field('email').data('save').state()).toEqual('pending');
         promise = form.when_saved();
         expect(promise.state()).toEqual('pending');
@@ -371,12 +377,9 @@ describe("Form Plugin", function() {
   });
 
   it("saving notification disappears after saving", function() {
+    set_save_response(function(save) { save.resolve({status: 'success'}) });
+    form.load({email: ''});
     runs(function() {
-      var form = new gocept.jsform.Form(
-          'my_form', {
-           save_url: '/fanstatic/gocept.jsform.tests/success.json',
-           save_type: "GET"});
-      form.load({email: ''});
       $('#my_form input').val('max@mustermann').change();
     });
     waits(100);
