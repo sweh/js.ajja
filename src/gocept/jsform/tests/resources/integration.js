@@ -1,6 +1,8 @@
 describe("Form Plugin", function() {
   var form;
 
+  alert = jasmine.createSpy();
+
   beforeEach(function() {
     form = new gocept.jsform.Form('my_form');
   });
@@ -76,6 +78,9 @@ describe("Form Plugin", function() {
 
   it("should send an event after saving", function() {
     var event_called = false;
+    form._save = function() {
+        return $.Deferred().resolve({status: 'success'});
+    };
     $(form).on('after-save', function() { event_called = true; });
     form.load({'foo': 'bar'});
     runs(function() {
@@ -229,12 +234,11 @@ describe("Form Plugin", function() {
   });
 
   it("error saving on JSON response with unknown status", function() {
+    form._save = function() {
+        return $.Deferred().reject();
+    };
+    form.load({email: ''});
     runs(function() {
-      var form = new gocept.jsform.Form(
-          'my_form', {
-           save_url: '/fanstatic/gocept.jsform.tests/testdata.json',
-           save_type: "GET"});
-      form.load({email: ''});
       $('#my_form input').val('max@mustermann').change();
     });
     waits(100);
@@ -247,22 +251,26 @@ describe("Form Plugin", function() {
     });
   });
 
-  it("error saving on non-JSON response", function() {
+  it("unrecoverable error on non-JSON response while saving", function() {
+    form._save = function() {
+        return $.Deferred().resolve('');
+    };
+    form.load({email: ''});
+
+    var unrecoverable_error_triggered = false;
+    $(form).on('unrecoverable-error', function() {
+      unrecoverable_error_triggered = true;
+    });
+
     runs(function() {
-      var form = new gocept.jsform.Form(
-          'my_form', {
-           save_url: '/fanstatic/gocept.jsform.tests/any.html',
-           save_type: "GET"});
-      form.load({email: ''});
       $('#my_form input').val('max@mustermann').change();
     });
-    waits(100);
+    waitsFor(function() { return unrecoverable_error_triggered; },
+             'unrecoverable-error not triggered before time-out', 100);
     runs(function() {
-      expect($('#my_form .error.email').text()).toEqual(
-         'This field contains unsaved changes.');
-      expect($('#my_form .statusarea .error').text()).toEqual(
-          'There was an error communicating with the server.' +
-          'email: This field contains unsaved changes.');
+      expect(form.start_save('foo', 'bar')).not.toBeDefined();
+      expect(alert).toHaveBeenCalledWith(
+        'An unrecoverable error has occurred.');
     });
   });
 
