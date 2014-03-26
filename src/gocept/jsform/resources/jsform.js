@@ -38,6 +38,11 @@
       if (!gocept.jsform.isUndefinedOrNull(options))
         self.options = options;
       self.create_form();
+      self.unrecoverable_error = false;
+      $(self).on('unrecoverable-error', function() {
+        self.unrecoverable_error = true;
+        alert('An unrecoverable error has occurred.');
+      });
     },
 
     create_form: function() {
@@ -265,6 +270,11 @@
       /* Actual work of preparing and making the ajax call. May be deferred in
          order to serialise saving subsequent values of each field. */
       var self = this;
+
+      if (self.unrecoverable_error) {
+        return;
+      }
+
       var saving_msg_node = self.notify_saving(id);
       return self.save_and_validate(id, newValue)
       .always(function() {
@@ -319,7 +329,7 @@
         } else if (data.status == 'success') {
           validated.resolve(data);
         } else {
-          server_error();
+          $(self).trigger('unrecoverable-error');
         }
       })
       .fail(server_error);
