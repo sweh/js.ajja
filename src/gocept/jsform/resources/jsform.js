@@ -287,6 +287,7 @@
         self.status_message('Successfully saved value.', 'success', 1000);
       })
       .progress(function() {
+        self.clear_saving(id, saving_msg_node);
         self.notify_field_error(id, 'This field contains unsaved changes.');
       })
       .fail(function(msg) {
