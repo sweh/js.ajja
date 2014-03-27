@@ -38,6 +38,7 @@
       if (!gocept.jsform.isUndefinedOrNull(options))
         self.options = options;
       self.create_form();
+      $(self).on('server-responded', self.retry);
       self.unrecoverable_error = false;
       $(self).on('unrecoverable-error', function() {
         self.unrecoverable_error = true;
@@ -285,10 +286,10 @@
         self.highlight_field(id, 'success');
         self.status_message('Successfully saved value.', 'success', 1000);
       })
+      .progress(function() {
+        self.notify_field_error(id, 'This field contains unsaved changes.');
+      })
       .fail(function(msg) {
-        if (gocept.jsform.isUndefinedOrNull(msg)) {
-          msg = 'This field contains unsaved changes.';
-        }
         self.notify_field_error(id, msg);
       })
       .always(function(data_or_msg) {
@@ -314,10 +315,6 @@
       }
 
       var validated = $.Deferred();
-      var server_error = function() {
-        self.notify_server_error();
-        validated.reject();
-      };
 
       self._save(id, save_url, save_type, ko.toJSON(data))
       .always(function() {
@@ -330,9 +327,18 @@
           validated.resolve(data);
         } else {
           $(self).trigger('unrecoverable-error');
+          return;
         }
+        $(self).trigger('server-responded');
       })
-      .fail(server_error);
+      .fail(function() {
+        $(self).one('retry', function() {
+          self.start_save(id, newValue).then(
+            validated.resolve, validated.reject, validated.notify);
+        });
+        validated.notify();
+        self.notify_server_error();
+      });
 
       return validated.promise();
     },
@@ -354,6 +360,11 @@
         deferred_saves.push($(field).data('save'));
       });
       return $.when.apply(null, deferred_saves);
+    },
+
+    retry: function() {
+      var self = this;
+      $(self).trigger('retry');
     },
 
     notify_field_error: function(id, msg) {

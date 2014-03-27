@@ -269,6 +269,69 @@ describe("Form Plugin", function() {
     });
   });
 
+  it("retry saving after failed connection to server", function() {
+    var trigger = $.Deferred();
+    var server_error_notified = false;
+    var save_completed = false;
+    form.load({email: ''});
+    runs(function() {
+      set_save_response(function(save) { save.reject(); }, trigger);
+      $('#my_form input').val('max@mustermann.example').change();
+      form.field('email').data('save').progress(function() {
+        server_error_notified = true;
+      }).always(function() {
+        save_completed = true;
+      });
+      trigger.resolve();
+    });
+    waitsFor(function() { return server_error_notified; },
+             'server error to be notified', 100);
+    runs(function() {
+      expect($('#my_form .error.email').text()).toEqual(
+         'This field contains unsaved changes.');
+      expect($('#my_form .statusarea .error').text()).toEqual(
+        'email: This field contains unsaved changes.' +
+        'There was an error communicating with the server.');
+      set_save_response(function(save) { save.resolve({status: 'success'}); });
+      form.retry();
+    });
+    waitsFor(function() { return save_completed; },
+             'field "email" to be saved successfully when retried', 100);
+    runs(function() {
+      expect(form.field('email').data('save').state()).toEqual('resolved');
+      expect($('#my_form .error.email').text()).toEqual('');
+      expect($('#my_form .statusarea .error').length).toEqual(0);
+    });
+  });
+
+  it("retry saving triggered by successful connection to server", function() {
+    var trigger = $.Deferred();
+    var server_error_notified = false;
+    var save_completed = false;
+      form.load({email: '', name: ''});
+    runs(function() {
+      set_save_response(function(save) { save.reject(); }, trigger);
+      $('#field-email input').val('max@mustermann.example').change();
+      form.field('email').data('save').progress(function() {
+        server_error_notified = true;
+      }).always(function() {
+        save_completed = true;
+      });
+      trigger.resolve();
+    });
+    waitsFor(function() { return server_error_notified; },
+             'server error to be notified', 100);
+    runs(function() {
+      set_save_response(function(save) { save.resolve({status: 'success'}); });
+      $('#field-name input').val('Max Mustermann').change();
+    });
+    waitsFor(function() { return save_completed; },
+             'field "email" to be saved successfully when retried', 100);
+    runs(function() {
+      expect(form.field('email').data('save').state()).toEqual('resolved');
+    });
+  });
+
   describe("when_saved behaviour", function() {
 
     it("when_saved resolves if all fields are fine", function() {
@@ -317,7 +380,7 @@ describe("Form Plugin", function() {
 
     it("when_saved rejects if any field is not fine", function() {
       var promise;
-      set_save_response(function(save) { save.reject(); });
+      set_save_response(function(save) { save.resolve({status: 'error'}); });
       form.load({email: '', name: ''});
       runs(function() {
         $('#field-email input').val('max@mustermann').change();
@@ -340,7 +403,7 @@ describe("Form Plugin", function() {
     it("when_saved rejects after any pending save failed", function() {
       var trigger = $.Deferred();
       var promise;
-      set_save_response(function(save) { save.reject(); }, trigger);
+      set_save_response(function(save) { save.resolve({status: 'error'}); });
       form.load({email: '', name: ''});
       runs(function() {
         $('#field-email input').val('max@mustermann').change();
