@@ -84,7 +84,7 @@ describe("Form Plugin", function() {
     runs(function() {
       form.load('/fanstatic/gocept.jsform.tests/testdata.json');
     });
-    waitsFor(function() { return loaded; }, 'form to be loaded', 100);
+    waitsFor(function() { return loaded; }, 'form to be loaded', 1000);
     runs(function() {
       expect($('#my_form select option').get(1).value).toEqual('mr');
     });
@@ -552,14 +552,14 @@ describe("Form Plugin", function() {
     runs(function() {
       form.load('/fanstatic/gocept.jsform.tests/testdata.json');
     });
-    waitsFor(function() { return loaded; }, 'form to be loaded', 100);
+    waitsFor(function() { return loaded; }, 'form to be loaded', 1000);
     runs(function() {
       $('#my_form input').val('Bob');
       expect($('#my_form input').get(0).value).toEqual('Bob');
       loaded = false;
       form.reload();
     });
-    waitsFor(function() { return loaded; }, 'form to be reloaded', 100);
+    waitsFor(function() { return loaded; }, 'form to be reloaded', 1000);
     runs(function() {
       expect($('#my_form input').get(0).value).toEqual('Sebastian');
     });
