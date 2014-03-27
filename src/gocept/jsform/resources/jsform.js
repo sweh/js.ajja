@@ -353,13 +353,28 @@
       });
     },
 
-    when_saved: function () {
+    when_saved: function (retry) {
       var self = this;
+
+      if (typeof(retry) == 'undefined') {
+        retry = true;
+      }
+
       var deferred_saves = [];
       self.node.find('.field').each(function (index, field) {
         deferred_saves.push($(field).data('save'));
       });
-      return $.when.apply(null, deferred_saves);
+      var aggregate = $.when.apply(null, deferred_saves);
+      if (retry) {
+        return aggregate;
+      } else {
+        var result = $.Deferred();
+        aggregate
+          .done(result.resolve)
+          .fail(function() { result.reject('invalid'); })
+          .progress(function() { result.reject('retry'); });
+        return result.promise();
+      }
     },
 
     retry: function() {
