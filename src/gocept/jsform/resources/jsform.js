@@ -369,19 +369,23 @@
       var aggregate = $.when.apply(null, deferred_saves);
 
       var result = $.Deferred();
-      var activated = false;
+      var consumed_past = false;
       if (retry) {
         aggregate
           .done(result.resolve)
           .fail(result.reject)
-          .progress(function(msg) { if (activated) { result.notify(msg); }});
+          .progress(function(msg) {
+            if (consumed_past) { result.notify(msg); }
+          });
       } else {
         aggregate
           .done(result.resolve)
           .fail(function() { result.reject('invalid'); })
-          .progress(function() { if (activated) { result.reject('retry'); }});
+          .progress(function() {
+            if (consumed_past) { result.reject('retry'); }
+          });
       }
-      activated = true;
+      consumed_past = true;
       return result.promise();
     },
 
