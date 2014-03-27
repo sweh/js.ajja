@@ -405,7 +405,8 @@ describe("Form Plugin", function() {
     it("when_saved rejects after any pending save failed", function() {
       var trigger = $.Deferred();
       var promise;
-      set_save_response(function(save) { save.resolve({status: 'error'}); });
+      set_save_response(
+          function(save) { save.resolve({status: 'error'}); }, trigger);
       form.load({email: '', name: ''});
       runs(function() {
         $('#field-email input').val('max@mustermann').change();
