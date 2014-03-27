@@ -260,7 +260,7 @@
       var self = this;
       var deferred_save = $.when(self.field(id).data('save')).then(
         /* For the time being, simply chain the new save after the last, no
-           error handling yet. */
+           compression of queued save calls yet. */
         function () {return self.start_save(id, newValue);},
         function () {return self.start_save(id, newValue);}
       );
