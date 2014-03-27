@@ -79,10 +79,12 @@ describe("Form Plugin", function() {
   });
 
   it("can get its data from a url", function() {
+    var loaded = false;
+    $(form).on('after-load', function() { loaded = true; });
     runs(function() {
       form.load('/fanstatic/gocept.jsform.tests/testdata.json');
     });
-    waits(100);
+    waitsFor(function() { return loaded; }, 'form to be loaded', 100);
     runs(function() {
       expect($('#my_form select option').get(1).value).toEqual('mr');
     });
