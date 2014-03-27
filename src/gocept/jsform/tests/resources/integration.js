@@ -473,18 +473,19 @@ describe("Form Plugin", function() {
   });
 
   it("can reload the form from a url", function () {
+    var loaded = false;
+    $(form).on('after-load', function() { loaded = true; });
     runs(function() {
       form.load('/fanstatic/gocept.jsform.tests/testdata.json');
     });
-    waits(100);
+    waitsFor(function() { return loaded; }, 'form to be loaded', 100);
     runs(function() {
       $('#my_form input').val('Bob').change();
       expect($('#my_form input').get(0).value).toEqual('Bob');
-    });
-    runs(function() {
+      loaded = false;
       form.reload();
     });
-    waits(100);
+    waitsFor(function() { return loaded; }, 'form to be reloaded', 100);
     runs(function() {
       expect($('#my_form input').get(0).value).toEqual('Sebastian');
     });
