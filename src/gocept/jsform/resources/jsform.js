@@ -333,8 +333,10 @@
       })
       .fail(function() {
         $(self).one('retry', function() {
-          self.start_save(id, newValue).then(
-            validated.resolve, validated.reject, validated.notify);
+          self.start_save(id, newValue)
+            .done(validated.resolve)
+            .fail(validated.reject)
+            .progress(validated.notify);
         });
         validated.notify();
         self.notify_server_error();
