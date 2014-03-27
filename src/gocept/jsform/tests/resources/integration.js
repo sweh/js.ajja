@@ -248,22 +248,6 @@ describe("Form Plugin", function() {
     });
   });
 
-  it("error saving on JSON response with unknown status", function() {
-    set_save_response(function(save) { save.reject(); });
-    form.load({email: ''});
-    runs(function() {
-      $('#my_form input').val('max@mustermann').change();
-    });
-    waits(100);
-    runs(function() {
-      expect($('#my_form .error.email').text()).toEqual(
-         'This field contains unsaved changes.');
-      expect($('#my_form .statusarea .error').text()).toEqual(
-          'There was an error communicating with the server.' +
-          'email: This field contains unsaved changes.');
-    });
-  });
-
   it("unrecoverable error on non-JSON response while saving", function() {
     set_save_response(function(save) { save.resolve(''); });
     form.load({email: ''});
