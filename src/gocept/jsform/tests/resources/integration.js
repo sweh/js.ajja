@@ -424,6 +424,47 @@ describe("Form Plugin", function() {
       });
     });
 
+    it("when_saved notifies server error if any field does", function() {
+      var trigger = $.Deferred();
+      var promise;
+      var server_error_notified = false;
+      set_save_response(function(save) { save.reject(); }, trigger);
+      form.load({email: ''});
+      $('#field-email input').val('max@mustermann.example').change();
+      promise = form.when_saved().progress(
+        function() { server_error_notified = true; });
+      trigger.resolve();
+      expect(server_error_notified).toEqual(true);
+      expect(promise.state()).toEqual('pending');
+    });
+
+    it("when_saved(false) fails 'retry' on server error ", function() {
+      var trigger = $.Deferred();
+      var reason_reported;
+      set_save_response(function(save) { save.reject(); }, trigger);
+      form.load({email: ''});
+      $('#field-email input').val('max@mustermann.example').change();
+      var promise = form.when_saved(false).fail(
+        function(reason) { reason_reported = reason; });
+      trigger.resolve();
+      expect(promise.state()).toEqual('rejected');
+      expect(reason_reported).toEqual('retry');
+    });
+
+    it("when_saved(false) fails 'invalid' if field is invalid", function() {
+      var trigger = $.Deferred();
+      var reason_reported;
+      set_save_response(
+        function(save) { save.resolve({status: 'error'}); }, trigger);
+      form.load({email: ''});
+      $('#field-email input').val('max@mustermann').change();
+      var promise = form.when_saved(false).fail(
+        function(reason) { reason_reported = reason; });
+      trigger.resolve();
+      expect(promise.state()).toEqual('rejected');
+      expect(reason_reported).toEqual('invalid');
+    });
+
   });
 
   it("saving notification disappears after saving", function() {
