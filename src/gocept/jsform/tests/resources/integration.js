@@ -466,7 +466,7 @@ describe("Form Plugin", function() {
 
   it("can reload the form", function () {
     form.load({firstname: 'Sebastian'});
-    $('#my_form input').val('Bob').change();
+    $('#my_form input').val('Bob');
     expect($('#my_form input').val()).toEqual('Bob');
     form.reload();
     expect($('#my_form input').val()).toEqual('Sebastian');
@@ -480,7 +480,7 @@ describe("Form Plugin", function() {
     });
     waitsFor(function() { return loaded; }, 'form to be loaded', 100);
     runs(function() {
-      $('#my_form input').val('Bob').change();
+      $('#my_form input').val('Bob');
       expect($('#my_form input').get(0).value).toEqual('Bob');
       loaded = false;
       form.reload();
@@ -490,6 +490,5 @@ describe("Form Plugin", function() {
       expect($('#my_form input').get(0).value).toEqual('Sebastian');
     });
   });
-
 
 });
