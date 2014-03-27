@@ -495,10 +495,18 @@ describe("Form Plugin", function() {
     runs(function() {
       $('#my_form input').val('max@mustermann').change();
     });
-    waits(100);
+    waitsFor(function() { return $('#my_form .saving').length == 0; },
+             'saving notification to disappear after saving', 100);
+  });
+
+  it("saving notification disappears on server error", function() {
+    set_save_response(function(save) { save.reject(); });
+    form.load({email: ''});
     runs(function() {
-      expect($('#my_form .saving').length).toEqual(0);
+      $('#my_form input').val('max@mustermann').change();
     });
+    waitsFor(function() { return $('#my_form .saving').length == 0; },
+             'saving notification to disappear on server error', 100);
   });
 
   it("status messages appear in the status area, with css class", function() {
