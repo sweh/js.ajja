@@ -367,16 +367,22 @@
         deferred_saves.push($(field).data('save'));
       });
       var aggregate = $.when.apply(null, deferred_saves);
+
+      var result = $.Deferred();
+      var activated = false;
       if (retry) {
-        return aggregate;
+        aggregate
+          .done(result.resolve)
+          .fail(result.reject)
+          .progress(function(msg) { if (activated) { result.notify(msg); }});
       } else {
-        var result = $.Deferred();
         aggregate
           .done(result.resolve)
           .fail(function() { result.reject('invalid'); })
-          .progress(function() { result.reject('retry'); });
-        return result.promise();
+          .progress(function() { if (activated) { result.reject('retry'); }});
       }
+      activated = true;
+      return result.promise();
     },
 
     retry: function() {

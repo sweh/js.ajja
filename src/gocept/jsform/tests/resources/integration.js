@@ -438,6 +438,18 @@ describe("Form Plugin", function() {
       expect(promise.state()).toEqual('pending');
     });
 
+    it("when_saved doesn't notify past server errors", function() {
+      var trigger = $.Deferred();
+      var server_error_notified = false;
+      set_save_response(function(save) { save.reject(); }, trigger);
+      form.load({email: ''});
+      $('#field-email input').val('max@mustermann.example').change();
+      trigger.resolve();
+      var promise = form.when_saved().progress(
+        function() { server_error_notified = true; });
+      expect(server_error_notified).toEqual(false);
+    });
+
     it("when_saved(false) fails 'retry' on server error ", function() {
       var trigger = $.Deferred();
       var reason_reported;
@@ -449,6 +461,16 @@ describe("Form Plugin", function() {
       trigger.resolve();
       expect(promise.state()).toEqual('rejected');
       expect(reason_reported).toEqual('retry');
+    });
+
+    it("when_saved(false) doesn't fail due to past server errors", function() {
+      var trigger = $.Deferred();
+      set_save_response(function(save) { save.reject(); }, trigger);
+      form.load({email: ''});
+      $('#field-email input').val('max@mustermann.example').change();
+      trigger.resolve();
+      var promise = form.when_saved(false);
+      expect(promise.state()).toEqual('pending');
     });
 
     it("when_saved(false) fails 'invalid' if field is invalid", function() {
