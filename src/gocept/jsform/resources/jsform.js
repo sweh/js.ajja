@@ -14,12 +14,20 @@
        *
        * Options can be:
        *
-       * - form_template:    An alternate template for the form. It may
+       * - form_template:    An alternative template for the form. It may
        *                     contain ids for the fields to render them on
        *                     custom places.
-       * - string_template:  An alternate template for text based fields.
-       * - object_template:  An alternate template for input based fields.
-       * - boolean_template: An alternate template for boolean based fields.
+       * - field_wrapper_template:
+       *                     An alternative template for wrapping the
+       *                     fields. This has to be compatible to the used
+       *                     form template, i.e. the element with ids of the 
+       *                     fields must match the used form_template. The
+       *                     template gets expanded with 2 variables:
+       *                        * id (id of the field)
+       *                        * widget (actual widget code)
+       * - string_template:  An alternative template for text based fields.
+       * - object_template:  An alternative template for input based fields.
+       * - boolean_template: An alternative template for boolean based fields.
        * - save_url:         The url where data changes are propagated to.
        *                     Should return a dict with either {"status":
        *                     "success"} or {"status": "error", "msg":
@@ -44,6 +52,10 @@
         self.unrecoverable_error = true;
         alert('An unrecoverable error has occurred.');
       });
+      if (gocept.jsform.isUndefinedOrNull(self.options.field_wrapper_template))
+        self.field_wrapper_template = self.get_template('gocept_jsform_templates_field_wrapper');
+      else
+        self.field_wrapper_template = self.get_template(self.options.field_wrapper_template);
     },
 
     create_form: function() {
@@ -164,10 +176,8 @@
       var widget_options = $.extend(
         {name: id, value: value, label: ''}, self.options[id]);
       var widget_code = widget.expand(widget_options);
-      widget_code = ['<div id="field-' + id + '">',
-                     '<div class="error ' + id + '"></div>',
-                     widget_code,
-                     '</div>'].join('');
+      var wrapper_options = {id: id, widget_code: widget_code}
+      widget_code = self.field_wrapper_template.expand(wrapper_options)
       if (!$('#field-'+id, self.node).length)
         self.node.append(widget_code);
       else
@@ -208,7 +218,7 @@
 
     field: function(id) {
       var self = this;
-      return self.node.find('#field-' + id + ' .field');
+      return self.node.find('#field-' + id);
     },
 
     subscribe: function(id, real_id) {
