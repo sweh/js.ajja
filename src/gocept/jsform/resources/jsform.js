@@ -218,7 +218,7 @@
 
     field: function(id) {
       var self = this;
-      return self.node.find('#field-' + id);
+      return self.node.find('#field-' + id + ' .field');
     },
 
     subscribe: function(id, real_id) {
