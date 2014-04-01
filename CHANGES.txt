@@ -18,6 +18,11 @@ Change log for gocept.jsform
   response, retry on connection errors either after the next successful server
   access for any other field, or when requested by a call to ``retry()``.
 
+- Added an API method ``save_remaining()`` that causes any fields to be saved
+  that have not been modified so far. While this should only save the initial
+  values loaded from the server, it is useful to apply the same validation and
+  error handling to all fields.
+
 - Added an API method ``when_saved(retry)`` that returns a promise that
   aggregates any pending and completed save calls, either propagating the
   retry behaviour of single fields (the default) or failing on server errors.

@@ -8,9 +8,11 @@ describe("Form Plugin", function() {
     response or fault. The function is called either after a tiny delay to get
     asynchronicity or, if a trigger is given, when the trigger is resolved.
     */
-    form._save = function(id, value) {
+      form._save = function(id, save_url, save_type, data) {
       var deferred_save = $.Deferred();
-      var apply_response = function() { response(deferred_save, id, value); };
+      var apply_response = function() {
+        response(deferred_save, id, $.parseJSON(data)[id]);
+      };
       if (gocept.jsform.isUndefinedOrNull(trigger)) {
         setTimeout(apply_response, 1);
       } else {
@@ -332,6 +334,48 @@ describe("Form Plugin", function() {
     runs(function() {
       expect(form.field('email').data('save').state()).toEqual('resolved');
     });
+  });
+
+  describe("save_remaining behaviour", function() {
+
+    it("save_remaining saves fields that haven't been saved yet", function() {
+      var saved_id;
+      var saved_value;
+      set_save_response(function(save, id, value) {
+        saved_id = id;
+        saved_value = value;
+        save.resolve({status: 'success'});
+      });
+      form.load({email: 'max@mustermann.example'});
+      runs(function() {
+        form.save_remaining();
+      });
+      waitsFor(function() {
+        return (!gocept.jsform.isUndefinedOrNull(saved_id));
+      }, "the remaining field to have been saved", 100);
+      runs(function() {
+        expect(saved_id).toEqual('email');
+        expect(saved_value).toEqual('max@mustermann.example');
+      });
+    });
+
+    it("save_remaining skips fields that haven been saved", function() {
+      var save_called = false;
+      set_save_response(function(save) { save.resolve({status: 'success'}); });
+      form.load({email: ''});
+      $(form).on('after-save', function() { save_called = true; });
+      runs(function() {
+        $('#field-email input').val('max@mustermann.example').change();
+      });
+      waitsFor(function() { return save_called; },
+               "the email field to have been saved", 100);
+      runs(function() {
+        form.save = jasmine.createSpy();
+        form.save_remaining();
+        expect(form.save).not.toHaveBeenCalled();
+      });
+    });
+
   });
 
   describe("when_saved behaviour", function() {

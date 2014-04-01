@@ -395,6 +395,15 @@
       $(self).trigger('retry');
     },
 
+    save_remaining: function() {
+      var self = this;
+      $.each(self.data, function(id, value) {
+        if (gocept.jsform.isUndefinedOrNull(self.field(id).data('save'))) {
+          self.save(id, value);
+        }
+      });
+    },
+
     notify_field_error: function(id, msg) {
       var self = this;
       self.clear_field_error(id);
