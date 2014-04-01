@@ -270,7 +270,7 @@
       var self = this;
       var deferred_save = $.when(self.field(id).data('save')).then(
         /* For the time being, simply chain the new save after the last, no
-           error handling yet. */
+           compression of queued save calls yet. */
         function () {return self.start_save(id, newValue);},
         function () {return self.start_save(id, newValue);}
       );
@@ -403,6 +403,15 @@
     retry: function() {
       var self = this;
       $(self).trigger('retry');
+    },
+
+    save_remaining: function() {
+      var self = this;
+      $.each(self.data, function(id, value) {
+        if (gocept.jsform.isUndefinedOrNull(self.field(id).data('save'))) {
+          self.save(id, value);
+        }
+      });
     },
 
     notify_field_error: function(id, msg) {
