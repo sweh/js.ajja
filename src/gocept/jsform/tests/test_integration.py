@@ -3,11 +3,9 @@
 # See also LICENSE.txt
 
 import fanstatic
-import gocept.httpserverlayer.wsgi
 import gocept.jasmine.jasmine
 import gocept.jasmine.resource
-import gocept.jsform.resource
-import gocept.selenium.static
+import gocept.jsform
 import os
 
 
