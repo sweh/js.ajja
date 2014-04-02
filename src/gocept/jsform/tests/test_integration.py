@@ -17,7 +17,7 @@ integration_test = fanstatic.Resource(
 class JSFormApp(gocept.jasmine.jasmine.TestApp):
 
     def need_resources(self):
-        gocept.jsform.resource.jsform.need()
+        gocept.jsform.jsform.need()
         integration_test.need()
 
     @property

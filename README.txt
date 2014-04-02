@@ -15,7 +15,7 @@ Requirements
 
 If you have a server using *fanstatic* to include resources, just do::
 
-    from gocept.jsform.resource import jsform
+    from gocept.jsform import jsform
     jsform.need()
 
 This will require all needed resources like *jquery*, *knockout*,
