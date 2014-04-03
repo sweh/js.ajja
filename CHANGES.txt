@@ -33,6 +33,9 @@ Change log for gocept.jsform
 
 - Made code pass jshint check.
 
+- Made default and currently not overrideable status message behaviour
+  compatible to bootstrap 3
+
 
 1.0 (2013-12-13)
 ================
