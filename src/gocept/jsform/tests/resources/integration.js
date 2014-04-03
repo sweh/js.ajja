@@ -293,7 +293,7 @@ describe("Form Plugin", function() {
     runs(function() {
       expect($('#my_form .error.email').text()).toEqual(
          'This field contains unsaved changes.');
-      expect($('#my_form .statusarea .error').text()).toEqual(
+      expect($('#my_form .statusarea .alert-danger').text()).toEqual(
         'email: This field contains unsaved changes.' +
         'There was an error communicating with the server.');
       set_save_response(function(save) { save.resolve({status: 'success'}); });
@@ -304,7 +304,7 @@ describe("Form Plugin", function() {
     runs(function() {
       expect(form.field('email').data('save').state()).toEqual('resolved');
       expect($('#my_form .error.email').text()).toEqual('');
-      expect($('#my_form .statusarea .error').length).toEqual(0);
+      expect($('#my_form .statusarea .alert-danger').length).toEqual(0);
     });
   });
 
@@ -539,7 +539,7 @@ describe("Form Plugin", function() {
     runs(function() {
       $('#my_form input').val('max@mustermann').change();
     });
-    waitsFor(function() { return $('#my_form .saving').length == 0; },
+    waitsFor(function() { return $('#my_form .success').length == 0; },
              'saving notification to disappear after saving', 100);
   });
 
@@ -549,23 +549,23 @@ describe("Form Plugin", function() {
     runs(function() {
       $('#my_form input').val('max@mustermann').change();
     });
-    waitsFor(function() { return $('#my_form .saving').length == 0; },
+    waitsFor(function() { return $('#my_form .success').length == 0; },
              'saving notification to disappear on server error', 100);
   });
 
   it("status messages appear in the status area, with css class", function() {
     form.status_message('foo', 'success');
-      expect($('#my_form .statusarea .success').text()).toEqual('foo');
+      expect($('#my_form .statusarea .alert-success').text()).toEqual('foo');
   });
 
   it("status messages disappear after a given duration", function() {
     runs(function() {
       form.status_message('foo', 'success', 100);
-      expect($('#my_form .statusarea .success').text()).toEqual('foo');
+      expect($('#my_form .statusarea .alert-success').text()).toEqual('foo');
     });
     waits(1500);  /* fadeOut(1000) */
     runs(function() {
-      expect($('#my_form .statusarea .success').length).toEqual(0);
+      expect($('#my_form .statusarea .alert-success').length).toEqual(0);
     });
   });
 
