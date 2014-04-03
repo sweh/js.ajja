@@ -36,6 +36,8 @@ Change log for gocept.jsform
 - Made default and currently not overrideable status message behaviour
   compatible to bootstrap 3
 
+- Properly unsubscribe change handlers when updating fields.
+
 
 1.0 (2013-12-13)
 ================

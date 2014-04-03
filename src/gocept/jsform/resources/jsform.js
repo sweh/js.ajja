@@ -40,6 +40,7 @@
       self.url = null;
       self.initial_data = null;
       self.data = {};
+      self.subscriptions = {};
       self.options = {action: ''};
       self.csrf_token_id = 'csrf_token';
       self.mapping = {};
@@ -211,7 +212,6 @@
         self.model = ko.mapping.fromJS(self.data);
       else
         self.model = ko.mapping.fromJS(self.data, self.mapping);
-      self.subscriptions = {};
       self.observe_model_changes();
       ko.applyBindings(self.model, self.node.get(0));
     },
@@ -226,6 +226,9 @@
        * the server.
        */
       var self = this;
+      if (!gocept.jsform.isUndefinedOrNull(self.subscriptions[id])) {
+          self.subscriptions[id].dispose();
+      }
       self.subscriptions[id] = self.model[id].subscribe(function(newValue) {
         self.save(gocept.jsform.or(real_id, id), newValue);
       });
