@@ -421,7 +421,7 @@
       error_node.text(msg);
       self.highlight_field(id, 'error');
       error_node.data(
-          'status_message', self.status_message(id + ': ' + msg, 'error'));
+          'status_message', self.status_message(id + ': ' + msg, 'danger'));
     },
 
     clear_field_error: function(id) {
@@ -437,7 +437,7 @@
       var self = this;
       self.clear_server_error();
       self.server_error_status_message = self.status_message(
-          'There was an error communicating with the server.', 'error');
+          'There was an error communicating with the server.', 'danger');
     },
 
     clear_server_error: function() {
@@ -450,7 +450,7 @@
     notify_saving: function(id) {
       var self = this;
       self.field(id).addClass('saving');
-      return self.status_message('Saving ' + id, 'saving');
+      return self.status_message('Saving ' + id, 'info');
     },
 
     clear_saving: function(id, msg_node) {
@@ -471,8 +471,8 @@
 
     status_message: function(message, status, duration) {
       var self = this;
-      var msg_node = $('<div></div>').text(message);
-      msg_node.addClass('statusmessage ' + status);
+      var msg_node = $('<div class="alert"></div>').text(message);
+      msg_node.addClass('alert-' + status);
       if (!gocept.jsform.isUndefinedOrNull(duration)) {
           msg_node.delay(duration).fadeOut(
               1000, function(){msg_node.remove();});
