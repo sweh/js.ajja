@@ -25,7 +25,7 @@ describe("Form Plugin", function() {
   alert = jasmine.createSpy();
 
   beforeEach(function() {
-    form = new gocept.jsform.Form('my_form');
+      form = new gocept.jsform.Form('my_form', {});
   });
 
   it("should inject a form tag into html", function() {
