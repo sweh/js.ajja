@@ -55,13 +55,11 @@
       self.initial_data = null;
       self.data = {};
       self.subscriptions = {};
-      self.options = {action: ''};
+      self.options = {action: '', language: 'en'};
       self.csrf_token_id = 'csrf_token';
       self.mapping = {};
       if (!gocept.jsform.isUndefinedOrNull(options))
         self.options = options;
-      if (gocept.jsform.isUndefinedOrNull(options.language))
-        self.options.language = 'en';
       self.texts = gocept.jsform.locales[self.options.language];
       self.create_form();
       $(self).on('server-responded', self.retry);
