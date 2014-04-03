@@ -38,6 +38,8 @@ Change log for gocept.jsform
 
 - Properly unsubscribe change handlers when updating fields.
 
+- Added simple localization.
+
 
 1.0 (2013-12-13)
 ================

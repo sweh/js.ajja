@@ -3,12 +3,25 @@
 (function($) {
   "use strict";
 
+  gocept.jsform.locales = {};
+  gocept.jsform.locales.en = {
+    successfully_saved_value: 'Successfully saved value.',
+    field_contains_unsaved_changes: 'This field contains unsaved changes.',
+    communication_error: 'There was an error communicating with the server.',
+    saving: 'Saving'
+  };
+  gocept.jsform.locales.de = {
+    successfully_saved_value: 'Feld wurde gespeichert.',
+    field_contains_unsaved_changes: 'Dieses Feld enthält nicht gespeicherte Änderungen.',
+    communication_error: 'Es gab einen Fehler bei der Kommunikation mit dem Server.',
+    saving: 'Speichere'
+  };
+
   gocept.jsform.Form = function () {
     this.construct.apply(this, arguments);
   };
 
   gocept.jsform.Form.prototype = {
-
     construct: function(id, options) {
       /* Exand the form under #id.
        *
@@ -34,6 +47,7 @@
        *                     "Not an eMail address."}.
        * - action:           The url the form will submit to (if intended).
        *                     Will become the action attribute in form.
+       * - language:         2-char language code. Default is en.
        */
       var self = this;
       self.id = id;
@@ -46,6 +60,9 @@
       self.mapping = {};
       if (!gocept.jsform.isUndefinedOrNull(options))
         self.options = options;
+      if (gocept.jsform.isUndefinedOrNull(options.language))
+        self.options.language = 'en';
+      self.texts = gocept.jsform.locales[self.options.language];
       self.create_form();
       $(self).on('server-responded', self.retry);
       self.unrecoverable_error = false;
@@ -57,6 +74,11 @@
         self.field_wrapper_template = self.get_template('gocept_jsform_templates_field_wrapper');
       else
         self.field_wrapper_template = self.get_template(self.options.field_wrapper_template);
+    },
+
+    t: function(msgid) {
+        var self = this;
+        return self.texts[msgid];
     },
 
     create_form: function() {
@@ -297,11 +319,11 @@
       })
       .done(function() {
         self.highlight_field(id, 'success');
-        self.status_message('Successfully saved value.', 'success', 1000);
+        self.status_message(self.t('successfully_saved_value'), 'success', 1000);
       })
       .progress(function() {
         self.clear_saving(id, saving_msg_node);
-        self.notify_field_error(id, 'This field contains unsaved changes.');
+        self.notify_field_error(id, self.t('field_contains_unsaved_changes'));
       })
       .fail(function(msg) {
         self.notify_field_error(id, msg);
@@ -440,7 +462,7 @@
       var self = this;
       self.clear_server_error();
       self.server_error_status_message = self.status_message(
-          'There was an error communicating with the server.', 'danger');
+          self.t('communication_error'), 'danger');
     },
 
     clear_server_error: function() {
@@ -453,7 +475,7 @@
     notify_saving: function(id) {
       var self = this;
       self.field(id).addClass('saving');
-      return self.status_message('Saving ' + id, 'info');
+      return self.status_message(self.t('saving') + ' ' + id, 'info');
     },
 
     clear_saving: function(id, msg_node) {
