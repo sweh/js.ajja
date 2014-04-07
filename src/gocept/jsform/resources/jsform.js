@@ -163,14 +163,7 @@
       if (gocept.jsform.isUndefinedOrNull(data)) {
         return;
       }
-      $.each(data, function (id, value) {
-        if (gocept.jsform.isUndefinedOrNull(value)) {
-          //console.warn("Got `null` as value for `" + id + "`. Ignoring.");
-          return;
-        } else {
-          self.data[id] = value;
-        }
-      });
+      $.extend(self.data, data);
     },
 
     get_template: function(template) {
@@ -263,13 +256,13 @@
       /* Observe changes on all fields on model. */
       var self = this;
       $.each(self.data, function (id, value) {
-        if (typeof(value) == "object") {
+        if (value instanceof Object) {
           /* Observe select changes on selectfields. Knockout only
            * propagates adding and removing items from selects
            * out-of-the-box.
            */
           var initial_values = [];
-          $.each(self.data[id], function (index, obj) {
+          $.each(value, function (index, obj) {
               if (obj.selected)
                   initial_values.push(obj.id);
           });
@@ -285,7 +278,12 @@
       var self = this;
       if (gocept.jsform.isUndefinedOrNull(self.options[id]) ||
           gocept.jsform.isUndefinedOrNull(self.options[id].template)) {
-        var type = typeof(value);
+        var type;
+        if (value === null) {
+          type = 'string';
+        } else {
+          type = typeof(value);
+        }
         return gocept.jsform.or(self.options[type + '_template'],
                                 'gocept_jsform_templates_' + type);
       } else {
