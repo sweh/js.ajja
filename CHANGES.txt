@@ -5,7 +5,7 @@ Change log for gocept.jsform
 1.2 (unreleased)
 ================
 
-- Nothing changed yet.
+- Add textarea template.
 
 
 1.1 (2014-04-07)
