@@ -194,9 +194,15 @@
       var self = this;
       var widget = self.get_template(self.get_widget(id, value));
       var widget_options = $.extend(
-        {name: id, value: value, label: ''}, self.options[id]);
+        {name: id,
+         value: value,
+         label: ''
+        }, self.options[id]);
       var widget_code = widget.expand(widget_options);
-      var wrapper_options = {id: id, widget_code: widget_code}
+      var wrapper_options = $.extend(
+          {id: id,
+           widget_code: widget_code
+          }, widget_options);
       widget_code = self.field_wrapper_template.expand(wrapper_options)
       if (!$('#field-'+id, self.node).length)
         self.node.append(widget_code);

@@ -1,4 +1,3 @@
-<div class="label" for="{name}">{label}</div>
 <div class="field">
   <select name="{name}" data-bind="options: {name},
                                    optionsCaption: ' ',
