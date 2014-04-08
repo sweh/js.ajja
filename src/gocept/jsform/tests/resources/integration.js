@@ -266,7 +266,7 @@ describe("Form Plugin", function() {
       runs(function() {
         expect(form.field('name').data('save').state()).toEqual('rejected');
         expect(form._save).not.toHaveBeenCalled();
-        expect($('#my_form .error.name').text()).toEqual(
+        expect($('#my_form .error').text()).toEqual(
           'This field is required but has no input.');
       });
     });
@@ -283,7 +283,7 @@ describe("Form Plugin", function() {
     });
     waits(100);
     runs(function() {
-      expect($('#my_form .error.email').text()).toEqual(
+      expect($('#my_form .error').text()).toEqual(
          'Not a valid eMail address.');
     });
     runs(function() {
@@ -292,7 +292,7 @@ describe("Form Plugin", function() {
     });
     waits(100);
     runs(function() {
-      expect($('#my_form .error.email').text()).toEqual('');
+      expect($('#my_form .error').text()).toEqual('');
     });
   });
 
@@ -335,7 +335,7 @@ describe("Form Plugin", function() {
     waitsFor(function() { return server_error_notified; },
              'server error to be notified', 100);
     runs(function() {
-      expect($('#my_form .error.email').text()).toEqual(
+      expect($('#my_form .error').text()).toEqual(
          'This field contains unsaved changes.');
       expect($('#my_form .statusarea .alert-danger').text()).toEqual(
         'email: This field contains unsaved changes.' +
@@ -347,7 +347,7 @@ describe("Form Plugin", function() {
              'field "email" to be saved successfully when retried', 100);
     runs(function() {
       expect(form.field('email').data('save').state()).toEqual('resolved');
-      expect($('#my_form .error.email').text()).toEqual('');
+      expect($('#my_form .error').text()).toEqual('');
       expect($('#my_form .statusarea .alert-danger').length).toEqual(0);
     });
   });
