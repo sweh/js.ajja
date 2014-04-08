@@ -1,4 +1,1 @@
-<div class="field">
-  <textarea data-bind="value: {name}" name="{name}">
-  </textarea>
-</div>
+<textarea data-bind="value: {name}" name="{name}"></textarea>
