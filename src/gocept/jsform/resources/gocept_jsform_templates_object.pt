@@ -1,8 +1,7 @@
-<div class="field">
-  <select name="{name}" data-bind="options: {name},
-                                   optionsCaption: ' ',
-                                   optionsText: 'value',
-                                   optionsValue: 'id',
-                                   selectedOptions: {name}_selected">
-  </select>
-</div>
+<select name="{name}"
+        data-bind="options: {name},
+                   optionsCaption: ' ',
+                   optionsText: 'value',
+                   optionsValue: 'id',
+                   selectedOptions: {name}_selected">
+</select>
