@@ -117,8 +117,6 @@
       } else {
         self.initial_data = data_or_url;
       }
-      if (gocept.jsform.isUndefinedOrNull(options))
-        options = {};
       $.extend(self.options, options);
       if (!gocept.jsform.isUndefinedOrNull(mapping))
         self.mapping = mapping;
