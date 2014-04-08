@@ -1,5 +1,5 @@
-<label for="{name}">{label}</label>
 <div id="field-{id}">
+    <label for="{name}">{label}</label>
     <div class="error {id}"></div>
     {widget_code|raw}
 </div>

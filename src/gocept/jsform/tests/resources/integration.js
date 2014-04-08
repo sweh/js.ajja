@@ -121,7 +121,7 @@ describe("Form Plugin", function() {
     $(form).on('after-save', function(event, data) {
       event_options = data;
     });
-    form.load({});
+    form.load({foo: ''});
     runs(function() {
       form.start_save('foo', 'bar');
     });
@@ -227,6 +227,50 @@ describe("Form Plugin", function() {
                                            // trigger click twice here
       expect(form.save).toHaveBeenCalled();
     });
+  });
+
+  describe("required fields handling", function () {
+
+    it("required field is marked after load but not as error", function () {
+      spyOn(form, 'notify_field_error');
+      form.load({name: 'John'}, {name: {required: true}});
+      expect($('#my_form #field-name').hasClass('required')).toEqual(true);
+      expect(form.notify_field_error).not.toHaveBeenCalled();
+    });
+
+    it("required fields work just fine when filled in", function () {
+      var saved_id;
+      var saved_value;
+      set_save_response(function(save, id, value) {
+        saved_id = id;
+        saved_value = value;
+      });
+      form.load({name: ''}, {name: {required: true}});
+      runs(function() { $('#my_form input').val('John').change(); });
+      waitsFor(function() {
+        return saved_id == 'name' && saved_value == 'John';
+      }, 100);
+    });
+
+    it("required fields are not saved if blank", function () {
+      var save_finished = false;
+      spyOn(form, '_save').andCallThrough();
+      form.load({name: 'John'}, {name: {required: true}});
+      runs(function() {
+        $('#my_form input').val('').change();
+        form.field('name').data('save').always(function() {
+          save_finished = true;
+        });
+      });
+      waitsFor(function() { return save_finished; }, 100);
+      runs(function() {
+        expect(form.field('name').data('save').state()).toEqual('rejected');
+        expect(form._save).not.toHaveBeenCalled();
+        expect($('#my_form .error.name').text()).toEqual(
+          'This field is required but has no input.');
+      });
+    });
+
   });
 
   it("validation errors are displayed and cleared at the widget", function () {
