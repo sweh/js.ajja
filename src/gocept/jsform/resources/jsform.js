@@ -460,7 +460,7 @@
       self.clear_field_error(id);
       var error_node = self.node.find('.error.' + id);
       error_node.text(msg);
-      self.highlight_field(id, 'error');
+      self.highlight_field(id, 'danger');
       error_node.data(
           'status_message', self.status_message(id + ': ' + msg, 'danger'));
     },
@@ -490,23 +490,23 @@
 
     notify_saving: function(id) {
       var self = this;
-      self.field(id).addClass('saving');
+      self.field(id).addClass('alert-saving');
       return self.status_message(self.t('saving') + ' ' + id, 'info');
     },
 
     clear_saving: function(id, msg_node) {
       var self = this;
-      self.field(id).removeClass('saving');
+      self.field(id).removeClass('alert-saving');
       self.clear_status_message(msg_node);
     },
 
     highlight_field: function(id, status) {
       var self = this;
       var field = self.field(id);
-      field.addClass(status);
+      field.addClass('alert-' + status);
       field.delay(300);
       field.queue(function() {
-        $(this).removeClass(status).dequeue();
+        $(this).removeClass('alert-' + status).dequeue();
       });
     },
 

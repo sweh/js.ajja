@@ -9,6 +9,8 @@ Change log for gocept.jsform
 
 - Added the concept of required fields which cannot be saved when blank.
 
+- More Bootstrap 3 compatibility.
+
 
 1.1 (2014-04-07)
 ================
