@@ -458,7 +458,7 @@
     notify_field_error: function(id, msg) {
       var self = this;
       self.clear_field_error(id);
-      var error_node = self.node.find('.error.' + id);
+      var error_node = self.node.find('.error');
       error_node.text(msg);
       self.highlight_field(id, 'danger');
       error_node.data(
@@ -467,7 +467,7 @@
 
     clear_field_error: function(id) {
       var self = this;
-      var error_node = self.node.find('.error.' + id);
+      var error_node = self.node.find('.error');
       error_node.text('');
       self.clear_status_message(error_node.data('status_message'));
       error_node.data('status_message', null);

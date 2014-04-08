@@ -11,6 +11,8 @@ Change log for gocept.jsform
 
 - More Bootstrap 3 compatibility.
 
+- Simplified HTML mark-up of form elements.
+
 
 1.1 (2014-04-07)
 ================
