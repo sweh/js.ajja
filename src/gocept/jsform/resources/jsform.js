@@ -8,12 +8,14 @@
     successfully_saved_value: 'Successfully saved value.',
     field_contains_unsaved_changes: 'This field contains unsaved changes.',
     communication_error: 'There was an error communicating with the server.',
+    required_field_left_blank: 'This field is required but has no input.',
     saving: 'Saving'
   };
   gocept.jsform.locales.de = {
     successfully_saved_value: 'Feld wurde gespeichert.',
     field_contains_unsaved_changes: 'Dieses Feld enthält nicht gespeicherte Änderungen.',
     communication_error: 'Es gab einen Fehler bei der Kommunikation mit dem Server.',
+    required_field_left_blank: 'Dieses Pflichtfeld wurde nicht ausgefüllt.',
     saving: 'Speichere'
   };
 
@@ -109,6 +111,7 @@
        *   |- <field_name>: Foreach field in data you can add some options:
        *     |- label: The label of the field.
        *     |- template: A custom template for this field.
+       *     |- required: boolean, whether this is a required field
        * |- mapping:  An optional mapping for the <ko.mapping> plugin.
        */
       var self = this;
@@ -199,6 +202,9 @@
         self.node.append(widget_code);
       else
         $('#field-'+id, self.node).replaceWith(widget_code);
+      if (self.options[id].required) {
+        $('#field-' + id, self.node).addClass('required');
+      }
     },
 
     init_fields: function() {
@@ -217,6 +223,10 @@
       if (gocept.jsform.isUndefinedOrNull(self.data))
         return;
       $.each(self.data, function (id, value) {
+        /* XXX option defaults should not be applied here but until fields
+         * have a class of their own, this is a convenient place
+         */
+        self.options[id] = $.extend({required: false}, self.options[id]);
           self.render_widget(id, value);
       });
       self.update_bindings();
@@ -334,6 +344,15 @@
 
     save_and_validate: function(id, newValue) {
       var self = this;
+
+      var validated = $.Deferred();
+      var result = validated.promise();
+
+      if (self.options[id].required && !(newValue)) {
+        validated.reject(self.t('required_field_left_blank'));
+        return result;
+      }
+
       var save_url = self.options.save_url;
       if (!save_url) {
         save_url = self.url;
@@ -348,8 +367,6 @@
       if ($('#'+self.csrf_token_id).length) {
         data[self.csrf_token_id] = $('#'+self.csrf_token_id).val();
       }
-
-      var validated = $.Deferred();
 
       self._save(id, save_url, save_type, ko.toJSON(data))
       .always(function() {
@@ -377,7 +394,7 @@
         self.notify_server_error();
       });
 
-      return validated.promise();
+      return result;
     },
 
     _save: function (id, save_url, save_type, data) {
