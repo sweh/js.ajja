@@ -19,12 +19,9 @@
     saving: 'Speichere'
   };
 
-  gocept.jsform.Form = function () {
-    this.construct.apply(this, arguments);
-  };
+  gocept.jsform.Form = Class.$extend({
 
-  gocept.jsform.Form.prototype = {
-    construct: function(id, options) {
+    __init__: function(id, options) {
       /* Exand the form under #id.
        *
        * Options can be:
@@ -528,6 +525,6 @@
         msg_node.remove();
       }
     }
-  };
+  });
 
 }(jQuery));
