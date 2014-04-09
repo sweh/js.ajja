@@ -14,6 +14,11 @@ integration_test = fanstatic.Resource(
     library, 'integration.js', depends=[gocept.jasmine.resource.jasmine])
 
 
+# Register this library programmatically to avoid making the package metadata
+# depend on test-only dependencies.
+fanstatic.get_library_registry().add(library)
+
+
 class JSFormApp(gocept.jasmine.jasmine.TestApp):
 
     def need_resources(self):

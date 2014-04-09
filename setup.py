@@ -41,7 +41,6 @@ setup(
         ],
         'fanstatic.libraries': [
             'gocept.jsform = gocept.jsform.resource:library',
-            'gocept.jsform.tests = gocept.jsform.tests.test_integration:library',
         ],
     },
 
