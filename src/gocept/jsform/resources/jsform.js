@@ -151,17 +151,9 @@
 
     finish_load: function(data) {
         var self = this;
-        self.set_data(data);
+        $.extend(self.data, data);
         self.init_fields();
         $(self).trigger('after-load');
-    },
-
-    set_data: function(data) {
-      var self = this;
-      if (gocept.jsform.isUndefinedOrNull(data)) {
-        return;
-      }
-      $.extend(self.data, data);
     },
 
     get_template: function(template) {
