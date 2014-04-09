@@ -13,6 +13,8 @@ Change log for gocept.jsform
 
 - Simplified HTML mark-up of form elements.
 
+- Removed the package metadata's implicit dependency on the test extra.
+
 
 1.1 (2014-04-07)
 ================
