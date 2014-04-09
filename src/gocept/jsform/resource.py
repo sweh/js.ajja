@@ -1,4 +1,5 @@
 import fanstatic
+import js.classy
 import js.jquery
 import js.json_template
 import js.knockout
@@ -60,4 +61,5 @@ templates = fanstatic.Group([
 
 jsform = fanstatic.Resource(
     library, 'jsform.js', minified='jsform.min.js',
-    depends=[helpers, js.json_template.json_template, templates])
+    depends=[helpers, js.json_template.json_template, templates,
+             js.classy.classy])
