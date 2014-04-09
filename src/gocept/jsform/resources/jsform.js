@@ -109,6 +109,7 @@
        *     |- label: The label of the field.
        *     |- template: A custom template for this field.
        *     |- required: boolean, whether this is a required field
+       *     |- source: array of objects containing 'token' and 'title'
        * |- mapping:  An optional mapping for the <ko.mapping> plugin.
        */
       var self = this;
@@ -253,19 +254,6 @@
       /* Observe changes on all fields on model. */
       var self = this;
       $.each(self.data, function (id, value) {
-        if (value instanceof Object) {
-          /* Observe select changes on selectfields. Knockout only
-           * propagates adding and removing items from selects
-           * out-of-the-box.
-           */
-          var initial_values = [];
-          $.each(value, function (index, obj) {
-              if (obj.selected)
-                  initial_values.push(obj.id);
-          });
-          self.model[id+'_selected'] = ko.observableArray(initial_values);
-          self.subscribe(id+'_selected', id);
-        }
         self.subscribe(id);
       });
     },

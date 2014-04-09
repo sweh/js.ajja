@@ -2,8 +2,12 @@
 Change log for gocept.jsform
 ============================
 
-1.2 (unreleased)
+2.0 (unreleased)
 ================
+
+- Improved handling of object and multiselect fields such that the values
+  loaded are actually just the values, with select options being passed as the
+  ``source`` field option. This is an important backwards-incompatible change.
 
 - Add textarea template.
 
