@@ -52,8 +52,9 @@ describe("Form Plugin", function() {
   });
 
   it("should inject a select field for arrays", function() {
-    form.load({title: [{id: 'mr', value: 'Mr.'},
-                       {id: 'mrs', value: 'Mrs.'}]});
+    form.load({title: []},
+              {title: {source: [{token: 'mr', title: 'Mr.'},
+                                {token: 'mrs', title: 'Mrs.'}]}});
     expect($('#my_form select').attr('name')).toEqual('title');
     expect($('#my_form select option').get(0).value).toEqual('');
     expect($('#my_form select option').get(1).value).toEqual('mr');
@@ -84,7 +85,9 @@ describe("Form Plugin", function() {
     var loaded = false;
     $(form).on('after-load', function() { loaded = true; });
     runs(function() {
-      form.load('/fanstatic/gocept.jsform.tests/testdata.json');
+      form.load('/fanstatic/gocept.jsform.tests/testdata.json',
+                {title: {source: [{token: 'mr', title: 'Mr.'},
+                                 {token: 'mrs', title: 'Mrs.'}]}});
     });
     waitsFor(function() { return loaded; }, 'form to be loaded', 1000);
     runs(function() {
@@ -621,8 +624,9 @@ describe("Form Plugin", function() {
   });
 
   it("can display the select status of a list", function () {
-    form.load({title: [{id: 'mr', value: 'Mr.'},
-                       {id: 'mrs', value: 'Mrs.', selected: true}]});
+    form.load({title: ['mrs']},
+              {title: {source: [{token: 'mr', title: 'Mr.'},
+                                {token: 'mrs', title: 'Mrs.'}]}});
     expect($('#my_form select option').get(2).selected).toEqual(true);
   });
 

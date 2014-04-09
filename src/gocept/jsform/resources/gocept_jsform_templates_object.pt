@@ -1,7 +1,7 @@
 <select name="{name}"
-        data-bind="options: {name},
-                   optionsCaption: ' ',
-                   optionsText: 'value',
-                   optionsValue: 'id',
-                   selectedOptions: {name}_selected">
+        data-bind="selectedOptions: {name}">
+  <option></option>
+{. repeated section source}
+  <option value="{token}">{title}</option>
+{.end}
 </select>

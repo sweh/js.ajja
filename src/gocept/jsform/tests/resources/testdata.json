@@ -1,4 +1,3 @@
 {"firstname": "Sebastian",
- "title": [{"id": "mr", "value": "Mr."},
-           {"id": "mrs", "value": "Mrs."}],
+ "title": [],
  "needs_glasses": false}
