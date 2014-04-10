@@ -62,9 +62,10 @@
       self.create_form();
       $(self).on('server-responded', self.retry);
       self.unrecoverable_error = false;
-      $(self).on('unrecoverable-error', function() {
+      $(self).on('unrecoverable-error', function(event, msg) {
         self.unrecoverable_error = true;
-        alert('An unrecoverable error has occurred.');
+        self.unrecoverable_error_msg = msg;
+        alert('An unrecoverable error has occurred: ' + msg);
       });
       if (gocept.jsform.isUndefinedOrNull(self.options.field_wrapper_template))
         self.field_wrapper_template = self.get_template('gocept_jsform_templates_field_wrapper');
@@ -355,12 +356,17 @@
         } else if (data.status == 'success') {
           validated.resolve(data);
         } else {
-          $(self).trigger('unrecoverable-error');
+          $(self).trigger('unrecoverable-error',
+                          'Could not parse server response.');
           return;
         }
         $(self).trigger('server-responded');
       })
-      .fail(function() {
+      .fail(function(jqxhr, text_status, error_thrown) {
+        if (text_status == 'error' && error_thrown) {
+          $(self).trigger('unrecoverable-error', error_thrown);
+          return;
+        }
         $(self).one('retry', function() {
           self.start_save(id, newValue)
             .done(validated.resolve)

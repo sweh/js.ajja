@@ -21,6 +21,9 @@ Change log for gocept.jsform
 
 - Use `classy <https://github.com/mitsuhiko/classy>`_ classes.
 
+- Consider HTTP error responses unrecoverable errors. This distinguishes them
+  from time-outs and connection errors.
+
 
 1.1 (2014-04-07)
 ================
