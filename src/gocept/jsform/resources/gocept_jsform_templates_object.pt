@@ -1,5 +1,5 @@
 <select name="{name}"
-        data-bind="selectedOptions: {name}">
+        data-bind="value: {name}">
   <option></option>
 {. repeated section source}
   <option value="{token}">{title}</option>
