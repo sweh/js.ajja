@@ -299,7 +299,7 @@ describe("Form Plugin", function() {
     });
   });
 
-  it("unrecoverable error on non-JSON response while saving", function() {
+  it("unrecoverable error on non-conformant HTTP OK response while saving", function() {
     set_save_response(function(save) { save.resolve(''); });
     form.load({email: ''});
 
@@ -316,7 +316,29 @@ describe("Form Plugin", function() {
     runs(function() {
       expect(form.start_save('foo', 'bar')).not.toBeDefined();
       expect(alert).toHaveBeenCalledWith(
-        'An unrecoverable error has occurred.');
+        'An unrecoverable error has occurred: ' +
+        'Could not parse server response.');
+    });
+  });
+
+  it("unrecoverable error on HTTP error response while saving", function() {
+    set_save_response(function(save) { save.reject(null, 'error', 'fubar'); });
+    form.load({email: ''});
+
+    var unrecoverable_error_triggered = false;
+    $(form).on('unrecoverable-error', function() {
+      unrecoverable_error_triggered = true;
+    });
+
+    runs(function() {
+      $('#my_form input').val('max@mustermann').change();
+    });
+    waitsFor(function() { return unrecoverable_error_triggered; },
+             'unrecoverable-error to be triggered', 100);
+    runs(function() {
+      expect(form.start_save('foo', 'bar')).not.toBeDefined();
+      expect(alert).toHaveBeenCalledWith(
+        'An unrecoverable error has occurred: fubar');
     });
   });
 
