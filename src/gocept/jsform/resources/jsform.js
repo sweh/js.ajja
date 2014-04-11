@@ -1,3 +1,4 @@
+// -*- js-indent-level: 2; -*-
 /*global gocept, jsontemplate, ko */
 
 (function($) {
