@@ -102,6 +102,12 @@ describe("Form Plugin", function() {
     expect(event_called).toEqual(true);
   });
 
+  it("should provide a deferred to check whether loading is done", function() {
+    expect(form.loaded.state()).toEqual('pending');
+    form.load({});
+    expect(form.loaded.state()).toEqual('resolved');
+  });
+
   it("should send an event after saving", function() {
     var event_called = false;
     set_save_response(function(save) { save.resolve({status: 'success'}); });
