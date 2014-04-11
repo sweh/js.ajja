@@ -1,6 +1,7 @@
+import glob
+import gocept.jslint
 import gocept.testing.mtime
 import os
-import os.path
 import pkg_resources
 import unittest
 
@@ -18,3 +19,12 @@ class TestMinifiedJSFiles(unittest.TestCase, gocept.testing.mtime.Newer):
 
     def test_minified_js_files_are_younger_than_non_minified_ones(self):
         self.check_files(RESOURCES_DIR)
+
+
+class TestJSLint(gocept.jslint.TestCase):
+
+    jshint_command = os.environ.get('JSHINT_COMMAND', '/bin/true')
+    include = ['gocept.jsform:resources']
+    exclude = ['ko.mapping.js'] + [os.path.basename(x) for x in glob.glob(
+        pkg_resources.resource_filename('gocept.jsform', 'resources/*.min.js'))
+    ]

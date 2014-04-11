@@ -33,7 +33,7 @@
        * - field_wrapper_template:
        *                     An alternative template for wrapping the
        *                     fields. This has to be compatible to the used
-       *                     form template, i.e. the element with ids of the 
+       *                     form template, i.e. the element with ids of the
        *                     fields must match the used form_template. The
        *                     template gets expanded with 2 variables:
        *                        * id (id of the field)
@@ -148,8 +148,8 @@
         $.ajax({
           dataType: "json",
           url: self.url,
-          success: function (data) { 
-              cb(data); 
+          success: function (data) {
+              cb(data);
           },
           error: function (e) { self.notify_server_error(e); }
         });
@@ -192,7 +192,7 @@
           {id: id,
            widget_code: widget_code
           }, widget_options);
-      widget_code = self.field_wrapper_template.expand(wrapper_options)
+      widget_code = self.field_wrapper_template.expand(wrapper_options);
       if (!$('#field-'+id, self.node).length)
         self.node.append(widget_code);
       else
@@ -222,7 +222,7 @@
          * have a class of their own, this is a convenient place
          */
         self.options[id] = $.extend({required: false}, self.options[id]);
-          self.render_widget(id, value);
+        self.render_widget(id, value);
       });
       self.update_bindings();
     },
