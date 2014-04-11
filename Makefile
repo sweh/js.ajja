@@ -7,15 +7,12 @@ min_css_files_for_delete = $(filter-out $(existing_min_css_files), $(patsubst %.
 
 
 %.min.js: %.js
-	./bin/jsmin < $<  > $@
+	./bin/py -m jsmin $<  > $@
 
 %.min.css: %.css
 	./bin/cssmin < $<  > $@
 
-all: jsmin $(min_js_files) $(min_css_files)
+all: $(min_js_files) $(min_css_files)
 
 clean:
 	rm -f $(min_js_files) $(min_css_files_for_delete)
-
-jsmin:
-	gcc jsmin.c -o bin/jsmin
