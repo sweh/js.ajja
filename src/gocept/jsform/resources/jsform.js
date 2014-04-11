@@ -71,6 +71,7 @@
         self.field_wrapper_template = self.get_template('gocept_jsform_templates_field_wrapper');
       else
         self.field_wrapper_template = self.get_template(self.options.field_wrapper_template);
+      self.loaded = $.Deferred();
     },
 
     t: function(msgid) {
@@ -131,6 +132,8 @@
        * After retrieval (which may be asynchronous), self.data is initialized.
        */
       var self = this;
+      self.loaded = $.Deferred();
+      $(self).on('after-load', self.loaded.resolve);
       if (self.url !== null) {
           self.reload_data(function(data) { self.finish_load(data); });
       } else {

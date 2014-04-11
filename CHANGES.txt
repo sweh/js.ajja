@@ -24,6 +24,12 @@ Change log for gocept.jsform
 - Consider HTTP error responses unrecoverable errors. This distinguishes them
   from time-outs and connection errors.
 
+- Add ``loaded`` property on Form, a Deferred so clients can check whether
+  loading has finished. This is mainly helpful for tests, e.g.::
+      selenium.waitForEval(
+          '$("#jsform").data("form") && '
+          '$("#jsform").data("form").loaded.state()', '"resolved"')
+
 
 1.1 (2014-04-07)
 ================
