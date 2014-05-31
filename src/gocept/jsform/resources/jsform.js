@@ -20,6 +20,23 @@
     saving: 'Speichere'
   };
 
+  gocept.jsform.get_template = function(template) {
+      var self = this;
+      if (template.render)
+        return template;
+
+      var html;
+      if (template.indexOf('>') !== -1) {
+        html = template;
+      } else if (template.indexOf('#') === 0) {
+        html = $(template).html();
+      } else {
+        html = $('#' + template).html();
+      }
+      return new jsontemplate.Template(
+        html, {default_formatter: 'html',  undefined_str: ''});
+  };
+
   gocept.jsform.Form = Class.$extend({
 
     __init__: function(id, options) {
@@ -162,22 +179,7 @@
         $(self).trigger('after-load');
     },
 
-    get_template: function(template) {
-      var self = this;
-      if (template.render)
-        return template;
-
-      var html;
-      if (template.indexOf('>') !== -1) {
-        html = template;
-      } else if (template.indexOf('#') === 0) {
-        html = $(template).html();
-      } else {
-        html = $('#' + template).html();
-      }
-      return new jsontemplate.Template(
-        html, {default_formatter: 'html',  undefined_str: ''});
-    },
+    get_template: gocept.jsform.get_template,
 
     render_widget: function(id, value) {
       var self = this;
