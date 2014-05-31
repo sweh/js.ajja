@@ -30,6 +30,8 @@ Change log for gocept.jsform
           '$("#jsform").data("form") && '
           '$("#jsform").data("form").loaded.state()', '"resolved"')
 
+- Expose the ``get_template`` function for reuse outside the Form class.
+
 
 1.1 (2014-04-07)
 ================
