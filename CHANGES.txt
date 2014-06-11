@@ -32,6 +32,9 @@ Change log for gocept.jsform
 
 - Expose the ``get_template`` function for reuse outside the Form class.
 
+- Trigger a ``before-save`` event to expose the value about to be saved to
+  manipulation by client code.
+
 
 1.1 (2014-04-07)
 ================

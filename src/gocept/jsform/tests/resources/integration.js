@@ -108,6 +108,16 @@ describe("Form Plugin", function() {
     expect(form.loaded.state()).toEqual('resolved');
   });
 
+  it("should expose data to manipulation before saving", function() {
+    spyOn(form, 'start_save');
+    form.load({foo: ['bar']});
+    $(form).bind('before-save', function(event, data) {
+      data.value = data.value[0];
+    });
+    form.save('foo', ['baz']);
+    expect(form.start_save).toHaveBeenCalledWith('foo', 'baz');
+  });
+
   it("should send an event after saving", function() {
     var event_called = false;
     set_save_response(function(save) { save.resolve({status: 'success'}); });
