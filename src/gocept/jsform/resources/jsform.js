@@ -90,6 +90,9 @@
       else
         self.field_wrapper_template = self.get_template(self.options.field_wrapper_template);
       self.loaded = $.Deferred();
+      $(self).bind('after-load', function() {
+        self.loaded.resolve();
+      });
     },
 
     t: function(msgid) {
@@ -150,8 +153,7 @@
        * After retrieval (which may be asynchronous), self.data is initialized.
        */
       var self = this;
-      self.loaded = $.Deferred();
-      $(self).on('after-load', self.loaded.resolve);
+      self.loaded = $.Deferred();  // replace to represent a new load cycle
       if (self.url !== null) {
           self.reload_data(function(data) { self.finish_load(data); });
       } else {
