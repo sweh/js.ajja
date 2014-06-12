@@ -100,7 +100,7 @@
         return self.texts[msgid];
     },
 
-    create_form: function() {
+    expand_form: function() {
       /* Expands the form_template into the DOM */
       var self = this;
       var form_template = self.get_template(gocept.jsform.or(
@@ -109,6 +109,14 @@
       var form_code = $(
         form_template.expand(form_options).replace(/^\s+|\s+$/g, ''));
       $('#' + self.id).replaceWith(form_code);
+    },
+
+    create_form: function() {
+      /* wires the form DOM node and object */
+      var self = this;
+      if (self.options.form_template !== '') {
+        self.expand_form();
+      }
       self.node = $('#' + self.id);
       self.node.data('form', self);
       self.statusarea = self.node.find('.statusarea');

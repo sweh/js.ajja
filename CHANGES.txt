@@ -35,6 +35,9 @@ Change log for gocept.jsform
 - Trigger a ``before-save`` event to expose the value about to be saved to
   manipulation by client code.
 
+- If an empty string is specified as ``form_template``, just use the existing
+  form DOM node without applying any template.
+
 
 1.1 (2014-04-07)
 ================
