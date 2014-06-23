@@ -1,5 +1,5 @@
 // -*- js-indent-level: 2; -*-
-/*global gocept, jsontemplate, ko */
+/*global Class, gocept, jsontemplate, ko */
 
 (function($) {
   "use strict";
