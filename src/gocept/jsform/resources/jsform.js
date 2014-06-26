@@ -534,7 +534,7 @@
 
   $.fn.jsform_submit_button = function(action) {
     return this.each(function() {
-      $(this).on('click', function() {
+      $(this).on('click', function(event) {
         var button = this;
         button.disabled = true;
         var jsform = $(this).closest('form').data('form');
@@ -550,6 +550,7 @@
             button.disabled = false;
           }
         );
+        event.preventDefault();
       });
     });
   };
