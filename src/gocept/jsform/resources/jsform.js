@@ -531,4 +531,27 @@
     }
   });
 
+
+  $.fn.jsform_submit_button = function(action) {
+    return this.each(function() {
+      $(this).on('click', function() {
+        var button = this;
+        button.disabled = true;
+        var jsform = $(this).closest('form').data('form');
+        jsform.save_remaining();
+        jsform.when_saved().done(
+          function () {
+            action.call(button);
+        }).fail(
+          function (reason) {
+            var msg = 'Some fields could not be saved. ' +
+                'Please correct the errors and send again.';
+            jsform.status_message(msg, 'danger', 5000);
+            button.disabled = false;
+          }
+        );
+      });
+    });
+  };
+
 }(jQuery));

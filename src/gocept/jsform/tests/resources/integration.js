@@ -695,4 +695,40 @@ describe("Form Plugin", function() {
     });
   });
 
+
+  describe("submit button", function() {
+
+    it("saves and then calls the callback on success", function () {
+      var template = new jsontemplate.Template(
+        ['<form method="POST" action="{action}" id="{form_id}">',
+         '  <span id="field-name" />',
+         '  <button id="mybutton"/>',
+         '</form>'].join(''),
+        {default_formatter: 'html',  undefined_str: ''});
+
+      form = new gocept.jsform.Form('my_form', {form_template: template});
+      form.load({name: 'Max'});
+
+      var submitted = false;
+      $('#mybutton').jsform_submit_button(function() {
+          submitted = true;
+      });
+
+      var save_called = false;
+      set_save_response(function(save) { save.resolve({status: 'success'}); });
+      $(form).on('after-save', function() { save_called = true; });
+
+      $('#field-name input').val('Bob');
+      runs(function() {
+        $('#mybutton').trigger('click');
+        expect(submitted).toEqual(false);
+      });
+      waitsFor(function() { return save_called; }, 'form to be saved', 100);
+      runs(function() {
+          expect(submitted).toEqual(true);
+          expect($('#field-name input').get(0).value).toEqual('Bob');
+      });
+    });
+  });
+
 });
