@@ -38,6 +38,9 @@ Change log for gocept.jsform
 - If an empty string is specified as ``form_template``, just use the existing
   form DOM node without applying any template.
 
+- Add jQuery plugin ``$().jsform_submit_button(callback)`` that sets up a
+  button that saves the jsform and calls a function after the successful save.
+
 
 1.1 (2014-04-07)
 ================
