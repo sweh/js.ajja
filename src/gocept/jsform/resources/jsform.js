@@ -241,10 +241,7 @@
 
     update_bindings: function() {
       var self = this;
-      if (gocept.jsform.isUndefinedOrNull(self.mapping))
-        self.model = ko.mapping.fromJS(self.data);
-      else
-        self.model = ko.mapping.fromJS(self.data, self.mapping);
+      self.model = ko.mapping.fromJS(self.data, self.mapping);
       self.observe_model_changes();
       ko.applyBindings(self.model, self.node.get(0));
     },
