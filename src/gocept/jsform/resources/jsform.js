@@ -141,6 +141,7 @@
        *     |- template: A custom template for this field.
        *     |- required: boolean, whether this is a required field
        *     |- source: array of objects containing 'token' and 'title'
+       *     |- multiple: for object selection, whether to do multi-select
        * |- mapping:  An optional mapping for the <ko.mapping> plugin.
        */
       var self = this;
@@ -282,6 +283,9 @@
           type = 'string';
         } else {
           type = typeof(value);
+        }
+        if (type == 'object' && self.options[id].multiple) {
+          type = 'multiselect';
         }
         return gocept.jsform.or(self.options[type + '_template'],
                                 'gocept_jsform_templates_' + type);

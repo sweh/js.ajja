@@ -9,6 +9,10 @@ Change log for gocept.jsform
   loaded are actually just the values, with select options being passed as the
   ``source`` field option. This is an important backwards-incompatible change.
 
+- Added a field option ``multiple`` that, when truthy and the selected type is
+  object, makes the field be considered a list of objects. When using the
+  default templates, this turns a select widget into multi-select.
+
 - Add textarea template.
 
 - Added the concept of required fields which cannot be saved when blank.
