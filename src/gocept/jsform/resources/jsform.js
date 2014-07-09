@@ -293,13 +293,11 @@
     save: function (id, newValue) {
       /* Schedule saving one field's value to the server via ajax. */
       var self = this;
-      var data = {id: id, value: newValue};
-      $(self).trigger('before-save', data);
       var deferred_save = $.when(self.field(id).data('save')).then(
         /* For the time being, simply chain the new save after the last, no
            compression of queued save calls yet. */
-        function () {return self.start_save(id, data.value);},
-        function () {return self.start_save(id, data.value);}
+        function () {return self.start_save(id, newValue);},
+        function () {return self.start_save(id, newValue);}
       );
       self.field(id).data('save', deferred_save);
     },
