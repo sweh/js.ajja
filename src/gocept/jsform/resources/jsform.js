@@ -348,6 +348,8 @@
         return result;
       }
 
+      self.data[id] = newValue;
+
       var save_url = self.options.save_url;
       if (!save_url) {
         save_url = self.url;
