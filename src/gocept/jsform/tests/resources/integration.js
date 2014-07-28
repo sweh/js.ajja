@@ -64,6 +64,15 @@ describe("Form Plugin", function() {
     expect($('#my_form select option').length).toEqual(3);
   });
 
+  it("should select all given options for a multi-select field", function() {
+    form.load({title: ['mr', 'mrs']},
+              {title: {source: [{token: 'mr', title: 'Mr.'},
+                                {token: 'mrs', title: 'Mrs.'}],
+                       template: 'gocept_jsform_templates_multiselect'}});
+    expect($('#my_form select option').get(1).selected).toEqual(true);
+    expect($('#my_form select option').get(2).selected).toEqual(true);
+  });
+
   it("should inject two radio boxes for bool data", function() {
     var data = {needs_glasses: false};
     form.load(data);
@@ -154,6 +163,30 @@ describe("Form Plugin", function() {
     it("checkboxes", function () {
       form.load({needs_glasses: false});
       $('#my_form input').click();
+    });
+
+    it("select box saves token", function () {
+        form.load({title: 'mr'},
+                  {title: {source: [{token: 'mr', title: 'Mr.'},
+                                    {token: 'mrs', title: 'Mrs.'}],
+                           template: 'gocept_jsform_templates_object'}});
+        $('#my_form select')[0].selectedIndex = 2;
+        $('#my_form select').change();
+        waits(100);
+        expect(form._save).toHaveBeenCalledWith(
+            'title', null, 'POST', '{"title":"mrs"}');
+    });
+
+    it("multi-select box saves tokens", function () {
+        form.load({title: ['mr']},
+                  {title: {source: [{token: 'mr', title: 'Mr.'},
+                                    {token: 'mrs', title: 'Mrs.'}],
+                           template: 'gocept_jsform_templates_multiselect'}});
+        $('#my_form select option')[2].selected = true;
+        $('#my_form select').change();
+        waits(100);
+        expect(form._save).toHaveBeenCalledWith(
+            'title', null, 'POST', '{"title":["mr","mrs"]}');
     });
 
     it("sends csrf token if available", function () {
