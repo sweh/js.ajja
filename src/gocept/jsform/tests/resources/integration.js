@@ -74,13 +74,15 @@ describe("Form Plugin", function() {
   });
 
   it("should inject two radio boxes for bool data", function() {
-    var data = {needs_glasses: false};
-    form.load(data);
+    form.load({needs_glasses: false});
     expect($('#my_form input').attr('type')).toEqual('checkbox');
     expect($('#my_form input').get(0).name).toEqual('needs_glasses');
     expect(form.model.needs_glasses()).toEqual(false);
-    // By default boolean fields have no label. Specify one:
-    form.load(data, {needs_glasses: {label: 'Needs glasses'}});
+  });
+
+    it("should put a label on a boolean field if so configured", function() {
+    form.load({needs_glasses: false},
+              {needs_glasses: {label: 'Needs glasses'}});
     expect($('#my_form').text()).toMatch('Needs glasses');
   });
 
