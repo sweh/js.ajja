@@ -151,17 +151,6 @@ describe("Form Plugin", function() {
       expect(form._save).toHaveBeenCalled();
     });
 
-    it("input fields", function() {
-      form.load({firstname: 'Sebastian'});
-      $('#my_form input').val('Bob').change();
-    });
-
-    it("select fields", function () {
-      form.load({title: [{id: 'mr', value: 'Mr.'},
-                         {id: 'mrs', value: 'Mrs.'}]});
-      $('#my_form select').val('mrs').change();
-    });
-
     it("checkboxes", function () {
       form.load({needs_glasses: false});
       $('#my_form input').click();
