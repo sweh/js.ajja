@@ -151,9 +151,27 @@
         self.initial_data = data_or_url;
       }
       $.extend(self.options, options);
+      self.collect_sources();
       if (!gocept.jsform.isUndefinedOrNull(mapping))
         self.mapping = mapping;
       self.start_load();
+    },
+
+    collect_sources: function() {
+      var self = this;
+      self.sources = {};
+      self.item_maps = {};
+      $.each(self.options, function(name, value) {
+        if (gocept.jsform.isUndefinedOrNull(value.source)) {
+          return;
+        }
+        self.sources[name] = value.source;
+        var item_map = {};
+        $.each(value.source, function(index, item) {
+          item_map[item.token] = item;
+        });
+        self.item_maps[name] = item_map;
+      });
     },
 
     start_load: function() {
@@ -185,9 +203,34 @@
 
     finish_load: function(data) {
         var self = this;
-        $.extend(self.data, data);
+        self.resolve_object_fields(data);
+        // XXX We cannot use $.extend here as it ignores undefined values,
+        // which may occur in our case.
+        if (!gocept.jsform.isUndefinedOrNull(data)) {
+            $.each(data, function(name, value) {
+                self.data[name] = value;
+            });
+        }
         self.init_fields();
         $(self).trigger('after-load');
+    },
+
+    resolve_object_fields: function(data) {
+        var self = this;
+        $.each(self.item_maps, function(name, item_map) {
+            if (gocept.jsform.isUndefinedOrNull(data[name])) {
+                return true;
+            }
+            if (self.options[name].multiple) {
+                var value = [];
+                $.each(data[name], function(index, token) {
+                    value.push(item_map[token]);
+                });
+                data[name] = value;
+            } else {
+                data[name] = item_map[data[name]];
+            }
+        });
     },
 
     get_template: gocept.jsform.get_template,
@@ -200,6 +243,11 @@
          value: value,
          label: ''
         }, self.options[id]);
+      if (!gocept.jsform.isUndefinedOrNull(widget_options.source) &&
+          gocept.jsform.isUndefinedOrNull(widget_options.placeholder)) {
+          widget_options.placeholder =
+            widget_options.multiple ? 'Select items' : 'Select an item';
+      }
       var widget_code = widget.expand(widget_options);
       var wrapper_options = $.extend(
           {id: id,
@@ -242,9 +290,21 @@
 
     update_bindings: function() {
       var self = this;
-      self.model = ko.mapping.fromJS(self.data, self.mapping);
+      self.create_model();
       self.observe_model_changes();
       ko.applyBindings(self.model, self.node.get(0));
+    },
+
+    create_model: function() {
+      var self = this;
+      self.model = ko.mapping.fromJS(self.data, self.mapping);
+      self.model.__sources__ = self.sources;
+      $.each(self.sources, function(name, values) {
+        if (self.options[name].multiple) {
+          self.model[name] = ko.observableArray(self.data[name]);
+        }
+          self.model[name] = ko.observable(self.data[name]);
+      });
     },
 
     field: function(id) {
@@ -276,22 +336,20 @@
     get_widget: function(id, value) {
       /* Retrieve the widget for a field. */
       var self = this;
-      if (gocept.jsform.isUndefinedOrNull(self.options[id]) ||
-          gocept.jsform.isUndefinedOrNull(self.options[id].template)) {
-        var type;
-        if (value === null) {
-          type = 'string';
-        } else {
-          type = typeof(value);
-        }
-        if (type == 'object' && self.options[id].multiple) {
-          type = 'multiselect';
-        }
-        return gocept.jsform.or(self.options[type + '_template'],
-                                'gocept_jsform_templates_' + type);
-      } else {
+      if (!gocept.jsform.isUndefinedOrNull(self.options[id]) &&
+          !gocept.jsform.isUndefinedOrNull(self.options[id].template)) {
         return self.options[id].template;
       }
+      var type;
+      if (!gocept.jsform.isUndefinedOrNull(self.sources[id])) {
+        type = self.options[id].multiple ? 'multiselect' : 'object';
+      } else if (value === null) {
+        type = 'string';
+      } else {
+        type = typeof(value);
+      }
+      return gocept.jsform.or(self.options[type + '_template'],
+                              'gocept_jsform_templates_' + type);
     },
 
     save: function (id, newValue) {
@@ -359,6 +417,8 @@
         save_type = "POST";
       }
 
+      newValue = self.tokenize_object_fields(id, newValue);
+
       var data = {};
       data[id] = newValue;
       if ($('#'+self.csrf_token_id).length) {
@@ -407,6 +467,24 @@
         data: data,
         contentType: 'application/json'
       });
+    },
+
+    tokenize_object_fields: function(id, value) {
+      var self = this;
+      if (gocept.jsform.isUndefinedOrNull(self.sources[id])) {
+        return value;
+      }
+      if (self.options[id].multiple) {
+        var tokens = [];
+          $.each(value, function(index, item) {
+          tokens.push(item.token);
+        });
+        return tokens;
+      }
+      if (gocept.jsform.isUndefinedOrNull(value)) {
+        return null;
+      }
+      return value.token;
     },
 
     when_saved: function (retry) {

@@ -1,7 +1,7 @@
 <select name="{name}"
-        data-bind="value: {name}">
-  <option></option>
-{. repeated section source}
-  <option value="{token}">{title}</option>
-{.end}
+        data-bind="value: {name},
+                   options: __sources__.{name},
+                   optionsText: 'title',
+                   optionsCaption: '{placeholder}',
+                   allowValueUnset: true">
 </select>

@@ -56,10 +56,9 @@ describe("Form Plugin", function() {
               {title: {source: [{token: 'mr', title: 'Mr.'},
                                 {token: 'mrs', title: 'Mrs.'}]}});
     expect($('#my_form select').attr('name')).toEqual('title');
-    expect($('#my_form select option').get(0).value).toEqual('');
-    expect($('#my_form select option').get(1).value).toEqual('mr');
+    expect($('#my_form select option').get(0).innerHTML).toEqual(
+        'Select an item');
     expect($('#my_form select option').get(1).innerHTML).toEqual('Mr.');
-    expect($('#my_form select option').get(2).value).toEqual('mrs');
     expect($('#my_form select option').get(2).innerHTML).toEqual('Mrs.');
     expect($('#my_form select option').length).toEqual(3);
   });
@@ -68,7 +67,7 @@ describe("Form Plugin", function() {
     form.load({title: ['mr', 'mrs']},
               {title: {source: [{token: 'mr', title: 'Mr.'},
                                 {token: 'mrs', title: 'Mrs.'}],
-                       template: 'gocept_jsform_templates_multiselect'}});
+                       multiple: true}});
     expect($('#my_form select option').get(1).selected).toEqual(true);
     expect($('#my_form select option').get(2).selected).toEqual(true);
   });
@@ -102,7 +101,7 @@ describe("Form Plugin", function() {
     });
     waitsFor(function() { return loaded; }, 'form to be loaded', 1000);
     runs(function() {
-      expect($('#my_form select option').get(1).value).toEqual('mr');
+      expect($('#my_form select option').get(1).innerHTML).toEqual('Mr.');
     });
   });
 
@@ -183,7 +182,7 @@ describe("Form Plugin", function() {
         form.load({title: ['mr']},
                   {title: {source: [{token: 'mr', title: 'Mr.'},
                                     {token: 'mrs', title: 'Mrs.'}],
-                           template: 'gocept_jsform_templates_multiselect'}});
+                           multiple: true}});
         $('#my_form select option')[2].selected = true;
         $('#my_form select').change();
         waits(100);
