@@ -13,6 +13,9 @@ Change log for gocept.jsform
   object, makes the field be considered a list of objects. When using the
   default templates, this turns a select widget into multi-select.
 
+- When loading values into a form via the JS API rather than via HTTP as JSON,
+  assume full objects, not tokens to be contained.
+
 - Add textarea template.
 
 - Added the concept of required fields which cannot be saved when blank.
