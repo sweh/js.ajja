@@ -231,12 +231,11 @@
 
     get_template: gocept.jsform.get_template,
 
-    render_widget: function(id, value) {
+    render_widget: function(id) {
       var self = this;
-      var widget = self.get_template(self.get_widget(id, value));
+      var widget = self.get_template(self.get_widget(id));
       var widget_options = $.extend(
         {name: id,
-         value: value,
          label: ''
         }, self.options[id]);
       if (!gocept.jsform.isUndefinedOrNull(widget_options.source) &&
@@ -279,7 +278,7 @@
          * have a class of their own, this is a convenient place
          */
         self.options[id] = $.extend({required: false}, self.options[id]);
-        self.render_widget(id, value);
+        self.render_widget(id);
       });
       self.update_bindings();
     },
@@ -329,7 +328,7 @@
       });
     },
 
-    get_widget: function(id, value) {
+    get_widget: function(id) {
       /* Retrieve the widget for a field. */
       var self = this;
       if (!gocept.jsform.isUndefinedOrNull(self.options[id]) &&
@@ -337,6 +336,7 @@
         return self.options[id].template;
       }
       var type;
+      var value = self.data[id];
       if (!gocept.jsform.isUndefinedOrNull(self.sources[id])) {
         type = self.options[id].multiple ? 'multiselect' : 'object';
       } else if (value === null) {
