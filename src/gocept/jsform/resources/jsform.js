@@ -8,7 +8,7 @@
   var jsontemplate = require("json-template-foo");
   var Class = require("classyjs");
   ko.mapping = require("./ko.mapping.js");
-  require("./helpers.js");
+  var gocept = require("./helpers.js");
 
 
   gocept.jsform.locales = {};
