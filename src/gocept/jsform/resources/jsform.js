@@ -1,11 +1,15 @@
 // -*- js-indent-level: 2; -*-
 /*global Class, gocept, jsontemplate, ko */
 
-require("./ko.mapping.js");
-require("./helpers.js");
+"use strict";
 
-(function($) {
-  "use strict";
+  var $ = require("bower-jquery");
+  var ko = require("knockout");
+  var jsontemplate = require("json-template-foo");
+  var Class = require("classyjs");
+  ko.mapping = require("./ko.mapping.js");
+  require("./helpers.js");
+
 
   gocept.jsform.locales = {};
   gocept.jsform.locales.en = {
@@ -36,7 +40,7 @@ require("./helpers.js");
       } else if ($('#' + template).length) {
         html = $('#' + template).html();
       } else {
-        html = require(template + '.pt');
+        html = require("./" + template + '.pt');
       }
       return new jsontemplate.Template(
         html, {default_formatter: 'html',  undefined_str: ''});
@@ -560,5 +564,3 @@ require("./helpers.js");
       });
     });
   };
-
-}(jQuery));
