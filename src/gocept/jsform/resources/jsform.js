@@ -1,6 +1,9 @@
 // -*- js-indent-level: 2; -*-
 /*global Class, gocept, jsontemplate, ko */
 
+require("./ko.mapping.js");
+require("./helpers.js");
+
 (function($) {
   "use strict";
 
