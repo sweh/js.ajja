@@ -30,8 +30,10 @@
         html = template;
       } else if (template.indexOf('#') === 0) {
         html = $(template).html();
-      } else {
+      } else if ($('#' + template).length) {
         html = $('#' + template).html();
+      } else {
+        html = require(template + '.pt');
       }
       return new jsontemplate.Template(
         html, {default_formatter: 'html',  undefined_str: ''});

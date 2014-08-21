@@ -13,6 +13,7 @@ eggs
 include
 lib
 local.cfg
+node_modules
 my-buildout.cfg
 parts
 selenimum-note.txt
