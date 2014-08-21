@@ -1,3 +1,6 @@
+require("../../resources/jsform.js");
+var jsontemplate = require("json-template-foo");
+
 describe("Form Plugin", function() {
   var form;
 
