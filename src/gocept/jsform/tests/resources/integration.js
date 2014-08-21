@@ -1,5 +1,7 @@
+var $ = require('bower-jquery');
 require("../../resources/jsform.js");
 var jsontemplate = require("json-template-foo");
+
 
 describe("Form Plugin", function() {
   var form;
@@ -28,7 +30,12 @@ describe("Form Plugin", function() {
   alert = jasmine.createSpy();
 
   beforeEach(function() {
+      $('<div id="my_form"></div>').appendTo('body');
       form = new gocept.jsform.Form('my_form', {});
+  });
+
+  afterEach(function() {
+    $('#my_form').remove();
   });
 
   it("should inject a form tag into html", function() {
