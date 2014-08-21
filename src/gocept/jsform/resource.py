@@ -59,7 +59,10 @@ templates = fanstatic.Group([
     object_template, boolean_template,
     multiselect_template, wrapper_template])
 
-jsform = fanstatic.Resource(
+jsform_dev = fanstatic.Resource(
     library, 'jsform.js', minified='jsform.min.js',
     depends=[helpers, js.json_template.json_template, templates,
              js.classy.classy])
+
+jsform = fanstatic.Resource(
+    library, 'build.js', minified='build.min.js')
