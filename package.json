@@ -1,0 +1,25 @@
+{
+  "name": "gocept.jsform",
+  "version": "1.2.0",
+  "description": "",
+  "main": "src/gocept/jsform/resources/jsform.js",
+  "scripts": {
+    "test": "karma",
+    "build": "webpack"
+  },
+  "author": "gocept, Maik Derstappen <md@derico.de>",
+  "repository": {
+    "type": "hg",
+    "url": "https://bitbucket.org/gocept/gocept.jsform"
+  },
+  "license": "ZPL 2.1",
+  "dependencies": {
+    "classyjs": "~0.9.0",
+    "jquery": "~1.9.1",
+    "json-template-foo": "~0.8.0",
+    "knockout": "~2.2.0"
+  },
+  "devDependencies": {
+    "webpack": "~1.3.2"
+  }
+}
