@@ -18,27 +18,8 @@ If you have a server using *fanstatic* to include resources, just do::
     from gocept.jsform import jsform
     jsform.need()
 
-This will require all needed resources like *jquery*, *knockout*,
-*json-template*, widgets and the code to setup and run *gocept.jsform* itself.
-
-Without fanstatic, you should include the following resources by hand:
-
-* *ko.mapping.js*
-* *helpers.js*
-* *jsform.js*
-
-You can find them in the ``resources`` directory in this package. Also, there
-are some widget templates there, named ``gocept_jsform_templates_*.pt``.
-You'll have to include those you need as scripts of type ``text/html`` with an
-appropriate id, for example::
-
-    <script type="text/html" id="gocept_jsform_templates_form">
-      <form method="POST" action="{action}" id="{form_id}">
-      </form>
-    </script>
-
-where the lines between the ``script`` tags are the content of the respective
-template file.
+Otherwise just include the `build.js` form `src/gocept/jsform/resources` in your
+website.
 
 
 Usage
@@ -73,10 +54,30 @@ you can provide your own templates for either the form or the fields itself.
 Please refer to the customization section for further information.
 
 
+Building
+========
+
+This packages uses `npm`. Just run::
+
+    npm install
+    npm run build
+
+to install required packages and build the `build.js` file, which can be used in
+browsers the usual way.
+
+
 Tests
 =====
 
-The tests are written in *jasmine* and run using selenium webdriver.
+The tests are written in *jasmine* and run using karm::
+
+    node_modules/karma/bin/karma start
+
+to start the karma server which connects yo your browser (by default Chrome)::
+
+    node_modules/karma/bin/karma run
+
+to run the tests agains the karma server.
 
 
 Customization
