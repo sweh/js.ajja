@@ -21,11 +21,6 @@ setup(
 
     install_requires=[
         'fanstatic>=1.0a2',
-        'js.classy',
-        'js.jquery',
-        'js.json_template',
-        'js.knockout',
-        'cssmin',
         'setuptools',
     ],
 
