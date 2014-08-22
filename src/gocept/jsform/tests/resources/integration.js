@@ -105,6 +105,11 @@ describe("Form Plugin", function() {
   it("can get its data from a url", function() {
     var loaded = false;
     $(form).on('after-load', function() { loaded = true; });
+
+    spyOn(form, "reload_data").andCallFake(function(cb) {
+      cb({"firstname": "Sebastian", "title": [], "needs_glasses": false});
+    });
+
     runs(function() {
       form.load('/fanstatic/gocept.jsform.tests/testdata.json',
                 {title: {source: [{token: 'mr', title: 'Mr.'},
@@ -703,6 +708,10 @@ describe("Form Plugin", function() {
   it("can reload the form from a url", function () {
     var loaded = false;
     $(form).on('after-load', function() { loaded = true; });
+
+    spyOn(form, "reload_data").andCallFake(function(cb) {
+      cb({"firstname": "Sebastian", "title": [], "needs_glasses": false});
+    });
     runs(function() {
       form.load('/fanstatic/gocept.jsform.tests/testdata.json');
     });
