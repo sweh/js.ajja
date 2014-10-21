@@ -194,7 +194,11 @@
         $.ajax({
           dataType: "json",
           url: self.url,
-          success: function (data) {
+          success: function (tokenized) {
+              var data = {};
+              $.each(tokenized, function(name, value) {
+                  data[name] = self.resolve_object_field(name, value);
+              });
               cb(data);
           },
           error: function (e) { self.notify_server_error(e); }
@@ -203,44 +207,36 @@
 
     finish_load: function(data) {
         var self = this;
-        self.resolve_object_fields(data);
-        // XXX We cannot use $.extend here as it ignores undefined values,
-        // which may occur in our case.
-        if (!gocept.jsform.isUndefinedOrNull(data)) {
-            $.each(data, function(name, value) {
-                self.data[name] = value;
-            });
-        }
+        self.data = data;
         self.init_fields();
         $(self).trigger('after-load');
     },
 
-    resolve_object_fields: function(data) {
+    resolve_object_field: function(name, value) {
         var self = this;
-        $.each(self.item_maps, function(name, item_map) {
-            if (gocept.jsform.isUndefinedOrNull(data[name])) {
-                return true;
-            }
-            if (self.options[name].multiple) {
-                var value = [];
-                $.each(data[name], function(index, token) {
-                    value.push(item_map[token]);
-                });
-                data[name] = value;
-            } else {
-                data[name] = item_map[data[name]];
-            }
-        });
+        if (gocept.jsform.isUndefinedOrNull(self.options[name]) ||
+            gocept.jsform.isUndefinedOrNull(self.options[name].source)) {
+            return value;
+        }
+        var item_map = self.item_maps[name];
+        if (self.options[name].multiple) {
+            var resolved = [];
+            $.each(value, function(index, token) {
+                resolved.push(item_map[token]);
+            });
+            return resolved;
+        } else {
+            return item_map[value];
+        }
     },
 
     get_template: gocept.jsform.get_template,
 
-    render_widget: function(id, value) {
+    render_widget: function(id) {
       var self = this;
-      var widget = self.get_template(self.get_widget(id, value));
+      var widget = self.get_template(self.get_widget(id));
       var widget_options = $.extend(
         {name: id,
-         value: value,
          label: ''
         }, self.options[id]);
       if (!gocept.jsform.isUndefinedOrNull(widget_options.source) &&
@@ -283,7 +279,7 @@
          * have a class of their own, this is a convenient place
          */
         self.options[id] = $.extend({required: false}, self.options[id]);
-        self.render_widget(id, value);
+        self.render_widget(id);
       });
       self.update_bindings();
     },
@@ -333,7 +329,7 @@
       });
     },
 
-    get_widget: function(id, value) {
+    get_widget: function(id) {
       /* Retrieve the widget for a field. */
       var self = this;
       if (!gocept.jsform.isUndefinedOrNull(self.options[id]) &&
@@ -341,6 +337,7 @@
         return self.options[id].template;
       }
       var type;
+      var value = self.data[id];
       if (!gocept.jsform.isUndefinedOrNull(self.sources[id])) {
         type = self.options[id].multiple ? 'multiselect' : 'object';
       } else if (value === null) {
