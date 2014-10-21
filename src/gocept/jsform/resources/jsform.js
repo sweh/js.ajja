@@ -214,7 +214,8 @@
 
     resolve_object_field: function(name, value) {
         var self = this;
-        if (gocept.jsform.isUndefinedOrNull(self.options[name].source)) {
+        if (gocept.jsform.isUndefinedOrNull(self.options[name]) ||
+            gocept.jsform.isUndefinedOrNull(self.options[name].source)) {
             return value;
         }
         var item_map = self.item_maps[name];
