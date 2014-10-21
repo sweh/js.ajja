@@ -12,6 +12,7 @@ doc/_api
 eggs
 include
 lib
+local
 local.cfg
 my-buildout.cfg
 parts
