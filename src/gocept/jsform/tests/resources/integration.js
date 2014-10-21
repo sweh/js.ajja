@@ -64,9 +64,10 @@ describe("Form Plugin", function() {
   });
 
   it("should select all given options for a multi-select field", function() {
-    form.load({title: ['mr', 'mrs']},
-              {title: {source: [{token: 'mr', title: 'Mr.'},
-                                {token: 'mrs', title: 'Mrs.'}],
+    var source = [{token: 'mr', title: 'Mr.'},
+                  {token: 'mrs', title: 'Mrs.'}];
+    form.load({title: source},
+              {title: {source: source,
                        multiple: true}});
     expect($('#my_form select option').get(1).selected).toEqual(true);
     expect($('#my_form select option').get(2).selected).toEqual(true);
@@ -167,9 +168,10 @@ describe("Form Plugin", function() {
     });
 
     it("select box saves token", function () {
-        form.load({title: 'mr'},
-                  {title: {source: [{token: 'mr', title: 'Mr.'},
-                                    {token: 'mrs', title: 'Mrs.'}],
+        var source = [{token: 'mr', title: 'Mr.'},
+                      {token: 'mrs', title: 'Mrs.'}];
+        form.load({title: source[0]},
+                  {title: {source: source,
                            template: 'gocept_jsform_templates_object'}});
         $('#my_form select')[0].selectedIndex = 2;
         $('#my_form select').change();
@@ -179,9 +181,10 @@ describe("Form Plugin", function() {
     });
 
     it("multi-select box saves tokens", function () {
-        form.load({title: ['mr']},
-                  {title: {source: [{token: 'mr', title: 'Mr.'},
-                                    {token: 'mrs', title: 'Mrs.'}],
+        var source = [{token: 'mr', title: 'Mr.'},
+                      {token: 'mrs', title: 'Mrs.'}];
+        form.load({title: [source[0]]},
+                  {title: {source: source,
                            multiple: true}});
         $('#my_form select option')[2].selected = true;
         $('#my_form select').change();
@@ -198,7 +201,7 @@ describe("Form Plugin", function() {
       waits(100);
       expect(form._save).toHaveBeenCalledWith(
         'needs_glasses', null, 'POST',
-        '{"needs_glasses":true,"csrf_token":"token"}')
+        '{"needs_glasses":true,"csrf_token":"token"}');
     });
 
   });
@@ -238,7 +241,7 @@ describe("Form Plugin", function() {
       expect($('#my_form input[type=radio]').length).toEqual(1);
     });
 
-    it("for a field explicitely", function () {
+    it("for a field explicitly", function () {
 
       var template = new jsontemplate.Template(
         ['<div class="title">Titel: ',
@@ -251,9 +254,10 @@ describe("Form Plugin", function() {
          '</div>'].join(''),
         {default_formatter: 'html',  undefined_str: ''});
 
-      form.load({title: [{id: 'mr', value: 'Mr.'},
-                         {id: 'mrs', value: 'Mrs.'}]},
-                {title: {template: template}});
+      var source = [{token: 'mr', title: 'Mr.'},
+                    {token: 'mrs', title: 'Mrs.'}];
+      form.load({title: source[0]},
+                {title: {template: template, source: source}});
       spyOn(form, "save");
       $('#my_form .mrs').click().click();  // Not sure why one needs to
                                            // trigger click twice here
@@ -675,9 +679,11 @@ describe("Form Plugin", function() {
   });
 
   it("can display the select status of a list", function () {
-    form.load({title: ['mrs']},
-              {title: {source: [{token: 'mr', title: 'Mr.'},
-                                {token: 'mrs', title: 'Mrs.'}]}});
+    var source = [{token: 'mr', title: 'Mr.'},
+                  {token: 'mrs', title: 'Mrs.'}];
+    form.load({title: [source[1]]},
+              {title: {source: source,
+                       multiple: true}});
     expect($('#my_form select option').get(2).selected).toEqual(true);
   });
 
