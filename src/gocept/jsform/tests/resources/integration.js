@@ -245,12 +245,12 @@ describe("Form Plugin", function() {
 
       var template = new jsontemplate.Template(
         ['<div class="title">Titel: ',
-         '{.repeated section value}',
-         '  <div>',
-         '    <input type="radio" name="{name}" value="{id}" class="{id}"',
-         '           data-bind="checked: {name}" /> {value}',
+         '  <div data-bind="foreach: __sources__.{name}">',
+         '    <input type="radio" name="{name}"',
+         '           data-bind="checked: $parent.{name}, text: $data.title,',
+         '      attr: {.meta-left}value: $data.token,',
+         '              class: $data.token{.meta-right}" />',
          '  </div>',
-         '{.end}',
          '</div>'].join(''),
         {default_formatter: 'html',  undefined_str: ''});
 
