@@ -2,8 +2,8 @@
 Change log for gocept.jsform
 ============================
 
-1.2 (unreleased)
-================
+1.2.0 (2014-10-22)
+==================
 
 - Improved handling of object and multiselect fields such that the values
   loaded are actually just the values, with select options being passed as the
