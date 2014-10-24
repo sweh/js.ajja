@@ -3,5 +3,9 @@
                    options: __sources__.{name},
                    optionsText: 'title',
                    optionsCaption: '{placeholder}',
+                   optionsAfterRender: function(option, item) {
+                      if (! item) return;
+                      option.value = item.token;
+                   },
                    allowValueUnset: true">
 </select>

@@ -59,7 +59,9 @@ describe("Form Plugin", function() {
     expect($('#my_form select option').get(0).innerHTML).toEqual(
         'Select an item');
     expect($('#my_form select option').get(1).innerHTML).toEqual('Mr.');
+    expect($('#my_form select option').get(1).value).toEqual('mr');
     expect($('#my_form select option').get(2).innerHTML).toEqual('Mrs.');
+    expect($('#my_form select option').get(2).value).toEqual('mrs');
     expect($('#my_form select option').length).toEqual(3);
   });
 
