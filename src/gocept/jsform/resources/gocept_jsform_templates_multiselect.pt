@@ -3,5 +3,9 @@
         data-bind="selectedOptions: {name},
                    options: __sources__.{name},
                    optionsText: 'title',
-                   optionsCaption: '{placeholder}'">
+                   optionsCaption: '{placeholder}',
+                   optionsAfterRender: function(option, item) {
+                      if (! item) return;
+                      option.value = item.token;
+                    }">
 </select>
