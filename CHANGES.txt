@@ -9,6 +9,9 @@ Change log for gocept.jsform
   both worlds: internally we deal with objects, but the DOM looks "normal" (and
   other DOM-based libraries like select2 can interface with it).
 
+- Package the browser resources as a bower package. For now, include
+  json-template.js as that software doesn't come as a bower package yet.
+
 
 1.2.0 (2014-10-22)
 ==================
