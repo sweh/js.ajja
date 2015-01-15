@@ -1,0 +1,21 @@
+{
+  "name": "gocept.jsform",
+  "version": "0.1.0",
+  "main": [
+    "helpers.js",
+    "ko.mapping.js",
+    "gocept_jsform_templates_boolean.pt",
+    "gocept_jsform_templates_field_wrapper.pt",
+    "gocept_jsform_templates_form.pt",
+    "gocept_jsform_templates_multiselect.pt",
+    "gocept_jsform_templates_object.pt",
+    "gocept_jsform_templates_string.pt",
+    "gocept_jsform_templates_text.pt",
+    "json-template.js",
+    "classy.js",
+    "jsform.js"
+  ],
+  "dependencies": {
+    "knockout": "*"
+ }
+}
