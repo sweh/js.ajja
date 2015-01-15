@@ -25,6 +25,8 @@ class TestJSLint(gocept.jslint.TestCase):
 
     jshint_command = os.environ.get('JSHINT_COMMAND', '/bin/true')
     include = ['gocept.jsform:resources']
-    exclude = ['ko.mapping.js'] + [os.path.basename(x) for x in glob.glob(
-        pkg_resources.resource_filename('gocept.jsform', 'resources/*.min.js'))
-    ]
+    exclude = (['ko.mapping.js', 'json-template.js'] +
+               [os.path.basename(x) for x in glob.glob(
+                pkg_resources.resource_filename(
+                    'gocept.jsform', 'resources/*.min.js'))
+                ])
