@@ -520,7 +520,7 @@
 
     retry: function() {
       var self = this;
-      $(self).trigger('retry');
+      $(self).triggerHandler('retry');
     },
 
     save_remaining: function() {
