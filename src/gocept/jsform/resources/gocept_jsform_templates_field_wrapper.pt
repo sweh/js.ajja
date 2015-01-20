@@ -1,4 +1,4 @@
-<div class="field" id="field-{{id}}">
+<div class="field" id="field-{{id}}" class="form-group">
     <label for="{{name}}">{{label}}</label>
     <div class="error"></div>
     {{{widget_code}}}
