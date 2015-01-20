@@ -22,7 +22,7 @@
 
   gocept.jsform.get_template = function(template) {
       var self = this;
-      if (typeof(template) === "function") {
+      if (template && (typeof(template) === "function")) {
         return template;
       }
 
