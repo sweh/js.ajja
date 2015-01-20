@@ -15,7 +15,7 @@
   ],
   "dependencies": {
     "knockout": "*",
-    "classy": "*",
+    "classy": "https://github.com/gocept/classy.git",
     "handlebars.js": "*"
  }
 }
