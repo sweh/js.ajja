@@ -17,3 +17,5 @@ local.cfg
 my-buildout.cfg
 parts
 selenimum-note.txt
+.Python
+tags

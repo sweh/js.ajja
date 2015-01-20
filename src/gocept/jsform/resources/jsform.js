@@ -1,5 +1,5 @@
 // -*- js-indent-level: 2; -*-
-/*global Class, gocept, jsontemplate, ko */
+/*global Class, gocept, Handlebars, ko */
 
 (function($) {
   "use strict";
@@ -33,8 +33,7 @@
       } else {
         html = $('#' + template).html();
       }
-      return new jsontemplate.Template(
-        html, {default_formatter: 'html',  undefined_str: ''});
+      return Handlebars.compile(html);
   };
 
   gocept.jsform.Form = Class.$extend({
@@ -107,7 +106,7 @@
         self.options.form_template, 'gocept_jsform_templates_form'));
       var form_options = $.extend({'form_id': self.id}, self.options);
       var form_code = $(
-        form_template.expand(form_options).replace(/^\s+|\s+$/g, ''));
+        form_template(form_options).replace(/^\s+|\s+$/g, ''));
       $('#' + self.id).replaceWith(form_code);
     },
 
@@ -244,12 +243,12 @@
           widget_options.placeholder =
             widget_options.multiple ? 'Select items' : 'Select an item';
       }
-      var widget_code = widget.expand(widget_options);
+      var widget_code = widget(widget_options);
       var wrapper_options = $.extend(
           {id: id,
            widget_code: widget_code
           }, widget_options);
-      widget_code = self.field_wrapper_template.expand(wrapper_options);
+      widget_code = self.field_wrapper_template(wrapper_options);
       if (!$('#field-'+id, self.node).length)
         self.node.append(widget_code);
       else

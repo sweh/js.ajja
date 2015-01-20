@@ -11,11 +11,11 @@
     "gocept_jsform_templates_object.pt",
     "gocept_jsform_templates_string.pt",
     "gocept_jsform_templates_text.pt",
-    "json-template.js",
-    "classy.js",
     "jsform.js"
   ],
   "dependencies": {
-    "knockout": "*"
+    "knockout": "*",
+    "classy": "*",
+    "handlebars.js": "*"
  }
 }
