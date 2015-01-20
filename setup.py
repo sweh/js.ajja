@@ -23,7 +23,7 @@ setup(
         'fanstatic>=1.0a2',
         'js.classy',
         'js.jquery',
-        'js.json_template',
+        'js.handlebars',
         'js.knockout>=3.1.0',
         'cssmin',
         'setuptools',

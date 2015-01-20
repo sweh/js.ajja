@@ -1,3 +1,3 @@
-<form method="POST" action="{action}" id="{form_id}" class="jsform">
+<form method="POST" action="{{action}}" id="{{form_id}}" class="jsform">
 <div class="statusarea"></div>
 </form>

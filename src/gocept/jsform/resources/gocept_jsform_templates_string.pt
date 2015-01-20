@@ -1,1 +1,1 @@
-<input type="text" data-bind="value: {name}" name="{name}" value="" />
+<input type="text" data-bind="value: {{name}}" name="{{name}}" value="" />
