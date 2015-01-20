@@ -22,8 +22,9 @@
 
   gocept.jsform.get_template = function(template) {
       var self = this;
-      if (template.render)
+      if (typeof(template) === "function") {
         return template;
+      }
 
       var html;
       if (template.indexOf('>') !== -1) {
