@@ -287,8 +287,8 @@
     update_bindings: function() {
       var self = this;
       self.create_model();
-      self.observe_model_changes();
       ko.applyBindings(self.model, self.node.get(0));
+      self.observe_model_changes();
     },
 
     create_model: function() {
