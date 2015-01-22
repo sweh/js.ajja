@@ -237,6 +237,7 @@
       var widget = self.get_template(self.get_widget(id));
       var widget_options = $.extend(
         {name: id,
+         value: self.data[id],
          label: ''
         }, self.options[id]);
       if (!gocept.jsform.isUndefinedOrNull(widget_options.source) &&
