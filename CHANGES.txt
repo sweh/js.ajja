@@ -13,6 +13,9 @@ Change log for gocept.jsform
 
 - Switch from json-template.js to Handbars.js for templating. (#13804)
 
+- Fixed a bug where using select fields with dynamic options (sources) triggered
+  a save request with empty value upon creation in the UI.
+
 
 1.2.0 (2014-10-22)
 ==================
