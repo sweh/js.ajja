@@ -2,8 +2,8 @@
 Change log for gocept.jsform
 ============================
 
-1.2.1 (unreleased)
-==================
+1.2.1a1+bower-1 (2015-02-03)
+============================
 
 - Render the token as the ``<option value>`` attribute, so we get the best of
   both worlds: internally we deal with objects, but the DOM looks "normal" (and
