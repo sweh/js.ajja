@@ -54,6 +54,7 @@ Change log for gocept.jsform
 
 - Add ``loaded`` property on Form, a Deferred so clients can check whether
   loading has finished. This is mainly helpful for tests, e.g.::
+
       selenium.waitForEval(
           '$("#jsform").data("form") && '
           '$("#jsform").data("form").loaded.state()', '"resolved"')
