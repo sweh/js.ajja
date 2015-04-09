@@ -5,7 +5,8 @@ Change log for gocept.jsform
 2.1.0 (unreleased)
 ==================
 
-- Nothing changed yet.
+- If ajax result is HTML instead of JSON data, display HTML (which is in most
+  cases a 500 error or login page). (#11838)
 
 
 2.0.0 (2015-03-26)
