@@ -2,7 +2,7 @@
 Change log for gocept.jsform
 ============================
 
-2.1.0 (unreleased)
+2.1.0 (2015-04-09)
 ==================
 
 - If ajax result is HTML instead of JSON data, display HTML (which is in most
