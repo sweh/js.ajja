@@ -330,6 +330,36 @@ describe("Form Plugin", function() {
     });
   });
 
+  it("renders field's label in the status area on validation error", function () {
+    set_save_response(function(save) {
+      save.resolve({status: 'error', msg: 'Not a valid eMail address.'});
+    });
+    form.load({email: ''}, {email: {'label': 'Your Mail-Address'}});
+    runs(function() {
+      $('#my_form input').val('max@mustermann').change();
+    });
+    waits(100);
+    runs(function() {
+      expect($('#my_form .statusarea .alert').text()).toEqual(
+         'Your Mail-Address: Not a valid eMail address.');
+    });
+  });
+
+  it("renders no label in status area on validation error if not defined", function () {
+    set_save_response(function(save) {
+      save.resolve({status: 'error', msg: 'Not a valid eMail address.'});
+    });
+    form.load({email: ''});
+    runs(function() {
+      $('#my_form input').val('max@mustermann').change();
+    });
+    waits(100);
+    runs(function() {
+      expect($('#my_form .statusarea .alert').text()).toEqual(
+         'Not a valid eMail address.');
+    });
+  });
+
   it("unrecoverable error on non-conformant HTTP OK response while saving", function() {
     set_save_response(function(save) { save.resolve(''); });
     form.load({email: ''});
@@ -394,7 +424,7 @@ describe("Form Plugin", function() {
       expect($('#my_form .error').text()).toEqual(
          'This field contains unsaved changes.');
       expect($('#my_form .statusarea .alert-danger').text()).toEqual(
-        'email: This field contains unsaved changes.' +
+        'This field contains unsaved changes.' +
         'There was an error communicating with the server.');
       set_save_response(function(save) { save.resolve({status: 'success'}); });
       form.retry();
