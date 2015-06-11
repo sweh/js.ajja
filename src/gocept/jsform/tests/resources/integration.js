@@ -403,6 +403,33 @@ describe("Form Plugin", function() {
     });
   });
 
+  it("unrecoverable error displays message of response if present", function () {
+    set_save_response(function(save) {
+      save.reject(
+        {'responseJSON': {'message': 'Custom Error Message'}},
+        'error',
+        'Conflict'
+      );
+    });
+    form.load({email: ''});
+
+    var unrecoverable_error_triggered = false;
+    $(form).on('unrecoverable-error', function() {
+      unrecoverable_error_triggered = true;
+    });
+
+    runs(function() {
+      $('#my_form input').val('max@mustermann').change();
+    });
+    waitsFor(function() { return unrecoverable_error_triggered; },
+             'unrecoverable-error to be triggered', 100);
+    runs(function() {
+      expect(form.start_save('foo', 'bar')).not.toBeDefined();
+      expect(alert).toHaveBeenCalledWith(
+        'An unrecoverable error has occurred: Custom Error Message');
+    });
+  });
+
   it("retry saving after failed connection to server", function() {
     var trigger = $.Deferred();
     var server_error_notified = false;

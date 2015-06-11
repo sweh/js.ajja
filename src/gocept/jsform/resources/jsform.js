@@ -458,7 +458,13 @@
       })
       .fail(function(jqxhr, text_status, error_thrown) {
         if (text_status == 'error' && error_thrown) {
-          $(self).trigger('unrecoverable-error', error_thrown);
+          if (gocept.jsform.isUndefinedOrNull(jqxhr) ||
+              gocept.jsform.isUndefinedOrNull(jqxhr.responseJSON) ||
+              gocept.jsform.isUndefinedOrNull(jqxhr.responseJSON.message)) {
+            $(self).trigger('unrecoverable-error', error_thrown);
+          } else {
+            $(self).trigger('unrecoverable-error', jqxhr.responseJSON.message);
+          }
           return;
         }
         $(self).one('retry', function() {

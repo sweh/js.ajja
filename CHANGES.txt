@@ -7,6 +7,9 @@ Change log for gocept.jsform
 
 - Fix display of validation error messages.
 
+- Make it possible to display custom HTTP error messages when `message` was
+  provided in the JSON response.
+
 
 2.1.0 (2015-04-09)
 ==================
