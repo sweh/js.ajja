@@ -2,7 +2,7 @@
 Change log for gocept.jsform
 ============================
 
-2.2.0 (unreleased)
+2.2.0 (2015-06-17)
 ==================
 
 - Fix display of validation error messages.
