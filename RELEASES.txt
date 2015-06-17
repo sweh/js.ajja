@@ -1,0 +1,13 @@
+How to make a releases of this package
+======================================
+
+* Make sure all tests pass by running ``bin/test``.
+* Use ``zest.releaser`` to release this package on pypi (usually just call
+  ``fullrelease``)
+* Checkout shim repository for release on bower: ``github.com:gocept/gocept.jsform.git``.
+* Copy all files from ``src/gocept/jsform/resources/`` into shim repository.
+* Update version in ``bower.json`` in shim repo to the one you just released on pypi.
+* Commit changes to github.
+* Create a tag for the current version:
+  * git tag -a X.X.X -m "Version X.X.X"
+  * git push origin X.X.X
