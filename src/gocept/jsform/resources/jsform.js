@@ -622,7 +622,7 @@
       msg_node.addClass('alert-' + status);
       if (!gocept.jsform.isUndefinedOrNull(duration)) {
           msg_node.delay(duration).fadeOut(
-              1000, function(){msg_node.remove();});
+              3000, function(){msg_node.remove();});
       }
       self.statusarea.append(msg_node);
       self.statusarea.scrollTop(self.statusarea.height());
