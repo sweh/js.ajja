@@ -5,7 +5,8 @@ Change log for gocept.jsform
 2.3.0 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Display status messages 3 seconds instead of 1 second. This hopefully will
+  fix test failures in Jenkins.
 
 
 2.2.0 (2015-06-17)
