@@ -720,7 +720,7 @@ describe("Form Plugin", function() {
       form.status_message('foo', 'success', 100);
       expect($('#my_form .statusarea .alert-success').text()).toEqual('foo');
     });
-    waits(1500);  /* fadeOut(1000) */
+    waits(3500);  /* fadeOut(3000) */
     runs(function() {
       expect($('#my_form .statusarea .alert-success').length).toEqual(0);
     });
