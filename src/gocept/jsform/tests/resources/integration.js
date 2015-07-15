@@ -65,6 +65,20 @@ describe("Form Plugin", function() {
     expect($('#my_form select option').length).toEqual(3);
   });
 
+  it("should update field when after-save is called", function() {
+    var source = [{token: 'mr', title: 'Mr.'},
+                  {token: 'mrs', title: 'Mrs.'}];
+    form.load({title: ''},
+              {title: {source: source}});
+    $(form).trigger(
+        'after-save',
+        {'sources': {'title': [{token: 'foo', title: 'Foo'}]}});
+    waits(100);
+    runs(function() {
+        expect($('#my_form select option').get(1).value).toEqual('foo');
+    });
+  });
+
   it("should select all given options for a multi-select field", function() {
     var source = [{token: 'mr', title: 'Mr.'},
                   {token: 'mrs', title: 'Mrs.'}];

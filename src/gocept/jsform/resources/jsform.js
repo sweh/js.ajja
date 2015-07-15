@@ -93,6 +93,9 @@
       $(self).bind('after-load', function() {
         self.loaded.resolve();
       });
+      $(self).bind('after-save', function (ev, data) {
+        self.update_sources(data.sources);
+      });
     },
 
     t: function(msgid) {
@@ -166,12 +169,25 @@
         if (gocept.jsform.isUndefinedOrNull(value.source)) {
           return;
         }
-        self.sources[name] = value.source;
+        self.sources[name] = ko.observableArray(value.source);
         var item_map = {};
         $.each(value.source, function(index, item) {
           item_map[item.token] = item;
         });
         self.item_maps[name] = item_map;
+      });
+    },
+
+    update_sources: function (sources) {
+      var self = this;
+      if (!sources) {
+        return;
+      }
+      $.each(sources, function (name, source) {
+        self.sources[name].removeAll();
+        $.each(source, function (id, elem) {
+            self.sources[name].push(elem);
+        });
       });
     },
 
