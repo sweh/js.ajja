@@ -142,6 +142,7 @@
        *     |- required: boolean, whether this is a required field
        *     |- source: array of objects containing 'token' and 'title'
        *     |- multiple: for object selection, whether to do multi-select
+       *     |- placeholder: placeholder to the empty dropdown option
        * |- mapping:  An optional mapping for the <ko.mapping> plugin.
        */
       var self = this;
