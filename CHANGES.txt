@@ -8,6 +8,10 @@ Change log for gocept.jsform
 - Display status messages 3 seconds instead of 1 second. This hopefully will
   fix test failures in Jenkins.
 
+- Introduced, that a save call to a widget can manipulate the source values of
+  another widget. This is usefull for dropdowns, where the list if available
+  values is dependend from the selected value of another dropdown.
+
 
 2.2.0 (2015-06-17)
 ==================
