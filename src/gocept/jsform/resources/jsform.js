@@ -94,7 +94,7 @@
         self.loaded.resolve();
       });
       $(self).bind('after-save', function (ev, data) {
-        self.update_sources(data.sources);
+        self.update_sources(data);
       });
     },
 
@@ -178,12 +178,12 @@
       });
     },
 
-    update_sources: function (sources) {
+    update_sources: function (data) {
       var self = this;
-      if (!sources) {
+      if (!data || !data.sources) {
         return;
       }
-      $.each(sources, function (name, source) {
+      $.each(data.sources, function (name, source) {
         self.sources[name].removeAll();
         $.each(source, function (id, elem) {
             self.sources[name].push(elem);
@@ -415,7 +415,7 @@
         self.notify_field_error(id, msg);
       })
       .always(function(data_or_msg) {
-        $(self).trigger('after-save', [data_or_msg]);
+        $(self).trigger('after-save', data_or_msg);
       });
     },
 
