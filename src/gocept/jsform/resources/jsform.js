@@ -411,11 +411,11 @@
         self.clear_saving(id, saving_msg_node);
         self.notify_field_error(id, self.t('field_contains_unsaved_changes'));
       })
-      .fail(function(msg) {
-        self.notify_field_error(id, msg);
+      .fail(function(data) {
+        self.notify_field_error(id, data.msg);
       })
-      .always(function(data_or_msg) {
-        $(self).trigger('after-save', data_or_msg);
+      .always(function(data) {
+        $(self).trigger('after-save', data);
       });
     },
 
@@ -426,7 +426,7 @@
       var result = validated.promise();
 
       if (self.options[id].required && !(newValue)) {
-        validated.reject(self.t('required_field_left_blank'));
+          validated.reject({msg: self.t('required_field_left_blank')});
         return result;
       }
 
@@ -455,7 +455,7 @@
       })
       .done(function(data) {
         if (data.status == 'error') {
-          validated.reject(data.msg);
+          validated.reject(data);
         } else if (data.status == 'success') {
           validated.resolve(data);
         } else {
