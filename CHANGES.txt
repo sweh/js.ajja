@@ -9,7 +9,7 @@ Change log for gocept.jsform
   fix test failures in Jenkins.
 
 - Introduced, that a save call to a widget can manipulate the source values of
-  another widget. This is usefull for dropdowns, where the list if available
+  another widget. This is usefull for dropdowns, where the list of available
   values is dependend from the selected value of another dropdown.
 
 
