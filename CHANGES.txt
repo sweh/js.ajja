@@ -2,7 +2,7 @@
 Change log for gocept.jsform
 ============================
 
-2.3.0 (unreleased)
+2.3.0 (2015-07-31)
 ==================
 
 - Display status messages 3 seconds instead of 1 second. This hopefully will
