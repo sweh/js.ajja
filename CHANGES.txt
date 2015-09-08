@@ -5,7 +5,8 @@ Change log for gocept.jsform
 2.4.0 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Pin version of Handlebars to 3.0.3, since switching to a new major version
+  should be done on purpose, rather by chance.
 
 
 2.3.0 (2015-07-31)
