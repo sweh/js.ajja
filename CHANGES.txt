@@ -7,6 +7,9 @@ Change log for gocept.jsform
 
 - Add list widget which uses jsform to display edit form of list items.
 
+- Remove version pin of Handlebars, since error related to Handlebars 4 is
+  specific to the application that uses gocept.jsform.
+
 
 2.4.0 (2015-09-08)
 ==================
