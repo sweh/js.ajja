@@ -2,10 +2,10 @@
 Change log for gocept.jsform
 ============================
 
-2.4.1 (unreleased)
+2.5.0 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Add list widget which uses jsform to display edit form of list items.
 
 
 2.4.0 (2015-09-08)

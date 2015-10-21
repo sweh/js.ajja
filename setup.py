@@ -35,6 +35,10 @@ setup(
             'gocept.jslint',
             'gocept.testing',
         ],
+        'listwidget': [
+            'js.bootstrap',
+            'js.jqueryui',
+        ]
     },
 
     entry_points={

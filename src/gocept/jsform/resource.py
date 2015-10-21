@@ -1,7 +1,9 @@
 import fanstatic
+import js.bootstrap
+import js.jqueryui
 import js.classy
-import js.jquery
 import js.handlebars
+import js.jquery
 import js.knockout
 import os.path
 
@@ -67,4 +69,37 @@ jsform = fanstatic.Resource(
         js.handlebars.handlebars,
         js.jquery.jquery,
         templates,
+    ])
+
+list_template = fanstatic.Resource(
+    library, 'gocept_jsform_list.pt',
+    renderer=template_renderer)
+
+list_item_wrapper_template = fanstatic.Resource(
+    library, 'gocept_jsform_list_item_wrapper.pt',
+    renderer=template_renderer)
+
+list_item_action_template = fanstatic.Resource(
+    library, 'gocept_jsform_list_item_action.pt',
+    renderer=template_renderer)
+
+list_item_edit_template = fanstatic.Resource(
+    library, 'gocept_jsform_list_item_edit.pt',
+    renderer=template_renderer)
+
+list_templates = fanstatic.Group([
+    list_item_action_template,
+    list_item_edit_template,
+    list_item_wrapper_template,
+    list_template,
+])
+
+list_widget = fanstatic.Resource(
+    library, 'list.js', depends=[
+        js.bootstrap.bootstrap_css,
+        js.bootstrap.bootstrap_js,
+        js.jquery.jquery,
+        js.jqueryui.bootstrap,
+        jsform,
+        list_templates,
     ])
