@@ -61,5 +61,10 @@ templates = fanstatic.Group([
 
 jsform = fanstatic.Resource(
     library, 'jsform.js', minified='jsform.min.js',
-    depends=[helpers, js.handlebars.handlebars, templates,
-             js.classy.classy])
+    depends=[
+        helpers,
+        js.classy.classy,
+        js.handlebars.handlebars,
+        js.jquery.jquery,
+        templates,
+    ])
