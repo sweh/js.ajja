@@ -20,12 +20,12 @@ setup(
     version='2.4.1.dev0',
 
     install_requires=[
+        'cssmin',
         'fanstatic>=1.0a2',
         'js.classy',
-        'js.jquery',
         'js.handlebars',
+        'js.jquery',
         'js.knockout>=3.1.0',
-        'cssmin',
         'setuptools',
     ],
 
