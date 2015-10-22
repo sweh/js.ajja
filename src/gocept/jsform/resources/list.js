@@ -33,16 +33,14 @@
             }
         ],
 
-        __init__: function (node_selector, item_actions, form_actions,
-                            default_form_actions) {
-            /*
-             * ListWidget
+        __init__: function (node_selector, options) {
+            /* Turn any DOM elements matched by node_selector into ListWidgets.
              *
-             * node_selector ... jquery selector to find the form
-             * item_actions ... additional item_actions besides edit and del
-             * form_actions ... additional form_actions besides add
-             * default_form_actions ... set to an empty list to hide add
+             * Options:
              *
+             * item_actions: additional item_actions besides edit and del
+             * form_actions: additional form_actions besides add
+             * default_form_actions: set to an empty list to hide add
              */
             var self = this,
                 node = $(node_selector),
@@ -50,16 +48,18 @@
             self.node_selector = node_selector;
             self.node = node;
 
-            item_actions = item_actions || [];
-            self.item_actions = self.default_item_actions.concat(item_actions);
+            options |= {};
+
+            self.item_actions = self.default_item_actions.concat(
+                options.item_actions || []);
             self.item_action_callbacks = {};
             $.each(self.item_actions, function (key, item) {
                 self.item_action_callbacks[item.css_class] = item.callback;
             });
 
-            form_actions = form_actions || [];
-            default_form_actions = default_form_actions || self.default_form_actions;
-            self.form_actions = default_form_actions.concat(form_actions);
+            self.form_actions =
+                (options.default_form_actions || self.default_form_actions)
+                .concat(options.form_actions || []);
 
             node.append(template({}));
             self.list_container = node.find('#container');
