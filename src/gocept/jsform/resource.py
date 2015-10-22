@@ -105,7 +105,8 @@ if HAS_LISTWIDGET_DEPENDENCIES is True:
     ])
 
     list_widget = fanstatic.Resource(
-        library, 'list.js', depends=[
+        library, 'list.js', minified='list.min.js',
+        depends=[
             js.bootstrap.bootstrap_css,
             js.bootstrap.bootstrap_js,
             js.jquery.jquery,
