@@ -1,6 +1,3 @@
-# Copyright (c) 2013 gocept gmbh & co. kg
-# See also LICENSE.txt
-
 # This should be only one line. If it must be multi-line, indent the second
 # line onwards to keep the PKG-INFO file format intact.
 """Next generation forms in javascript
@@ -23,7 +20,6 @@ setup(
         'cssmin',
         'fanstatic>=1.0a2',
         'js.classy',
-        'js.handlebars',
         'js.jquery',
         'js.knockout>=3.1.0',
         'setuptools',

@@ -1,6 +1,5 @@
 import fanstatic
 import js.classy
-import js.handlebars
 import js.jquery
 import js.knockout
 import os.path
@@ -24,6 +23,9 @@ def render_template(library, inner):
 
 
 library = fanstatic.Library('gocept.jsform', 'resources')
+
+
+handlebars = fanstatic.Resource(library, 'handlebars-v4.0.2.js')
 
 
 def template_renderer(inner):
@@ -72,7 +74,7 @@ jsform = fanstatic.Resource(
     depends=[
         helpers,
         js.classy.classy,
-        js.handlebars.handlebars,
+        handlebars,
         js.jquery.jquery,
         templates,
     ])
