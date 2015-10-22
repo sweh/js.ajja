@@ -85,6 +85,10 @@ if HAS_LISTWIDGET_DEPENDENCIES is True:
         library, 'gocept_jsform_list.pt',
         renderer=template_renderer)
 
+    list_item_template = fanstatic.Resource(
+        library, 'gocept_jsform_list_item.pt',
+        renderer=template_renderer)
+
     list_item_wrapper_template = fanstatic.Resource(
         library, 'gocept_jsform_list_item_wrapper.pt',
         renderer=template_renderer)
@@ -100,6 +104,7 @@ if HAS_LISTWIDGET_DEPENDENCIES is True:
     list_templates = fanstatic.Group([
         list_item_action_template,
         list_item_edit_template,
+        list_item_template,
         list_item_wrapper_template,
         list_template,
     ])
