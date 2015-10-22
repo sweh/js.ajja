@@ -66,7 +66,8 @@
             self.collection_url = node.data('collection-url');
             self.template = node.data('template');
             self.jsform_template = node.data('form-template');
-            self.jsform_options = node.data('form-options');
+            self.jsform_options = gocept.jsform.or(
+                node.data('form-options'), {});
             self.render_form_actions();
         },
 
