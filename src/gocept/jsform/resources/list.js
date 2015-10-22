@@ -208,7 +208,7 @@
             });
             $.each(node.data('data'), function (key, value) {
                 // Only display data in form where a label exists.
-                if (self.jsform_options.hasOwnProperty(key)) {
+                if (key in self.jsform_options) {
                     data[key] = value;
                 }
             });
