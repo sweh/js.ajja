@@ -8,7 +8,7 @@ import os
 
 library = fanstatic.Library('gocept.jsform.tests', 'resources')
 jsform_test = fanstatic.Resource(
-    library, 'integration.js', depends=[
+    library, 'jsform.js', depends=[
         gocept.jasmine.resource.jasmine,
         gocept.jsform.resource.jsform,
     ])
