@@ -64,7 +64,8 @@
             node.append(template({}));
             self.list_container = node.find('#container');
             self.collection_url = node.data('collection-url');
-            self.template = node.data('template');
+            self.template = gocept.jsform.or(
+                node.data('template'), 'gocept_jsform_list_item');
             self.jsform_template = node.data('form-template');
             self.jsform_options = gocept.jsform.or(
                 node.data('form-options'), {});
