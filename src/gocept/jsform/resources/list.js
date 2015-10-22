@@ -48,7 +48,7 @@
             self.node_selector = node_selector;
             self.node = node;
 
-            options |= {};
+            options = options || {};
 
             self.item_actions = self.default_item_actions.concat(
                 options.item_actions || []);
