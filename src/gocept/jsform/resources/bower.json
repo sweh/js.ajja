@@ -1,6 +1,6 @@
 {
   "name": "gocept.jsform",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "main": [
     "helpers.js",
     "ko.mapping.js",
