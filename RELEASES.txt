@@ -7,7 +7,7 @@ How to make a releases of this package
   ``fullrelease``)
 * Checkout shim repository for release on bower: ``github.com:gocept/gocept.jsform.git``.
 * Copy all files from ``src/gocept/jsform/resources/`` into shim repository.
-* Remove ``handlebars.js`` and ``handlebars.min.js`` from shim repository. It is only needed for fanstatic version as js.handlebars is outdated.
+* Remove ``handlebars.js``, ``handlebars.min.js``, ``ko.mapping.js``, ``ko.mapping.min.js`` from shim repository. It is only needed for fanstatic version as js.handlebars is outdated and ko.mapping not available on PyPI.
 
 * Commit changes to github.
 * Create a tag for the current version:
