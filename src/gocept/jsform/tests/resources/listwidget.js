@@ -1,13 +1,18 @@
-describe("List widget", function() {
+/*global describe, beforeEach, gocept, it, spyOn, expect, $*/
+/*jslint nomen: true, unparam: true, bitwise: true*/
+describe("List widget", function () {
+    "use strict";
+
     var list;
 
-    beforeEach(function() {
+    beforeEach(function () {
         list = new gocept.jsform.ListWidget('#my_form');
     });
 
-    it("displays added item", function() {
+    it("displays added item", function () {
         spyOn($, 'ajax').andCallFake(function (options) {
-            var result = $.Deferred(),
+            var result, response;
+            result = $.Deferred();
             response = {
                 resource: '',
                 data: {foo: 'bar'}
@@ -16,7 +21,7 @@ describe("List widget", function() {
             return result.promise();
         });
         // XXX Don't actually run edit_item as it reloads the list.
-        var edit = spyOn(list, 'edit_item').andCallFake(function() {});
+        var edit = spyOn(list, 'edit_item').andCallFake(function () {});
 
         $('#my_form .add').click();
         expect(edit).toHaveBeenCalled();
