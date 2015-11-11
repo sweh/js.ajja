@@ -147,6 +147,7 @@
              *     |- source: array of objects containing 'token' and 'title'
              *     |- multiple: for object selection, whether to do multi-select
              *     |- placeholder: placeholder to the empty dropdown option
+             *     |- disabled: true if field should be disabled
              * |- mapping:  An optional mapping for the <ko.mapping> plugin.
              */
             var self = this;
@@ -154,6 +155,9 @@
                 self.url = data_or_url;
             } else {
                 self.initial_data = data_or_url;
+            }
+            if (gocept.jsform.isUndefinedOrNull(options)) {
+                options = {};
             }
             $.extend(self.options, options);
             self.collect_sources();
