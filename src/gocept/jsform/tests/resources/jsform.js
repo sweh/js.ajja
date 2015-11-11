@@ -180,6 +180,47 @@ describe("Form Plugin", function () {
         });
     });
 
+    describe("Disabled field for", function () {
+
+        it("input field", function () {
+            form.load({firstname: 'Sebastian'},
+                      {firstname: {disabled: true}});
+            expect($('#my_form input').attr('disabled')).toEqual('disabled');
+        });
+
+        it("boolean field", function () {
+            form.load({has_children: true},
+                      {has_children: {disabled: true}});
+            expect($('#my_form input').attr('disabled')).toEqual('disabled');
+        });
+
+        it("textarea field", function () {
+            form.load({text: 'asdf'},
+                      {text: {disabled: true,
+                              template: 'gocept_jsform_templates_text'}});
+            expect($('#my_form textarea').attr('disabled')).toEqual('disabled');
+        });
+
+        it("select field", function () {
+            var source = [{token: 'mr', title: 'Mr.'},
+                          {token: 'mrs', title: 'Mrs.'}];
+            form.load({title: source[0]},
+                      {title: {source: source,
+                               disabled: true}});
+            expect($('#my_form select').attr('disabled')).toEqual('disabled');
+        });
+
+        it("multiselect field", function () {
+            var source = [{token: 'mr', title: 'Mr.'},
+                          {token: 'mrs', title: 'Mrs.'}];
+            form.load({title: [source[0]]},
+                      {title: {source: source,
+                               disabled: true,
+                               multiple: true}});
+            expect($('#my_form select').attr('disabled')).toEqual('disabled');
+        });
+    });
+
     describe("Propagation to server", function () {
 
         beforeEach(function () {
