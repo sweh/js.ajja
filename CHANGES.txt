@@ -2,6 +2,12 @@
 Change log for gocept.jsform
 ============================
 
+2.6.0 (unreleased)
+==================
+
+- Nothing changed yet.
+
+
 2.5.1 (2015-11-11)
 ==================
 
