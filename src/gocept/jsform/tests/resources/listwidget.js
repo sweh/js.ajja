@@ -21,7 +21,9 @@ describe("List widget", function () {
             return result.promise();
         });
         // XXX Don't actually run edit_item as it reloads the list.
-        var edit = spyOn(list, 'edit_item').andCallFake(function () {});
+        var edit = spyOn(list, 'edit_item').andCallFake(
+            function () { return; }
+        );
 
         $('#my_form .add').click();
         expect(edit).toHaveBeenCalled();
