@@ -2,7 +2,7 @@
 Change log for gocept.jsform
 ============================
 
-2.6.0 (unreleased)
+2.5.1 (2015-11-11)
 ==================
 
 - Use `bower-knockout-mapping` in bower package instead of serving mapping
