@@ -5,7 +5,7 @@ Change log for gocept.jsform
 2.6.0 (unreleased)
 ==================
 
-- Add option to disable a field (for readonly purpose).
+- Add option to switch one field or the whole form to readonly mode.
 
 
 2.5.1 (2015-11-11)
