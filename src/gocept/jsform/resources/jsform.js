@@ -62,6 +62,7 @@
          * - action:           The url the form will submit to (if intended).
          *                     Will become the action attribute in form.
          * - language:         2-char language code. Default is en.
+         * - disabled:         Only render disabled fields in the whole form.
          */
             var self = this;
             self.id = id;
@@ -69,7 +70,7 @@
             self.initial_data = null;
             self.data = {};
             self.subscriptions = {};
-            self.options = {action: '', language: 'en'};
+            self.options = {action: '', language: 'en', disabled: false};
             $.extend(self.options, options);
             self.csrf_token_id = 'csrf_token';
             self.mapping = {};
@@ -262,6 +263,9 @@
                 value: self.data[id],
                 label: ''
             }, self.options[id]);
+            if (self.options.disabled) {
+                widget_options.disabled = true;
+            }
             if (!gocept.jsform.isUndefinedOrNull(widget_options.source) &&
                     gocept.jsform.isUndefinedOrNull(widget_options.placeholder)) {
                 widget_options.placeholder =

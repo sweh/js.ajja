@@ -182,6 +182,14 @@ describe("Form Plugin", function () {
 
     describe("Disabled field for", function () {
 
+        it("all fields", function () {
+            form = new gocept.jsform.Form('my_form', {disabled: true});
+            form.load({firstname: 'Sebastian', text: 'asdf'},
+                      {text: {template: 'gocept_jsform_templates_text'}});
+            expect($('#my_form input').attr('disabled')).toEqual('disabled');
+            expect($('#my_form textarea').attr('disabled')).toEqual('disabled');
+        });
+
         it("input field", function () {
             form.load({firstname: 'Sebastian'},
                       {firstname: {disabled: true}});
