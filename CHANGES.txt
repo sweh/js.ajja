@@ -5,7 +5,8 @@ Change log for gocept.jsform
 2.7.0 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Fix initialization of sources if form data is provided directly instead of
+  retrieving it via load url.
 
 
 2.6.0 (2015-11-12)
