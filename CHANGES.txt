@@ -8,6 +8,7 @@ Change log for gocept.jsform
 - Fix initialization of sources if form data is provided directly instead of
   retrieving it via load url.
 
+- Make sure that `after-load` always fires asynchonously.
 
 2.6.0 (2015-11-12)
 ==================

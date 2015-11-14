@@ -137,13 +137,23 @@ describe("Form Plugin", function () {
         var event_called = false;
         $(form).on('after-load', function () { event_called = true; });
         form.load({});
-        expect(event_called).toEqual(true);
+        waitsFor(function () { return event_called; }, 'form to be loaded', 1000);
+        runs(function () {
+            expect(event_called).toEqual(true);
+        });
     });
 
     it("should provide a deferred to check whether loading is done", function () {
         expect(form.loaded.state()).toEqual('pending');
         form.load({});
-        expect(form.loaded.state()).toEqual('resolved');
+        waitsFor(
+            function () { return form.loaded.state() === 'resolved'; },
+            'form to be loaded',
+            1000
+        );
+        runs(function () {
+            expect(form.loaded.state()).toEqual('resolved');
+        });
     });
 
     it("should send an event after saving", function () {
