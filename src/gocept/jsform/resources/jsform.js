@@ -235,7 +235,9 @@
             }
             self.data = data;
             self.init_fields();
-            $(self).trigger('after-load');
+            setTimeout(function () {
+                $(self).trigger('after-load');
+            }, 0);
         },
 
         resolve_object_field: function (name, value) {
