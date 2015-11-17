@@ -2,7 +2,7 @@
 Change log for gocept.jsform
 ============================
 
-2.7.0 (unreleased)
+2.6.2 (2015-11-17)
 ==================
 
 - Unify node where form data is saved to.
