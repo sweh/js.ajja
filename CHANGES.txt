@@ -7,6 +7,8 @@ Change log for gocept.jsform
 
 - Add some more translations.
 
+- Disable placeholder for select fields which are required.
+
 
 2.6.2 (2015-11-17)
 ==================
