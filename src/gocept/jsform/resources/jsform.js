@@ -11,7 +11,10 @@
         required_field_left_blank: 'This field is required but has no input.',
         saving: 'Saving',
         object_widget_placeholder: 'Select an item',
-        object_widget_placeholder_multiple: 'Select items'
+        object_widget_placeholder_multiple: 'Select items',
+        unrecoverable_error_intro: 'An unrecoverable error has occurred: ',
+        error_could_not_parse_server_response: 'Could not parse server response.',
+        submit_fail: 'Some fields could not be saved. Please correct the errors and send again.'
     };
     gocept.jsform.locales.de = {
         successfully_saved_value: 'Feld wurde gespeichert.',
@@ -20,7 +23,10 @@
         required_field_left_blank: 'Dieses Pflichtfeld wurde nicht ausgefüllt.',
         saving: 'Speichere',
         object_widget_placeholder: 'Bitte auswählen',
-        object_widget_placeholder_multiple: 'Bitte auswählen'
+        object_widget_placeholder_multiple: 'Bitte auswählen',
+        unrecoverable_error_intro: 'Ein nicht zu behebender Fehler ist aufgetreten: ',
+        error_could_not_parse_server_response: 'Konnte die Antwort des Server nichts verarbeiten.',
+        submit_fail: 'Einige Felder konnten nicht gespeichert werden. Bitte beheben Sie die Fehler und versuchen Sie es erneut.'
     };
 
     gocept.jsform.get_template = function (template) {
@@ -85,7 +91,7 @@
             $(self).on('unrecoverable-error', function (event, msg) {
                 self.unrecoverable_error = true;
                 self.unrecoverable_error_msg = msg;
-                alert('An unrecoverable error has occurred: ' + msg);
+                alert(self.t('unrecoverable_error_intro') + msg);
             });
             if (gocept.jsform.isUndefinedOrNull(self.options.field_wrapper_template)) {
                 self.field_wrapper_template = self.get_template('gocept_jsform_templates_field_wrapper');
@@ -495,8 +501,10 @@
                             $('html').append($(data));
                             return;
                         }
-                        $(self).trigger('unrecoverable-error',
-                                        'Could not parse server response.');
+                        $(self).trigger(
+                            'unrecoverable-error',
+                            self.t('error_could_not_parse_server_response')
+                        );
                         return;
                     }
                     $(self).trigger('server-responded');
@@ -703,8 +711,7 @@
                 jsform.when_saved().done(function () {
                     action.call(button);
                 }).fail(function (reason) {
-                    var msg = 'Some fields could not be saved. ' +
-                        'Please correct the errors and send again.';
+                    var msg = jsform.t('submit_fail');
                     jsform.status_message(msg, 'danger', 5000);
                     button.disabled = false;
                 });
