@@ -908,6 +908,48 @@ describe("Form Plugin", function () {
         });
     });
 
+    describe("object template", function () {
+
+        it("renders placeholder as disabled if required", function () {
+            var source = [{token: 'mr', title: 'Mr.'},
+                          {token: 'mrs', title: 'Mrs.'}];
+            form.load({title: ['mrs']},
+                      {title: {source: source,
+                               required: true}});
+            expect($('#my_form select option').get(0).disabled).toEqual(true);
+        });
+
+        it("renders placeholder not as disabled if not required", function () {
+            var source = [{token: 'mr', title: 'Mr.'},
+                          {token: 'mrs', title: 'Mrs.'}];
+            form.load({title: ['mrs']},
+                      {title: {source: source}});
+            expect($('#my_form select option').get(0).disabled).toEqual(false);
+        });
+    });
+
+    describe("multiselect object template", function () {
+
+        it("renders placeholder as disabled if required", function () {
+            var source = [{token: 'mr', title: 'Mr.'},
+                          {token: 'mrs', title: 'Mrs.'}];
+            form.load({title: ['mrs']},
+                      {title: {source: source,
+                               multiple: true,
+                               required: true}});
+            expect($('#my_form select option').get(0).disabled).toEqual(true);
+        });
+
+        it("renders placeholder not as disabled if not required", function () {
+            var source = [{token: 'mr', title: 'Mr.'},
+                          {token: 'mrs', title: 'Mrs.'}];
+            form.load({title: ['mrs']},
+                      {title: {source: source,
+                               multiple: false}});
+            expect($('#my_form select option').get(0).disabled).toEqual(false);
+        });
+    });
+
     describe("submit button", function () {
 
         it("saves and then calls the callback on success", function () {
