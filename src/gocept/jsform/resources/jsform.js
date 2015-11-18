@@ -9,14 +9,18 @@
         field_contains_unsaved_changes: 'This field contains unsaved changes.',
         communication_error: 'There was an error communicating with the server.',
         required_field_left_blank: 'This field is required but has no input.',
-        saving: 'Saving'
+        saving: 'Saving',
+        object_widget_placeholder: 'Select an item',
+        object_widget_placeholder_multiple: 'Select items'
     };
     gocept.jsform.locales.de = {
         successfully_saved_value: 'Feld wurde gespeichert.',
         field_contains_unsaved_changes: 'Dieses Feld enthält nicht gespeicherte Änderungen.',
         communication_error: 'Es gab einen Fehler bei der Kommunikation mit dem Server.',
         required_field_left_blank: 'Dieses Pflichtfeld wurde nicht ausgefüllt.',
-        saving: 'Speichere'
+        saving: 'Speichere',
+        object_widget_placeholder: 'Bitte auswählen',
+        object_widget_placeholder_multiple: 'Bitte auswählen'
     };
 
     gocept.jsform.get_template = function (template) {
@@ -272,8 +276,16 @@
             }
             if (!gocept.jsform.isUndefinedOrNull(widget_options.source) &&
                     gocept.jsform.isUndefinedOrNull(widget_options.placeholder)) {
-                widget_options.placeholder =
-                    widget_options.multiple ? 'Select items' : 'Select an item';
+                if (widget_options.multiple) {
+                    widget_options.placeholder = self.t(
+                        'object_widget_placeholder_multiple'
+                    );
+                } else {
+                    widget_options.placeholder = self.t(
+                        'object_widget_placeholder'
+                    );
+
+                }
             }
             widget_code = widget(widget_options);
             wrapper_options = $.extend({
