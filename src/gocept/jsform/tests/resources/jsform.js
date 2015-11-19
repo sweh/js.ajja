@@ -643,6 +643,24 @@ describe("Form Plugin", function () {
             });
         });
 
+        it("Supresses info messages of saving fields when saving remaining", function () {
+            var saved_id;
+            set_save_response(function (save, id, value) {
+                saved_id = id;
+                save.resolve({status: 'success'});
+            });
+            form.load({email: 'max@mustermann.example'});
+            runs(function () {
+                form.save_remaining();
+            });
+            waitsFor(function () {
+                return (!gocept.jsform.isUndefinedOrNull(saved_id));
+            }, "the remaining field to have been saved", 100);
+            runs(function () {
+                expect($('#my_form .statusarea .alert-success').length).toEqual(0);
+            });
+        });
+
     });
 
     describe("when_saved behaviour", function () {

@@ -409,19 +409,19 @@
                                     'gocept_jsform_templates_' + type);
         },
 
-        save: function (id, newValue) {
+        save: function (id, newValue, silent) {
             /* Schedule saving one field's value to the server via ajax. */
             var self = this, deferred_save;
             deferred_save = $.when(self.field(id).data('save')).then(
                 /* For the time being, simply chain the new save after the last, no
                    compression of queued save calls yet. */
-                function () { return self.start_save(id, newValue); },
-                function () { return self.start_save(id, newValue); }
+                function () { return self.start_save(id, newValue, silent); },
+                function () { return self.start_save(id, newValue, silent); }
             );
             self.field(id).data('save', deferred_save);
         },
 
-        start_save: function (id, newValue) {
+        start_save: function (id, newValue, silent) {
             /* Actual work of preparing and making the ajax call. May be deferred in
                order to serialise saving subsequent values of each field. */
             var self = this, saving_msg_node;
@@ -429,16 +429,23 @@
             if (self.unrecoverable_error) {
                 return;
             }
-
-            saving_msg_node = self.notify_saving(id);
+            if (!silent) {
+                saving_msg_node = self.notify_saving(id);
+            }
             return self.save_and_validate(id, newValue)
                 .always(function () {
                     self.clear_saving(id, saving_msg_node);
                     self.clear_field_error(id);
                 })
                 .done(function () {
-                    self.highlight_field(id, 'success');
-                    self.status_message(self.t('successfully_saved_value'), 'success', 1000);
+                    if (!silent) {
+                        self.highlight_field(id, 'success');
+                        self.status_message(
+                            self.t('successfully_saved_value'),
+                            'success',
+                            1000
+                        );
+                    }
                 })
                 .progress(function () {
                     self.clear_saving(id, saving_msg_node);
@@ -607,7 +614,7 @@
             var self = this;
             $.each(self.data, function (id, value) {
                 if (gocept.jsform.isUndefinedOrNull(self.field(id).data('save'))) {
-                    self.save(id, value);
+                    self.save(id, value, true);
                 }
             });
         },
