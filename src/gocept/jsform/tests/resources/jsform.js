@@ -626,7 +626,7 @@ describe("Form Plugin", function () {
             });
         });
 
-        it("save_remaining skips fields that haven been saved", function () {
+        it("save_remaining skips fields that have been saved", function () {
             var save_called = false;
             set_save_response(function (save) { save.resolve({status: 'success'}); });
             form.load({email: ''});
