@@ -56,6 +56,10 @@ object_template = fanstatic.Resource(
 boolean_template = fanstatic.Resource(
     library, 'gocept_jsform_templates_boolean.pt', renderer=template_renderer)
 
+values_template = fanstatic.Resource(
+    library, 'gocept_jsform_templates_values.pt',
+    renderer=template_renderer)
+
 multiselect_template = fanstatic.Resource(
     library, 'gocept_jsform_templates_multiselect.pt',
     renderer=template_renderer)
@@ -66,7 +70,7 @@ wrapper_template = fanstatic.Resource(
 
 templates = fanstatic.Group([
     form_template, string_template, text_template,
-    object_template, boolean_template,
+    object_template, boolean_template, values_template,
     multiselect_template, wrapper_template])
 
 jsform = fanstatic.Resource(
