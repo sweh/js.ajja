@@ -110,12 +110,13 @@ describe("Form Plugin", function () {
     });
 
     it("can render an template with multiple radio buttons", function () {
-        var values = [{token: 'dog', title: 'Dog'},
+        var source = [{token: 'dog', title: 'Dog'},
                       {token: 'cat', title: 'Cat'},
                       {token: 'mouse', title: 'Mouse'}];
         form.load(
             {small_animal: 'mouse'},
-            {small_animal: {values: values}}
+            {small_animal: {source: source,
+                            template: 'gocept_jsform_templates_radio_list'}}
         );
         expect($('#small_animal_dog').attr('type')).toEqual('radio');
         expect($('#small_animal_dog').prop('checked')).toEqual(false);
@@ -123,12 +124,13 @@ describe("Form Plugin", function () {
         expect($('#small_animal_mouse').prop('checked')).toEqual(true);
     });
 
-    it("template with values can also be used as yes/no template", function () {
-        var values = [{token: 'true', title: 'Yes'},
+    it("template with source can also be used as yes/no template", function () {
+        var source = [{token: 'true', title: 'Yes'},
                       {token: 'false', title: 'No'}];
         form.load(
             {needs_glasses: 'false'},
-            {needs_glasses: {values: values}}
+            {needs_glasses: {source: source,
+                             template: 'gocept_jsform_templates_radio_list'}}
         );
         expect($('#needs_glasses_true').prop('checked')).toEqual(false);
         expect($('#needs_glasses_false').prop('checked')).toEqual(true);
