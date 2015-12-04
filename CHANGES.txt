@@ -5,7 +5,7 @@ Change log for gocept.jsform
 2.7.1 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Fixed syntax error.
 
 
 2.7.0 (2015-12-04)
