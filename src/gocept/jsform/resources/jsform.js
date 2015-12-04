@@ -270,8 +270,9 @@
         get_template: gocept.jsform.get_template,
 
         render_widget: function (id) {
-            var self = this, widget, widget_options, widget_code, wrapper_options;
-            widget = self.get_template(self.get_widget(id));
+            var self = this, widget, widget_options, widget_code,
+                wrapper_options, template_name = self.get_widget(id);
+            widget = self.get_template(template_name);
             widget_options = $.extend({
                 name: id,
                 value: self.data[id],
@@ -400,6 +401,8 @@
             }
             if (!gocept.jsform.isUndefinedOrNull(self.sources[id])) {
                 type = self.options[id].multiple ? 'multiselect' : 'object';
+            } else if (!gocept.jsform.isUndefinedOrNull(self.options[id].values)) {
+                type = 'values'
             } else if (value === null) {
                 type = 'string';
             } else {
