@@ -402,7 +402,7 @@
             if (!gocept.jsform.isUndefinedOrNull(self.sources[id])) {
                 type = self.options[id].multiple ? 'multiselect' : 'object';
             } else if (!gocept.jsform.isUndefinedOrNull(self.options[id].values)) {
-                type = 'values'
+                type = 'values';
             } else if (value === null) {
                 type = 'string';
             } else {
