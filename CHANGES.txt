@@ -2,7 +2,7 @@
 Change log for gocept.jsform
 ============================
 
-2.7.0 (unreleased)
+2.7.0 (2015-12-04)
 ==================
 
 - Suppress success messages in UI when saving all remaining fields.
