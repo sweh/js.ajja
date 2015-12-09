@@ -6,7 +6,10 @@ describe("Group List Widget", function () {
     var list;
 
     beforeEach(function () {
-        list = new gocept.jsform.GroupListWidget('#my_form', 'foo', 'foo');
+        list = new gocept.jsform.GroupListWidget(
+            '#my_form',
+            {group_by_key: 'foo', group_title_key: 'foo'}
+        );
     });
 
     it("displays added item inside group", function () {
