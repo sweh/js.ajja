@@ -177,16 +177,19 @@
         },
 
         add_item: function () {
-            // XXX Error handling!
             var self = this;
             $.ajax({
                 url: self.collection_url,
                 type: 'PUT',
                 dataType: 'json'
             }).done(function (item) {
+                if (item.resource === undefined || item.data === undefined) {
+                    throw "Response must contain resource URL and data.";
+                }
                 var node = self.render_item(item);
                 self.edit_item(node);
             });
+            // XXX Error handling!
         },
 
         edit_item: function (node) {

@@ -36,4 +36,19 @@ describe("List Widget", function () {
         expect(function () {new gocept.jsform.ListWidget('#foobar',  {})}).toThrow();
     });
 
+    it("should throw an error when malformed response is returned on add", function () {
+        spyOn($, 'ajax').andCallFake(function (options) {
+            var result, response;
+            result = $.Deferred();
+            response = {
+                foo: 'bar'
+            };
+            result.resolve(response);
+            return result.promise();
+        });
+        expect(list.add_item).toThrow(
+            "Response must contain resource URL and data."
+        );
+    });
+
 });

@@ -12,6 +12,8 @@ Change log for gocept.jsform
 
 - Throw an error during __init__ if selector for form node did not match. (#32)
 
+- Throw error when ListWidget.add_item receives malformed AJAX response. (#33)
+
 - Add `form-control` CSS class to textarea template.
 
 
