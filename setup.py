@@ -12,11 +12,6 @@ def project_path(*names):
     return os.path.join(os.path.dirname(__file__), *names)
 
 
-widget_requires = [
-    'js.bootstrap',
-    'js.jqueryui',
-]
-
 setup(
     name='gocept.jsform',
     version='2.8.0.dev0',
@@ -36,9 +31,10 @@ setup(
             'gocept.jslint',
             'gocept.testing',
         ],
-        'listwidget': widget_requires,
-        'tablewidget': widget_requires,
-        'groupwidget': widget_requires
+        'listwidget': [
+            'js.bootstrap',
+            'js.jqueryui',
+        ],
     },
 
     entry_points={
