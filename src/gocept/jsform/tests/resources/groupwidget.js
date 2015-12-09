@@ -35,4 +35,15 @@ describe("Group List Widget", function () {
         expect($('#my_form ul[data-group-id=group_bar]:visible').length).toBe(1);
     });
 
+    it("throws an error if required options are missing", function () {
+        expect(function () {
+            new gocept.jsform.GroupListWidget('#my_form');
+        }).toThrow("Required option group_by_key was not given!");
+        expect(function () {
+            new gocept.jsform.GroupListWidget(
+                '#my_form',
+                {group_by_key: 'foo'}
+            );
+        }).toThrow("Required option group_title_key was not given!");
+    });
 });

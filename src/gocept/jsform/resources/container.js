@@ -270,6 +270,17 @@
 
         base_template: 'gocept_jsform_group',
 
+        __init__: function (node_selector, options) {
+            var self = this;
+            self.$super(node_selector, options);
+            if (self.options.group_by_key === undefined) {
+                throw "Required option group_by_key was not given!";
+            }
+            if (self.options.group_title_key === undefined) {
+                throw "Required option group_title_key was not given!";
+            }
+        },
+
         get_container: function (item) {
             /* Look up grouping container for this item or create if missing */
             var self = this,
