@@ -52,7 +52,7 @@
                 throw "Selector " + node_selector + " did not match any node!";
             }
 
-            options = options || {};
+            self.options = options = options || {};
 
             self.item_actions = self.default_item_actions.concat(
                 options.item_actions || []
@@ -266,28 +266,13 @@
          */
 
         base_template: 'gocept_jsform_group',
-        group_by_key: undefined,
-        group_title_key: undefined,
-
-        __init__: function (node_selector, group_by_key, group_title_key,
-                            item_actions, form_actions, default_form_actions) {
-            var self = this;
-            self.$super(
-                node_selector,
-                item_actions,
-                form_actions,
-                default_form_actions
-            );
-            self.group_by_key = group_by_key;
-            self.group_title_key = group_title_key;
-        },
 
         get_container: function (item) {
             /* Look up grouping container for this item or create if missing */
             var self = this,
                 group_container = self.$super(item),
-                group_class = 'group_' + item.data[self.group_by_key],
-                group_title = item.data[self.group_title_key],
+                group_class = 'group_' + item.data[self.options.group_by_key],
+                group_title = item.data[self.options.group_title_key],
                 template = gocept.jsform.get_template(
                     'gocept_jsform_group_item'
                 );
@@ -308,18 +293,11 @@
     gocept.jsform.TableWidget = gocept.jsform.ListWidget.$extend({
 
         base_template: 'gocept_jsform_table',
-        omit: undefined,
 
-        __init__: function (node_selector, omit, item_actions, form_actions,
-                            default_form_actions) {
+        __init__: function (node_selector, options) {
             var self = this;
-            self.$super(
-                node_selector,
-                item_actions,
-                form_actions,
-                default_form_actions
-            );
-            self.omit = omit || [];
+            self.$super(node_selector, options);
+            self.omit = self.options.omit || [];
         },
 
         get_container_head: function (items) {
