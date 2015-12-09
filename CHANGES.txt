@@ -8,6 +8,8 @@ Change log for gocept.jsform
 - Add group widget and table widget which use list widget to render items in
   groups / as table.
 
+- Add new template to render numbers. (#15)
+
 
 2.7.2 (2015-12-04)
 ==================

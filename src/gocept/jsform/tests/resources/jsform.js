@@ -109,6 +109,13 @@ describe("Form Plugin", function () {
         expect($('#my_form').text()).toMatch('Needs glasses');
     });
 
+    it("should create number field for numbers", function () {
+        form.load({visitors: 42});
+        expect($('#my_form input').attr('type')).toEqual('number');
+        expect($('#my_form input').get(0).name).toEqual('visitors');
+        expect(form.model.visitors()).toEqual(42);
+    });
+
     it("can render an template with multiple radio buttons", function () {
         var source = [{token: 'dog', title: 'Dog'},
                       {token: 'cat', title: 'Cat'},
@@ -236,6 +243,12 @@ describe("Form Plugin", function () {
         it("boolean field", function () {
             form.load({has_children: true},
                       {has_children: {disabled: true}});
+            expect($('#my_form input').attr('disabled')).toEqual('disabled');
+        });
+
+        it("number field", function () {
+            form.load({visitors: 1},
+                      {visitors: {disabled: true}});
             expect($('#my_form input').attr('disabled')).toEqual('disabled');
         });
 
