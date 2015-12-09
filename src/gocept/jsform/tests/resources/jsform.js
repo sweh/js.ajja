@@ -33,6 +33,10 @@ describe("Form Plugin", function () {
         form = new gocept.jsform.Form('my_form', {});
     });
 
+    it("should throw an error when ID was not found", function () {
+        expect(function () {new gocept.jsform.Form('foobar',  {})}).toThrow();
+    });
+
     it("should inject a form tag into html", function () {
         form.load();
         expect(form.node).toBeDefined();

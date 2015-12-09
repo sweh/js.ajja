@@ -48,6 +48,10 @@
             self.node_selector = node_selector;
             self.node = node;
 
+            if ($(node_selector).length === 0) {
+                throw "Selector " + node_selector + " did not match any node!";
+            }
+
             options = options || {};
 
             self.item_actions = self.default_item_actions.concat(
