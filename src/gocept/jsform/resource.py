@@ -8,9 +8,9 @@ try:
     import js.bootstrap
     import js.jqueryui
 except ImportError:
-    HAS_LISTWIDGET_DEPENDENCIES = False
+    HAS_CONTAINER_DEPENDENCIES = False
 else:
-    HAS_LISTWIDGET_DEPENDENCIES = True
+    HAS_CONTAINER_DEPENDENCIES = True
 
 
 def render_template(library, inner):
@@ -83,7 +83,7 @@ jsform = fanstatic.Resource(
         templates,
     ])
 
-if HAS_LISTWIDGET_DEPENDENCIES is True:
+if HAS_CONTAINER_DEPENDENCIES is True:
 
     list_template = fanstatic.Resource(
         library, 'gocept_jsform_list.pt',
@@ -113,8 +113,39 @@ if HAS_LISTWIDGET_DEPENDENCIES is True:
         list_template,
     ])
 
-    list_widget = fanstatic.Resource(
-        library, 'list.js', minified='list.min.js',
+    group_template = fanstatic.Resource(
+        library, 'gocept_jsform_group.pt',
+        renderer=template_renderer)
+
+    group_item_template = fanstatic.Resource(
+        library, 'gocept_jsform_group_item.pt',
+        renderer=template_renderer)
+
+    group_templates = fanstatic.Group([
+        group_template,
+        group_item_template,
+    ])
+
+    table_template = fanstatic.Resource(
+        library, 'gocept_jsform_table.pt',
+        renderer=template_renderer)
+
+    table_head_template = fanstatic.Resource(
+        library, 'gocept_jsform_table_head.pt',
+        renderer=template_renderer)
+
+    table_row_template = fanstatic.Resource(
+        library, 'gocept_jsform_table_row.pt',
+        renderer=template_renderer)
+
+    table_templates = fanstatic.Group([
+        table_template,
+        table_head_template,
+        table_row_template
+    ])
+
+    container_widget = fanstatic.Resource(
+        library, 'container.js', minified='container.min.js',
         depends=[
             js.bootstrap.bootstrap_css,
             js.bootstrap.bootstrap_js,
@@ -122,4 +153,8 @@ if HAS_LISTWIDGET_DEPENDENCIES is True:
             js.jqueryui.bootstrap,
             jsform,
             list_templates,
+            group_templates,
+            table_templates,
         ])
+
+    list_widget = container_widget  # backwards compatibility

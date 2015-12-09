@@ -15,7 +15,17 @@ jsform_test = fanstatic.Resource(
 listwidget_test = fanstatic.Resource(
     library, 'listwidget.js', depends=[
         gocept.jasmine.resource.jasmine,
-        gocept.jsform.resource.list_widget,
+        gocept.jsform.resource.container_widget,
+    ])
+groupwidget_test = fanstatic.Resource(
+    library, 'groupwidget.js', depends=[
+        gocept.jasmine.resource.jasmine,
+        gocept.jsform.resource.container_widget,
+    ])
+tablewidget_test = fanstatic.Resource(
+    library, 'tablewidget.js', depends=[
+        gocept.jasmine.resource.jasmine,
+        gocept.jsform.resource.container_widget,
     ])
 
 
@@ -52,3 +62,25 @@ class ListWidgetApp(JSFormApp):
 class ListWidgetTestCase(JSFormTestCase):
 
     layer = gocept.jasmine.jasmine.get_layer(ListWidgetApp())
+
+
+class GroupWidgetApp(JSFormApp):
+
+    def need_resources(self):
+        groupwidget_test.need()
+
+
+class GroupWidgetTestCase(JSFormTestCase):
+
+    layer = gocept.jasmine.jasmine.get_layer(GroupWidgetApp())
+
+
+class TableWidgetApp(JSFormApp):
+
+    def need_resources(self):
+        tablewidget_test.need()
+
+
+class TableWidgetTestCase(JSFormTestCase):
+
+    layer = gocept.jasmine.jasmine.get_layer(TableWidgetApp())

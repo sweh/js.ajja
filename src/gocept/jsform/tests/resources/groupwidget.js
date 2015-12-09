@@ -1,15 +1,15 @@
 /*global describe, beforeEach, gocept, it, spyOn, expect, $*/
 /*jslint nomen: true, unparam: true, bitwise: true*/
-describe("List Widget", function () {
+describe("Group List Widget", function () {
     "use strict";
 
     var list;
 
     beforeEach(function () {
-        list = new gocept.jsform.ListWidget('#my_form');
+        list = new gocept.jsform.GroupListWidget('#my_form', 'foo', 'foo');
     });
 
-    it("displays added item", function () {
+    it("displays added item inside group", function () {
         spyOn($, 'ajax').andCallFake(function (options) {
             var result, response;
             result = $.Deferred();
@@ -27,9 +27,9 @@ describe("List Widget", function () {
 
         $('#my_form .add').click();
         expect(edit).toHaveBeenCalled();
-        expect($('#my_form ul li').length).toEqual(1);
-        expect($('#my_form ul li dt').text()).toEqual('foo');
-        expect($('#my_form ul li dd').text()).toEqual('bar');
+        expect($('#my_form ul[data-group-id=group_bar]:visible').length).toBe(0);
+        $('#my_form a.group-title').click();
+        expect($('#my_form ul[data-group-id=group_bar]:visible').length).toBe(1);
     });
 
 });
