@@ -96,7 +96,7 @@ describe("Form Plugin", function () {
         expect($('#my_form select option').get(2).selected).toEqual(true);
     });
 
-    it("should inject two radio boxes for bool data", function () {
+    it("should inject checkbox for bool data", function () {
         form.load({needs_glasses: false});
         expect($('#my_form input').attr('type')).toEqual('checkbox');
         expect($('#my_form input').get(0).name).toEqual('needs_glasses');
