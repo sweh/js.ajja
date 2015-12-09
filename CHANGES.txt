@@ -5,7 +5,8 @@ Change log for gocept.jsform
 2.8.0 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Add group widget and table widget which use list widget to render items in
+  groups / as table.
 
 
 2.7.2 (2015-12-04)
