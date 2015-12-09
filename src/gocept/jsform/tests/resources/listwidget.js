@@ -32,4 +32,8 @@ describe("List Widget", function () {
         expect($('#my_form ul li dd').text()).toEqual('bar');
     });
 
+    it("should throw an error when selector was not found", function () {
+        expect(function () {new gocept.jsform.ListWidget('#foobar',  {})}).toThrow();
+    });
+
 });
