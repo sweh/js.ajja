@@ -1,9 +1,0 @@
-<thead>
-  <tr>
-    {{#each this}}
-      <th class="{{@key}}">{{this}}</th>
-    {{/each}}
-    <th></th>
-    <th></th>
-  </tr>
-</thead>
