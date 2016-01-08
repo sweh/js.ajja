@@ -1,7 +1,6 @@
 # This should be only one line. If it must be multi-line, indent the second
 # line onwards to keep the PKG-INFO file format intact.
-"""Next generation forms in javascript
-"""
+"""Next generation forms in javascript"""
 
 from setuptools import setup, find_packages
 import glob
@@ -50,7 +49,7 @@ setup(
             'Maik Derstappen <md@derico.de>'),
     author_email='sw@gocept.com',
     license='ZPL 2.1',
-    url='https://bitbucket.org/gocept/gocept.jsform/',
+    url='https://github.com/gocept/gocept.jsform',
 
     keywords='form javascript jquery client',
     classifiers="""\
@@ -63,10 +62,8 @@ Programming Language :: Python :: 2 :: Only
 """[:-1].split('\n'),
     description=__doc__.strip(),
     long_description='\n\n'.join(open(project_path(name)).read() for name in (
-        'src/gocept/jsform/resources/README.md',
         'README.txt',
-        'HACKING.txt',
-        'CHANGES.txt',
+        'src/gocept/jsform/resources/CHANGES.txt',
     )),
 
     namespace_packages=['gocept'],

@@ -1,1 +1,0 @@
-<textarea class="form-control form-{{name}}" data-bind="value: {{name}}" {{#if disabled}} disabled="disabled" {{/if}} name="{{name}}"></textarea>

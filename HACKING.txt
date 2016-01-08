@@ -1,22 +1,8 @@
-========================
-Developing gocept.jsform
-========================
+How to make a releases of this package
+======================================
 
-:Author:
-    `Sebastian Wehrmann <http://gocept.com/>`_ <sw@gocept.com>
-    `Maik Derstappen <http://derico.de/>`_ <md@derico.de>
-
-:Online documentation:
-    http://pythonhosted.org/gocept.jsform/
-
-:PyPI page:
-    http://pypi.python.org/pypi/gocept.jsform/
-
-:Issues:
-    https://bitbucket.org/gocept/gocept.jsform/issues
-
-:Source code:
-    https://bitbucket.org/gocept/gocept.jsform/
-
-:Current change log:
-    https://bitbucket.org/gocept/gocept.jsform/raw-file/tip/CHANGES.txt
+* Update package, make sure that GitHub subrepository is updated as well.
+* Make sure all tests pass by running ``bin/test``.
+* Use ``zest.releaser`` to release this package on pypi (usually just call
+  ``fullrelease``)
+  * Make sure the version matches the one of the package released at bower.
