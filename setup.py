@@ -14,7 +14,7 @@ def project_path(*names):
 
 setup(
     name='gocept.jsform',
-    version='2.8.1.dev0',
+    version='2.8.1',
 
     install_requires=[
         'cssmin',
