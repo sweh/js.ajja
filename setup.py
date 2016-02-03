@@ -5,15 +5,31 @@
 from setuptools import setup, find_packages
 import glob
 import os.path
+import json
+import sys
+
+
+def read(path):
+    if sys.version_info < (3,):
+        f = open(path)
+    else:
+        f = open(path, encoding='UTF-8')
+    text = f.read()
+    f.close()
+    return text
 
 
 def project_path(*names):
     return os.path.join(os.path.dirname(__file__), *names)
 
 
+version = json.loads(read(project_path(
+    'src', 'gocept', 'jsform', 'resources', 'bower.json')))['version']
+
+
 setup(
     name='gocept.jsform',
-    version='2.9.0.dev0',
+    version=version,
 
     install_requires=[
         'cssmin',
