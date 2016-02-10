@@ -64,12 +64,12 @@ setup(
     author=('Sebastian Wehrmann <sw@gocept.com>, '
             'Maik Derstappen <md@derico.de>'),
     author_email='sw@gocept.com',
-    license='ZPL 2.1',
+    license='MIT',
     url='https://github.com/gocept/gocept.jsform',
 
     keywords='form javascript jquery client',
     classifiers="""\
-License :: OSI Approved :: Zope Public License
+License :: OSI Approved :: MIT License
 Programming Language :: Python
 Programming Language :: Python :: 2
 Programming Language :: Python :: 2.6
