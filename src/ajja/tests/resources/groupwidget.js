@@ -6,7 +6,7 @@ describe("Group List Widget", function () {
     var list;
 
     beforeEach(function () {
-        list = new gocept.jsform.GroupListWidget(
+        list = new ajja.GroupListWidget(
             '#my_form',
             {group_by_key: 'foo', group_title_key: 'foo'}
         );
@@ -37,10 +37,10 @@ describe("Group List Widget", function () {
 
     it("throws an error if required options are missing", function () {
         expect(function () {
-            new gocept.jsform.GroupListWidget('#my_form');
+            new ajja.GroupListWidget('#my_form');
         }).toThrow("Required option group_by_key was not given!");
         expect(function () {
-            new gocept.jsform.GroupListWidget(
+            new ajja.GroupListWidget(
                 '#my_form',
                 {group_by_key: 'foo'}
             );

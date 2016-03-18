@@ -24,11 +24,11 @@ def project_path(*names):
 
 
 version = json.loads(read(project_path(
-    'src', 'gocept', 'jsform', 'resources', 'bower.json')))['version']
+    'src', 'ajja', 'resources', 'bower.json')))['version']
 
 
 setup(
-    name='gocept.jsform',
+    name='ajja',
     version=version,
 
     install_requires=[
@@ -54,10 +54,10 @@ setup(
 
     entry_points={
         'console_scripts': [
-            # 'binary-name = gocept.jsform.module:function'
+            # 'binary-name = ajja.module:function'
         ],
         'fanstatic.libraries': [
-            'gocept.jsform = gocept.jsform.resource:library',
+            'ajja = ajja.resource:library',
         ],
     },
 
@@ -65,7 +65,7 @@ setup(
             'Maik Derstappen <md@derico.de>'),
     author_email='sw@gocept.com',
     license='MIT',
-    url='https://github.com/gocept/gocept.jsform',
+    url='https://github.com/gocept/ajja',
 
     keywords='form javascript jquery client',
     classifiers="""\
@@ -82,7 +82,6 @@ Programming Language :: Python :: 2 :: Only
         'CHANGES.txt',
     )),
 
-    namespace_packages=['gocept'],
     packages=find_packages('src'),
     package_dir={'': 'src'},
     include_package_data=True,

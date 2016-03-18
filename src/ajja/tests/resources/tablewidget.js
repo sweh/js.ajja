@@ -7,7 +7,7 @@ describe("Table Widget", function () {
         var table;
 
         beforeEach(function () {
-            table = new gocept.jsform.TableWidget('#my_form');
+            table = new ajja.TableWidget('#my_form');
         });
 
         it("displays added item as table", function () {
@@ -45,7 +45,7 @@ describe("Table Widget", function () {
 
         it("from true into ok icon.", function () {
             this.container.find('td').text('true');
-            var tablewidget = new gocept.jsform.TableWidget('#my_form');
+            var tablewidget = new ajja.TableWidget('#my_form');
             tablewidget.translate_boolean_cells(this.container);
             expect(this.container.find('td').html()).toBe(
                 '<span class="glyphicon glyphicon-ok"></span>'
@@ -54,7 +54,7 @@ describe("Table Widget", function () {
 
         it("from false into remove icon.", function () {
             this.container.find('td').text('false');
-            var tablewidget = new gocept.jsform.TableWidget('#my_form');
+            var tablewidget = new ajja.TableWidget('#my_form');
             tablewidget.translate_boolean_cells(this.container);
             expect(this.container.find('td').html()).toBe(
                 '<span class="glyphicon glyphicon-remove"></span>'

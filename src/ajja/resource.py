@@ -11,8 +11,8 @@ except ImportError:
 else:
     HAS_CONTAINER_DEPENDENCIES = True
 
-library = fanstatic.Library('gocept.jsform', 'resources')
-additionals = fanstatic.Library('gocept.jsform', 'additional')
+library = fanstatic.Library('ajja', 'resources')
+additionals = fanstatic.Library('ajja', 'additional')
 
 handlebars = fanstatic.Resource(additionals, 'handlebars-v4.0.2.js')
 
@@ -34,8 +34,8 @@ localization_de = fanstatic.Resource(
 localization_en = fanstatic.Resource(
     library, 'localizations/en.js', minified='localizations/en.min.js')
 
-jsform = fanstatic.Resource(
-    library, 'jsform.js', minified='jsform.min.js',
+form = fanstatic.Resource(
+    library, 'form.js', minified='form.min.js',
     depends=[
         helpers,
         js.classy.classy,
@@ -55,7 +55,7 @@ if HAS_CONTAINER_DEPENDENCIES is True:
             js.bootstrap.bootstrap_js,
             js.jquery.jquery,
             js.jqueryui.bootstrap,
-            jsform,
+            form,
         ])
 
     list_widget = container_widget  # backwards compatibility
