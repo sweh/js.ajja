@@ -6,7 +6,7 @@ describe("List Widget", function () {
     var list;
 
     beforeEach(function () {
-        list = new gocept.jsform.ListWidget('#my_form');
+        list = new ajja.ListWidget('#my_form');
     });
 
     it("displays added item", function () {
@@ -33,7 +33,7 @@ describe("List Widget", function () {
     });
 
     it("should throw an error when selector was not found", function () {
-        expect(function () {new gocept.jsform.ListWidget('#foobar',  {})}).toThrow();
+        expect(function () {new ajja.ListWidget('#foobar',  {})}).toThrow();
     });
 
     it("should throw an error when malformed response is returned on add", function () {

@@ -16,6 +16,6 @@ class TestMinifiedJSFiles(unittest.TestCase, gocept.testing.mtime.Newer):
 
     def test_minified_js_files_are_younger_than_non_minified_ones(self):
         self.check_files(
-            pkg_resources.resource_filename('gocept.jsform', 'resources/src'))
+            pkg_resources.resource_filename('ajja', 'resources/src'))
         self.check_files(
-            pkg_resources.resource_filename('gocept.jsform', 'additional'))
+            pkg_resources.resource_filename('ajja', 'additional'))

@@ -1,9 +1,6 @@
-===================================
-gocept.jsform fanstatic integration
-===================================
-
-**This is the last release for gocept.jsform. Future updates will be released
-under its new name ajja.**
+==========================
+ajja fanstatic integration
+==========================
 
 
 Usage
@@ -11,20 +8,20 @@ Usage
 
 Use Fanstatic to include resources::
 
-    from gocept.jsform import jsform
-    jsform.need()
+    from ajja import form
+    form.need()
 
 This will require all needed resources like *jquery*, *knockout*,
-*handlebars*, widgets and the code to setup and run *gocept.jsform* itself.
+*handlebars*, widgets and the code to setup and run *ajja* itself.
 
 
 Documentation
 =============
 
-The documentation lives under http://goceptjsform.readthedocs.org.
+The documentation lives under http://ajja.readthedocs.org.
 
 
 Development
 ===========
 
-Please see the development package under https://github.com/gocept/gocept.jsform
+Please see the development package under https://github.com/gocept/ajja
