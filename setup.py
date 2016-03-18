@@ -79,7 +79,7 @@ Programming Language :: Python :: 2 :: Only
     description=__doc__.strip(),
     long_description='\n\n'.join(open(project_path(name)).read() for name in (
         'README.txt',
-        'src/gocept/jsform/resources/CHANGES.txt',
+        'CHANGES.txt',
     )),
 
     namespace_packages=['gocept'],
