@@ -19,4 +19,3 @@ parts
 selenimum-note.txt
 .Python
 tags
-src/gocept/jsform/resources
