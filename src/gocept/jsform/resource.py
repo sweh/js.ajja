@@ -22,26 +22,34 @@ ko_mapping = fanstatic.Resource(
     depends=[js.knockout.knockout])
 
 helpers = fanstatic.Resource(
-    library, 'src/helpers.js', minified='src/helpers.min.js',
+    library, 'helpers.js', minified='helpers.min.js',
     depends=[js.jquery.jquery, ko_mapping])
 
+templates = fanstatic.Resource(
+    library, 'templates.js', minified='templates.min.js')
 
-templates = fanstatic.Resource(library, 'src/templates.js')
+localization_de = fanstatic.Resource(
+    library, 'localizations/de.js', minified='localizations/de.min.js')
+
+localization_en = fanstatic.Resource(
+    library, 'localizations/en.js', minified='localizations/en.min.js')
 
 jsform = fanstatic.Resource(
-    library, 'src/jsform.js', minified='src/jsform.min.js',
+    library, 'jsform.js', minified='jsform.min.js',
     depends=[
         helpers,
         js.classy.classy,
         handlebars,
         js.jquery.jquery,
+        localization_de,
+        localization_en,
         templates,
     ])
 
 if HAS_CONTAINER_DEPENDENCIES is True:
 
     container_widget = fanstatic.Resource(
-        library, 'src/container.js', minified='src/container.min.js',
+        library, 'collection.js', minified='collection.min.js',
         depends=[
             js.bootstrap.bootstrap_css,
             js.bootstrap.bootstrap_js,

@@ -1,1 +1,1 @@
-src/gocept/jsform/resources = [git]git://github.com/gocept/gocept.jsform.git
+src/gocept/jsform/jsform_source = [git]git://github.com/gocept/gocept.jsform.git
